@@ -1,135 +1,59 @@
-import '@/i18n';
-import '@/lib/error-reporting';
-import { StrictMode, Suspense, lazy } from 'react';
-import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '@/lib/errorReporter';
+import { enableMapSet } from "immer";
+enableMapSet();
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
-import { PageLoader } from '@/components/PageLoader';
-import { FEATURE_FLAGS } from '@/lib/feature-flags';
-import '@/index.css';
-
-const HomePage = lazy(() => import('@/pages/HomePage'));
-const AboutPage = lazy(() => import('@/pages/AboutPage'));
-const AcademicsPage = lazy(() => import('@/pages/AcademicsPage'));
-const AdmissionsPage = lazy(() => import('@/pages/AdmissionsPage'));
-const NewsPage = lazy(() => import('@/pages/NewsPage'));
-const ContactPage = lazy(() => import('@/pages/ContactPage'));
-const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
-const ServerErrorPage = lazy(() => import('@/pages/ServerErrorPage'));
-
-// Create QueryClient with config from feature flags
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: FEATURE_FLAGS.TANSTACK_QUERY_STALE_TIME,
-      gcTime: FEATURE_FLAGS.TANSTACK_QUERY_CACHE_TIME,
-      retry: 3,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
+import '@/index.css'
+// Import pages
+import HomePage from '@/pages/HomePage';
+import AboutPage from '@/pages/AboutPage';
+import AcademicsPage from '@/pages/AcademicsPage';
+import AdmissionsPage from '@/pages/AdmissionsPage';
+import NewsPage from '@/pages/NewsPage';
+import ContactPage from '@/pages/ContactPage';
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <HomePage />
-      </Suspense>
-    ),
+    path: "/",
+    element: <HomePage />,
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: '/about',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AboutPage />
-      </Suspense>
-    ),
+    path: "/about",
+    element: <AboutPage />,
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: '/academics',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AcademicsPage />
-      </Suspense>
-    ),
+    path: "/academics",
+    element: <AcademicsPage />,
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: '/admissions',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AdmissionsPage />
-      </Suspense>
-    ),
+    path: "/admissions",
+    element: <AdmissionsPage />,
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: '/news',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NewsPage />
-      </Suspense>
-    ),
+    path: "/news",
+    element: <NewsPage />,
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: '/news/:articleId',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NewsDetailPage />
-      </Suspense>
-    ),
+    path: "/contact",
+    element: <ContactPage />,
     errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/contact',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <ContactPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  // Custom error pages
-  {
-    path: '/404',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/500',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <ServerErrorPage />
-      </Suspense>
-    ),
-  },
-  // Catch-all for 404
-  {
-    path: '*',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
   },
 ]);
-
+// Do not touch this code
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <RouterProvider router={router} />
     </ErrorBoundary>
-  </StrictMode>
-);
+  </StrictMode>,
+)
