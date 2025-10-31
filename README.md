@@ -1,6 +1,6 @@
 # Sekolah Ceria: Website Sekolah Modern
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/sulhimbn/sekolah-ceria-website-sekolah-modern)
 
 Website sekolah yang fungsional dan menawan dengan gaya ilustratif, menampilkan informasi lengkap dan portal berita dinamis.
 
@@ -76,4 +76,4 @@ Proyek ini dirancang untuk di-deploy ke Cloudflare Pages & Workers.
 
 Atau, deploy dengan satu klik menggunakan tombol di bawah ini.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/sulhimbn/sekolah-ceria-website-sekolah-modern)
