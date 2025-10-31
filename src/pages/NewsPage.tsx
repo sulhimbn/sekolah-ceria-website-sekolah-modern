@@ -77,7 +77,7 @@ const NewsPage: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-2">{article.date} • {article.author}</p>
             <h3 className="text-xl font-semibold font-display mb-2 flex-grow">{article.title}</h3>
             <p className="text-muted-foreground mb-4">{article.excerpt}</p>
-            <Link to={`#`} className="font-semibold text-school-blue group-hover:underline mt-auto">
+            <Link to={`/news/${article.id}`} className="font-semibold text-school-blue group-hover:underline mt-auto">
               Baca Selengkapnya <ArrowRight className="inline h-4 w-4" />
             </Link>
           </CardContent>

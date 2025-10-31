@@ -17,6 +17,7 @@ import AcademicsPage from '@/pages/AcademicsPage';
 import AdmissionsPage from '@/pages/AdmissionsPage';
 import NewsPage from '@/pages/NewsPage';
 import ContactPage from '@/pages/ContactPage';
+import NewsDetailPage from '@/pages/NewsDetailPage';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
   {
     path: "/news",
     element: <NewsPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/news/:articleId",
+    element: <NewsDetailPage />,
     errorElement: <RouteErrorBoundary />,
   },
   {

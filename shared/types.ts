@@ -28,3 +28,9 @@ export interface NewsArticle {
   excerpt: string;
   imageUrl?: string;
 }
+// Tipe untuk payload formulir kontak
+export interface ContactFormPayload {
+  name: string;
+  email: string;
+  message: string;
+}

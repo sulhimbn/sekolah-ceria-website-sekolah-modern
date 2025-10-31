@@ -1,12 +1,49 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { toast } from 'sonner';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Phone, Mail, MapPin, Loader2 } from 'lucide-react';
+import { api } from '@/lib/api-client';
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: 'Nama harus diisi, minimal 2 karakter.' }),
+  email: z.string().email({ message: 'Format email tidak valid.' }),
+  message: z.string().min(10, { message: 'Pesan harus diisi, minimal 10 karakter.' }),
+});
+type ContactFormValues = z.infer<typeof contactFormSchema>;
 const ContactPage: React.FC = () => {
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      message: '',
+    },
+  });
+  const { isSubmitting } = form.formState;
+  const onSubmit = async (data: ContactFormValues) => {
+    try {
+      const response = await api('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+      toast.success('Pesan Terkirim!', {
+        description: 'Terima kasih telah menghubungi kami. Kami akan segera merespons pesan Anda.',
+      });
+      form.reset();
+    } catch (error) {
+      toast.error('Gagal Mengirim Pesan', {
+        description: error instanceof Error ? error.message : 'Silakan coba lagi nanti.',
+      });
+    }
+  };
   return (
     <MainLayout>
       <div className="bg-white">
@@ -69,23 +106,59 @@ const ContactPage: React.FC = () => {
             >
               <div className="bg-white p-8 rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold font-display text-gray-900 mb-6">Kirim Pesan</h2>
-                <form className="space-y-6">
-                  <div>
-                    <Label htmlFor="name" className="text-lg">Nama Lengkap</Label>
-                    <Input id="name" type="text" placeholder="John Doe" className="mt-2 text-lg p-4" />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-lg">Alamat Email</Label>
-                    <Input id="email" type="email" placeholder="john.doe@example.com" className="mt-2 text-lg p-4" />
-                  </div>
-                  <div>
-                    <Label htmlFor="message" className="text-lg">Pesan Anda</Label>
-                    <Textarea id="message" placeholder="Tuliskan pesan Anda di sini..." rows={5} className="mt-2 text-lg p-4" />
-                  </div>
-                  <Button type="submit" size="lg" className="w-full bg-school-blue hover:bg-school-blue/90 text-lg py-6">
-                    Kirim Pesan
-                  </Button>
-                </form>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg">Nama Lengkap</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John Doe" {...field} className="text-lg p-4" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg">Alamat Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="john.doe@example.com" {...field} className="text-lg p-4" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg">Pesan Anda</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Tuliskan pesan Anda di sini..." rows={5} {...field} className="text-lg p-4" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" size="lg" className="w-full bg-school-blue hover:bg-school-blue/90 text-lg py-6" disabled={isSubmitting}>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Mengirim...
+                        </>
+                      ) : (
+                        'Kirim Pesan'
+                      )}
+                    </Button>
+                  </form>
+                </Form>
               </div>
             </motion.div>
           </div>

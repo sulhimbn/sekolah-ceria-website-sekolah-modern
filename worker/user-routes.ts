@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import type { Env } from './core-utils';
 import { UserEntity, ChatBoardEntity, NewsArticleEntity } from "./entities";
 import { ok, bad, notFound, isStr } from './core-utils';
+import type { ContactFormPayload } from "@shared/types";
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
   app.get('/api/test', (c) => c.json({ success: true, data: { name: 'CF Workers Demo' }}));
   // USERS
@@ -53,6 +54,25 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     // For "DD MMMM YYYY", we need to parse it. A simpler approach for now is to reverse the seeded array order.
     page.items.reverse();
     return ok(c, page);
+  });
+  app.get('/api/news/:id', async (c) => {
+    const { id } = c.req.param();
+    const article = new NewsArticleEntity(c.env, id);
+    if (!(await article.exists())) {
+      return notFound(c, 'Article not found');
+    }
+    return ok(c, await article.getState());
+  });
+  // CONTACT FORM
+  app.post('/api/contact', async (c) => {
+    const body = await c.req.json<ContactFormPayload>();
+    if (!body.name || !body.email || !body.message) {
+      return bad(c, 'Name, email, and message are required.');
+    }
+    // In a real application, you would send an email or save to a database.
+    // For this demo, we'll just log it to the worker console.
+    console.log('New contact form submission:', body);
+    return ok(c, { message: 'Pesan Anda telah berhasil dikirim!' });
   });
   // DELETE: Users
   app.delete('/api/users/:id', async (c) => ok(c, { id: c.req.param('id'), deleted: await UserEntity.delete(c.env, c.req.param('id')) }));
