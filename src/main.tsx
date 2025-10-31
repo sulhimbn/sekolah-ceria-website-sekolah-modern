@@ -10,16 +10,45 @@ import {
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import '@/index.css'
-import { HomePage } from '@/pages/HomePage'
-
+// Import pages
+import HomePage from '@/pages/HomePage';
+import AboutPage from '@/pages/AboutPage';
+import AcademicsPage from '@/pages/AcademicsPage';
+import AdmissionsPage from '@/pages/AdmissionsPage';
+import NewsPage from '@/pages/NewsPage';
+import ContactPage from '@/pages/ContactPage';
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
     errorElement: <RouteErrorBoundary />,
   },
+  {
+    path: "/about",
+    element: <AboutPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/academics",
+    element: <AcademicsPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/admissions",
+    element: <AdmissionsPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/news",
+    element: <NewsPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/contact",
+    element: <ContactPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
 ]);
-
 // Do not touch this code
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -28,4 +57,3 @@ createRoot(document.getElementById('root')!).render(
     </ErrorBoundary>
   </StrictMode>,
 )
-   

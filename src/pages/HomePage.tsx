@@ -1,148 +1,177 @@
-// Home page of the app, Currently a demo page for demonstration.
-// Please rewrite this file to implement your own logic. Do not replace or delete it, simply rewrite this HomePage.tsx file.
-import { useEffect } from 'react'
-import { Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/ThemeToggle'
-import { Toaster, toast } from '@/components/ui/sonner'
-import { create } from 'zustand'
-import { useShallow } from 'zustand/react/shallow'
-import { AppLayout } from '@/components/layout/AppLayout'
-
-// Timer store: independent slice with a clear, minimal API, for demonstration
-type TimerState = {
-  isRunning: boolean;
-  elapsedMs: number;
-  start: () => void;
-  pause: () => void;
-  reset: () => void;
-  tick: (deltaMs: number) => void;
-}
-
-const useTimerStore = create<TimerState>((set) => ({
-  isRunning: false,
-  elapsedMs: 0,
-  start: () => set({ isRunning: true }),
-  pause: () => set({ isRunning: false }),
-  reset: () => set({ elapsedMs: 0, isRunning: false }),
-  tick: (deltaMs) => set((s) => ({ elapsedMs: s.elapsedMs + deltaMs })),
-}))
-
-// Counter store: separate slice to showcase multiple stores without coupling
-type CounterState = {
-  count: number;
-  inc: () => void;
-  reset: () => void;
-}
-
-const useCounterStore = create<CounterState>((set) => ({
-  count: 0,
-  inc: () => set((s) => ({ count: s.count + 1 })),
-  reset: () => set({ count: 0 }),
-}))
-
-function formatDuration(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
-
-export function HomePage() {
-  // Select only what is needed to avoid unnecessary re-renders
-  const { isRunning, elapsedMs } = useTimerStore(
-    useShallow((s) => ({ isRunning: s.isRunning, elapsedMs: s.elapsedMs })),
-  )
-  const start = useTimerStore((s) => s.start)
-  const pause = useTimerStore((s) => s.pause)
-  const resetTimer = useTimerStore((s) => s.reset)
-  const count = useCounterStore((s) => s.count)
-  const inc = useCounterStore((s) => s.inc)
-  const resetCount = useCounterStore((s) => s.reset)
-
-  // Drive the timer only while running; avoid update-depth issues with a scoped RAF
-  useEffect(() => {
-    if (!isRunning) return
-    let raf = 0
-    let last = performance.now()
-    const loop = () => {
-      const now = performance.now()
-      const delta = now - last
-      last = now
-      // Read store API directly to keep effect deps minimal and stable
-      useTimerStore.getState().tick(delta)
-      raf = requestAnimationFrame(loop)
-    }
-    raf = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(raf)
-  }, [isRunning])
-
-  const onPleaseWait = () => {
-    inc()
-    if (!isRunning) {
-      start()
-      toast.success('Building your app…', {
-        description: 'Hang tight, we\'re setting everything up.',
-      })
-    } else {
-      pause()
-      toast.info('Taking a short pause', {
-        description: 'We\'ll continue shortly.',
-      })
-    }
-  }
-
-  const formatted = formatDuration(elapsedMs)
-
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, Book, Users, Award, MessageSquare } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MainLayout } from '@/components/layout/MainLayout';
+import { MOCK_NEWS_ARTICLES } from '@/lib/mock-data';
+const HomePage: React.FC = () => {
+  const latestNews = MOCK_NEWS_ARTICLES.slice(0, 3);
+  const testimonials = [
+    {
+      quote: "Sekolah Ceria memberikan fondasi pendidikan yang kuat bagi anak saya. Guru-gurunya sangat berdedikasi!",
+      author: "Budi Santoso",
+      role: "Orang Tua Siswa",
+    },
+    {
+      quote: "Saya senang belajar di sini. Banyak kegiatan ekstrakurikuler yang seru dan teman-teman yang baik.",
+      author: "Siti Aisyah",
+      role: "Siswa Kelas 5",
+    },
+    {
+      quote: "Lingkungan belajarnya sangat mendukung. Fasilitasnya lengkap dan modern.",
+      author: "Rina Wijaya",
+      role: "Alumni",
+    },
+  ];
   return (
-    <AppLayout>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 overflow-hidden relative">
-        <ThemeToggle />
-        <div className="absolute inset-0 bg-gradient-rainbow opacity-10 dark:opacity-20 pointer-events-none" />
-        <div className="text-center space-y-8 relative z-10 animate-fade-in">
-          <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-primary floating">
-              <Sparkles className="w-8 h-8 text-white rotating" />
-            </div>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-balance leading-tight">
-            Creating your <span className="text-gradient">app</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto text-pretty">
-            Your application would be ready soon.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button 
-              size="lg"
-              onClick={onPleaseWait}
-              className="btn-gradient px-8 py-4 text-lg font-semibold hover:-translate-y-0.5 transition-all duration-200"
-              aria-live="polite"
+    <MainLayout>
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
             >
-              Please Wait
-            </Button>
+              <h1 className="text-5xl md:text-6xl font-bold font-display text-gray-900 leading-tight">
+                Selamat Datang di <span className="text-school-blue">Sekolah Ceria</span>
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Membentuk Masa Depan Cerah Melalui Pendidikan Berkualitas dan Lingkungan yang Menyenangkan.
+              </p>
+              <div className="flex space-x-4">
+                <Button asChild size="lg" className="bg-school-blue hover:bg-school-blue/90">
+                  <Link to="/admissions">Daftar Sekarang <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/about">Pelajari Lebih Lanjut</Link>
+                </Button>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="aspect-video bg-school-yellow rounded-3xl p-4 shadow-lg">
+                 <div className="w-full h-full bg-white/50 rounded-2xl flex items-center justify-center">
+                    <p className="text-2xl font-semibold text-gray-600">[Ilustrasi Sekolah Ceria]</p>
+                 </div>
+              </div>
+            </motion.div>
           </div>
-          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-            <div>
-              Time elapsed: <span className="font-medium tabular-nums text-foreground">{formatted}</span>
-            </div>
-            <div>
-              Coins: <span className="font-medium tabular-nums text-foreground">{count}</span>
-            </div>
+        </div>
+      </section>
+      {/* Featured Programs Section */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-4xl font-bold font-display text-gray-900">Program Unggulan Kami</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Kami menawarkan program pendidikan holistik yang dirancang untuk mengembangkan potensi setiap siswa.
+            </p>
           </div>
-          <div className="flex justify-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => { resetTimer(); resetCount(); toast('Reset complete') }}>
-              Reset
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => { inc(); toast('Coin added') }}>
-              Add Coin
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { icon: Book, title: "Kurikulum Merdeka", desc: "Mengadopsi kurikulum terbaru untuk pembelajaran yang relevan dan fleksibel." },
+              { icon: Users, title: "Pengembangan Karakter", desc: "Program khusus untuk membangun integritas, empati, dan kepemimpinan." },
+              { icon: Award, title: "Ekstrakurikuler Beragam", desc: "Dari olahraga hingga seni, kami menyediakan wadah untuk setiap minat dan bakat." },
+            ].map((program, index) => (
+              <motion.div
+                key={program.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="text-center h-full hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <CardHeader>
+                    <div className="mx-auto bg-school-yellow p-4 rounded-full w-fit">
+                      <program.icon className="h-8 w-8 text-school-blue" />
+                    </div>
+                    <CardTitle className="pt-4 font-display text-2xl">{program.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{program.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Latest News Section */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-4xl font-bold font-display text-gray-900">Berita & Acara Terbaru</h2>
+            <p className="text-lg text-muted-foreground">Ikuti terus kegiatan dan pencapaian terbaru dari Sekolah Ceria.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {latestNews.map((article, index) => (
+              <motion.div
+                key={article.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="overflow-hidden h-full flex flex-col group">
+                  <div className="aspect-video bg-school-blue/20 flex items-center justify-center overflow-hidden">
+                    <p className="text-gray-500">[Gambar Berita]</p>
+                  </div>
+                  <CardContent className="p-6 flex-grow flex flex-col">
+                    <p className="text-sm text-muted-foreground mb-2">{article.date} • {article.author}</p>
+                    <h3 className="text-xl font-semibold font-display mb-2 flex-grow">{article.title}</h3>
+                    <p className="text-muted-foreground mb-4">{article.excerpt}</p>
+                    <Link to={`/news#${article.id}`} className="font-semibold text-school-blue group-hover:underline">
+                      Baca Selengkapnya <ArrowRight className="inline h-4 w-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" size="lg">
+              <Link to="/news">Lihat Semua Berita</Link>
             </Button>
           </div>
         </div>
-        <footer className="absolute bottom-8 text-center text-muted-foreground/80">
-          <p>Powered by Cloudflare</p>
-        </footer>
-        <Toaster richColors closeButton />
-      </div>
-    </AppLayout>
-  )
-}
+      </section>
+      {/* Testimonials Section */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-4xl font-bold font-display text-gray-900">Apa Kata Mereka?</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="h-full">
+                  <CardContent className="p-6">
+                    <MessageSquare className="h-8 w-8 text-school-yellow mb-4" />
+                    <p className="text-muted-foreground mb-4">"{testimonial.quote}"</p>
+                    <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </MainLayout>
+  );
+};
+export default HomePage;

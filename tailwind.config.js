@@ -14,6 +14,7 @@ export default {
   				'sans-serif'
   			],
   			display: [
+          'Playfair Display',
   				'Cal Sans',
   				'Inter',
   				'system-ui',
@@ -91,6 +92,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+        'school-blue': '#4A90E2',
+        'school-yellow': '#FDE68A',
+        'school-bg': '#F8F9FA',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			muted: {
