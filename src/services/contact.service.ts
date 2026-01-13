@@ -1,5 +1,7 @@
 import type { ContactFormPayload } from '@shared/types';
 import { api } from '@/lib/api-client';
+import { VALIDATION_CONFIG } from '@/lib/validation-config';
+import { MESSAGES } from '@/lib/messages';
 
 export interface ContactFormData extends ContactFormPayload {
   timestamp?: number;
@@ -24,27 +26,27 @@ class ContactService {
       });
       
       return {
-        message: response.message || 'Pesan Anda telah berhasil dikirim!',
+        message: response.message || MESSAGES.CONTACT.SEND_SUCCESS,
         success: true,
       };
     } catch (error) {
-      throw new Error('Gagal mengirim pesan. Silakan coba lagi nanti.');
+      throw new Error(MESSAGES.CONTACT.SEND_FAILED);
     }
   }
 
   validateContactForm(data: Partial<ContactFormPayload>): { isValid: boolean; errors: Record<string, string> } {
     const errors: Record<string, string> = {};
     
-    if (!data.name || data.name.trim().length < 2) {
-      errors.name = 'Nama harus diisi, minimal 2 karakter.';
+    if (!data.name || data.name.trim().length < VALIDATION_CONFIG.NAME.MIN_LENGTH) {
+      errors.name = VALIDATION_CONFIG.NAME.ERROR_MESSAGE;
     }
     
     if (!data.email || !this.isValidEmail(data.email)) {
-      errors.email = 'Format email tidak valid.';
+      errors.email = VALIDATION_CONFIG.EMAIL.ERROR_MESSAGE;
     }
     
-    if (!data.message || data.message.trim().length < 10) {
-      errors.message = 'Pesan harus diisi, minimal 10 karakter.';
+    if (!data.message || data.message.trim().length < VALIDATION_CONFIG.MESSAGE.MIN_LENGTH) {
+      errors.message = VALIDATION_CONFIG.MESSAGE.ERROR_MESSAGE;
     }
     
     return {
@@ -54,8 +56,7 @@ class ContactService {
   }
 
   private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return VALIDATION_CONFIG.EMAIL.REGEX.test(email);
   }
 }
 

@@ -1,5 +1,7 @@
 import type { NewsArticle } from '@shared/types';
 import { api } from '@/lib/api-client';
+import { VALIDATION_CONFIG } from '@/lib/validation-config';
+import { MESSAGES } from '@/lib/messages';
 
 export interface NewsListResponse {
   items: NewsArticle[];
@@ -18,7 +20,7 @@ class NewsService {
       const response = await api<{ items: NewsArticle[]; next?: string }>('/api/news');
       return response.items;
     } catch (error) {
-      throw new Error('Gagal memuat berita. Silakan coba lagi nanti.');
+      throw new Error(MESSAGES.NEWS.LOAD_FAILED);
     }
   }
 
@@ -28,9 +30,9 @@ class NewsService {
       return article as NewsArticleDetail;
     } catch (error) {
       if (error instanceof Error && error.message.includes('not found')) {
-        throw new Error('Artikel tidak ditemukan');
+        throw new Error(MESSAGES.NEWS.ARTICLE_NOT_FOUND);
       }
-      throw new Error('Gagal memuat artikel. Silakan coba lagi nanti.');
+      throw new Error(MESSAGES.NEWS.ARTICLE_LOAD_FAILED);
     }
   }
 
@@ -45,7 +47,7 @@ class NewsService {
     );
   }
 
-  getRecentArticles(articles: NewsArticle[], count: number = 3): NewsArticle[] {
+  getRecentArticles(articles: NewsArticle[], count: number = VALIDATION_CONFIG.NEWS.DEFAULT_RECENT_COUNT): NewsArticle[] {
     return articles.slice(0, count);
   }
 

@@ -69,9 +69,6 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     if (!body.name || !body.email || !body.message) {
       return bad(c, 'Name, email, and message are required.');
     }
-    // In a real application, you would send an email or save to a database.
-    // For this demo, we'll just log it to the worker console.
-    console.log('New contact form submission:', body);
     return ok(c, { message: 'Pesan Anda telah berhasil dikirim!' });
   });
   // DELETE: Users
