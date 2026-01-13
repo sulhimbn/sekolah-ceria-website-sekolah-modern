@@ -11,7 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Phone, Mail, MapPin, Loader2 } from 'lucide-react';
-import { api } from '@/lib/api-client';
+import { useContactForm } from '@/hooks/api';
+import type { ContactFormPayload } from '@shared/types';
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: 'Nama harus diisi, minimal 2 karakter.' }),
   email: z.string().email({ message: 'Format email tidak valid.' }),
@@ -27,13 +28,10 @@ const ContactPage: React.FC = () => {
       message: '',
     },
   });
-  const { isSubmitting } = form.formState;
+  const { isSubmitting, submitContactForm } = useContactForm();
   const onSubmit = async (data: ContactFormValues) => {
     try {
-      const response = await api('/api/contact', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      await submitContactForm(data);
       toast.success('Pesan Terkirim!', {
         description: 'Terima kasih telah menghubungi kami. Kami akan segera merespons pesan Anda.',
       });

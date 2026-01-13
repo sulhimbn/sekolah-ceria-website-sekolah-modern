@@ -26,7 +26,29 @@ const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', logger());
 
-app.use('/api/*', cors({ origin: '*', allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowHeaders: ['Content-Type', 'Authorization'] }));
+const allowedOrigins = (c: any) => {
+  const origin = c.req.header('Origin');
+  const envAllowedOrigins = c.env?.ALLOWED_ORIGINS?.split(',') || [];
+  if (envAllowedOrigins.length > 0 && origin && envAllowedOrigins.includes(origin)) {
+    return origin;
+  }
+  return undefined;
+};
+
+app.use('/api/*', cors({ 
+  origin: allowedOrigins, 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  allowHeaders: ['Content-Type', 'Authorization'] 
+}));
+
+app.use('*', async (c, next) => {
+  c.header('X-Content-Type-Options', 'nosniff');
+  c.header('X-Frame-Options', 'DENY');
+  c.header('X-XSS-Protection', '1; mode=block');
+  c.header('Referrer-Policy', 'strict-origin-when-cross-origin');
+  c.header('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  await next();
+});
 
 userRoutes(app);
 
@@ -46,7 +68,5 @@ app.post('/api/client-errors', async (c) => {
 
 app.notFound((c) => c.json({ success: false, error: 'Not Found' }, 404));
 app.onError((err, c) => { console.error(`[ERROR] ${err}`); return c.json({ success: false, error: 'Internal Server Error' }, 500); });
-
-console.log(`Server is running`)
 
 export default { fetch: app.fetch } satisfies ExportedHandler<Env>;

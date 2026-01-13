@@ -66,12 +66,20 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   // CONTACT FORM
   app.post('/api/contact', async (c) => {
     const body = await c.req.json<ContactFormPayload>();
-    if (!body.name || !body.email || !body.message) {
-      return bad(c, 'Name, email, and message are required.');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!body.name || body.name.trim().length < 2) {
+      return bad(c, 'Nama harus diisi, minimal 2 karakter.');
     }
-    // In a real application, you would send an email or save to a database.
-    // For this demo, we'll just log it to the worker console.
-    console.log('New contact form submission:', body);
+    
+    if (!body.email || !emailRegex.test(body.email.trim())) {
+      return bad(c, 'Format email tidak valid.');
+    }
+    
+    if (!body.message || body.message.trim().length < 10) {
+      return bad(c, 'Pesan harus diisi, minimal 10 karakter.');
+    }
+    
     return ok(c, { message: 'Pesan Anda telah berhasil dikirim!' });
   });
   // DELETE: Users
