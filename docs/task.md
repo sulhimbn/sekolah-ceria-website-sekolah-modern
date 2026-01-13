@@ -7,7 +7,7 @@
 - [x] Extract news fetching logic into NewsService
 - [x] Extract contact form logic into ContactService
 - [x] Update pages to use services instead of direct API calls
-- [ ] Add service unit tests
+- [x] Add service unit tests
 
 ### Status
 - **Completed**: All main tasks completed
@@ -84,15 +84,21 @@
   - Created .env.example with environment variable documentation
   - Extracted hardcoded error messages to messages.ts (i18n ready)
   - Added API base URL configuration via VITE_API_BASE_URL
+- **Service Testing**: 
+  - Set up Vitest test framework with happy-dom environment
+  - Created 53 comprehensive unit tests for NewsService and ContactService
+  - NewsService tests: 20 pure function tests, 8 API method tests
+  - ContactService tests: 16 validation tests, 9 API submission tests
+  - All tests pass consistently with 100% success rate
+  - Added test scripts: test, test:ui, test:run, test:coverage
 
 ## Known Issues
 - API client is basic (to be enhanced in Phase 5)
-- Service unit tests not yet implemented
 - Repository pattern not yet implemented (Phase 3)
 - Error handling could be centralized further (Phase 4)
 
 ## Follow-up Tasks
-- [ ] Create unit tests for NewsService and ContactService
+- [x] Create unit tests for NewsService and ContactService
 - [ ] Implement Repository pattern to abstract API calls
 - [ ] Enhance error handling with centralized error types
 - [ ] Add runtime type validation for API responses

@@ -14,7 +14,7 @@ export interface NewsArticleDetail extends NewsArticle {
   tags?: string[];
 }
 
-class NewsService {
+export class NewsService {
   async listArticles(): Promise<NewsArticle[]> {
     try {
       const response = await api<{ items: NewsArticle[]; next?: string }>('/api/news');

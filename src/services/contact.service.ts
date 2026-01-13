@@ -12,7 +12,7 @@ export interface ContactResponse {
   success: boolean;
 }
 
-class ContactService {
+export class ContactService {
   async submitContactForm(data: ContactFormPayload): Promise<ContactResponse> {
     try {
       const formData: ContactFormData = {
