@@ -1,0 +1,214 @@
+# Sekolah Ceria - Architecture Blueprint
+
+## Current Architecture
+
+### Frontend Structure
+```
+src/
+├── components/        # React components (UI + Layout)
+│   ├── layout/      # Layout components (Header, Footer, MainLayout)
+│   └── ui/          # ShadCN UI components
+├── pages/          # Page components (contain both UI + business logic)
+├── hooks/          # Custom hooks (use-theme, use-mobile)
+└── lib/            # Utilities (api-client, error-reporter, utils)
+```
+
+### Backend Structure
+```
+worker/
+├── index.ts        # Worker entry point (Hono app setup)
+├── user-routes.ts  # API route definitions
+├── core-utils.ts   # Durable Object utilities (Entity, Index base classes)
+└── entities.ts     # Entity implementations (User, Chat, News)
+```
+
+### Shared Types
+```
+shared/
+├── types.ts        # TypeScript types (API contracts)
+└── mock-data.ts    # Demo data for entities
+```
+
+## Current Architecture (Post-Refactoring)
+
+### Frontend Structure
+```
+src/
+├── components/        # React components (UI + Layout)
+│   ├── layout/      # Layout components (Header, Footer, MainLayout)
+│   └── ui/          # ShadCN UI components
+├── pages/          # Page components (refactored to use hooks/services)
+├── hooks/          # Custom hooks
+│   ├── api/        # API-related hooks (useNews, useNewsArticle, useContactForm)
+│   │   ├── use-news.ts
+│   │   ├── use-news-article.ts
+│   │   ├── use-contact-form.ts
+│   │   └── index.ts
+│   └── ui/         # UI-related hooks (useTheme, useMobile)
+├── services/       # Business logic services (NEW)
+│   ├── news.service.ts      # News operations: list, get, search, filter
+│   ├── contact.service.ts   # Contact operations: submit, validate
+│   └── index.ts
+└── lib/            # Utilities (api-client, error-reporter, utils)
+```
+
+## Remaining Issues (Post-Refactoring)
+
+### 1. **API Coupling** (Medium Priority)
+- Services currently call API directly (should be in repositories)
+- No interface abstraction for data access
+- Difficult to swap data sources (e.g., for testing)
+
+### 2. **Error Handling** (Medium Priority)
+- Error handling is better but not fully centralized
+- No custom error types for different error scenarios
+- Limited error context for debugging
+
+### 3. **Type Safety** (Medium Priority)
+- API client is minimal and lacks comprehensive error typing
+- No runtime type validation for API responses
+- Difficult to catch data mismatches early
+
+### 4. **Testing** (Low Priority)
+- Services and hooks not yet tested
+- No test infrastructure in place
+- Mocking strategies not defined
+
+## Target Architecture
+
+### Layered Architecture (Clean Architecture Principles)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      Presentation Layer                       │
+│  (Pages, Components) - Only handles UI, user interactions     │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+┌─────────────────────────────▼───────────────────────────────┐
+│                     Application Layer                        │
+│  (Services, Custom Hooks) - Business logic, orchestration   │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+┌─────────────────────────────▼───────────────────────────────┐
+│                      Data Layer                             │
+│  (API Client, Repositories) - Data access, transformation    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Proposed Frontend Structure
+```
+src/
+├── components/        # Pure presentation components
+│   ├── layout/      # Layout components
+│   └── ui/          # ShadCN UI components
+├── pages/          # Container components (minimal logic)
+├── hooks/          # Custom hooks (data fetching, business logic)
+│   ├── api/        # API-related hooks (useNews, useContact)
+│   └── ui/         # UI-related hooks (useTheme, useMobile)
+├── services/       # Business logic services
+│   ├── news.service.ts
+│   ├── contact.service.ts
+│   └── ...
+├── lib/            # Utilities
+│   ├── api-client.ts (enhanced)
+│   ├── error-reporter.ts
+│   └── utils.ts
+└── types/          # Frontend-specific types
+    └── index.ts
+```
+
+### Proposed Backend Structure (Keep as-is)
+```
+worker/
+├── index.ts        # Worker entry point
+├── routes/         # Route definitions (organize by feature)
+│   ├── index.ts
+│   ├── news.routes.ts
+│   ├── contact.routes.ts
+│   └── ...
+├── core-utils.ts   # Durable Object utilities
+├── entities/       # Entity implementations
+│   ├── index.ts
+│   ├── user.entity.ts
+│   ├── news.entity.ts
+│   └── ...
+└── validators/     # Request validation schemas (zod)
+    └── index.ts
+```
+
+## Key Patterns to Implement
+
+### 1. Repository Pattern
+- Abstract data access behind interfaces
+- Centralize API call logic
+- Enable easy mocking for tests
+
+### 2. Service Layer
+- Encapsulate business rules
+- Coordinate between multiple repositories
+- Handle data transformations
+
+### 3. Custom Hooks for Data Fetching
+- Reuse loading/error/success patterns
+- Encapsulate API calls with proper error handling
+- Provide typed responses
+
+### 4. Dependency Inversion
+- Depend on abstractions (interfaces) not implementations
+- Use factory functions for creating services
+- Make components testable
+
+### 5. Single Responsibility
+- Each component/service has one clear purpose
+- Pages orchestrate, services handle logic, repositories handle data
+
+## Implementation Progress
+
+1. **Phase 1: Service Layer** ✅ - Extract business logic from pages
+   - Created NewsService with article listing, search, and filtering
+   - Created ContactService with validation and form submission
+   - Services handle business logic and data transformations
+
+2. **Phase 2: Custom Hooks** ✅ - Create reusable data fetching hooks
+   - Created useNews hook for data fetching with loading/error states
+   - Created useNewsArticle hook for single article fetching
+   - Created useContactForm hook for form submission
+   - All hooks provide consistent error handling patterns
+
+3. **Phase 3: Repository Pattern** ⏳ - Abstract API calls
+   - Not yet implemented
+   - Will create repository interfaces and implementations
+   - Will move API calls from services to repositories
+
+4. **Phase 4: Error Handling** ⏳ - Centralize error handling strategy
+   - Not yet implemented
+   - Will create custom error types
+   - Will centralize error logging and user messaging
+
+5. **Phase 5: Type Safety** ⏳ - Enhance type safety across layers
+   - Not yet implemented
+   - Will enhance API client with comprehensive types
+   - Will add runtime type validation
+
+## Data Flow
+
+```
+User Action → Component → Custom Hook → Service → Repository → API → Backend
+     ↓             ↓              ↓          ↓           ↓          ↓
+  UI Update   State Mgmt   Business Logic  Data Access  Network  Entity
+```
+
+## Testing Strategy
+
+- **Unit Tests**: Services, repositories, utilities
+- **Component Tests**: Pages, components with mocked services
+- **Integration Tests**: API endpoints with test entities
+
+## Success Criteria
+
+- [x] Clear separation between presentation, business logic, and data layers
+- [x] Reusable data fetching patterns across pages
+- [x] Consistent error handling
+- [x] Type-safe API contracts
+- [x] Easy to test (mockable services)
+- [x] Scalable for new features

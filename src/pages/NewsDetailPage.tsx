@@ -1,38 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, Calendar, User, ArrowLeft } from 'lucide-react';
-import { api } from '@/lib/api-client';
+import { useNewsArticle } from '@/hooks/api';
 import type { NewsArticle } from '@shared/types';
 const NewsDetailPage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
-  const [article, setArticle] = useState<NewsArticle | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    const fetchArticle = async () => {
-      if (!articleId) {
-        setError('ID Artikel tidak valid.');
-        setIsLoading(false);
-        return;
-      }
-      try {
-        setIsLoading(true);
-        const response = await api<NewsArticle>(`/api/news/${articleId}`);
-        setArticle(response);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? 'Artikel tidak ditemukan.' : 'Gagal memuat artikel.');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchArticle();
-  }, [articleId]);
+  const { article, isLoading, error } = useNewsArticle(articleId || '');
   const renderContent = () => {
     if (isLoading) {
       return (

@@ -1,32 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowRight, AlertCircle, Inbox } from 'lucide-react';
-import { api } from '@/lib/api-client';
-import type { NewsArticle } from '@shared/types';
+import { useNews } from '@/hooks/api';
 const NewsPage: React.FC = () => {
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api<{ items: NewsArticle[] }>('/api/news');
-        setArticles(response.items);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Gagal memuat berita.');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchNews();
-  }, []);
+  const { articles, isLoading, error } = useNews();
   const renderContent = () => {
     if (isLoading) {
       return Array.from({ length: 6 }).map((_, index) => (
