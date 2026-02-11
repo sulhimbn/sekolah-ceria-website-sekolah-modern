@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { api } from '@/lib/api-client';
+import { errorReporter } from '@/lib/errorReporter';
 import type { NewsArticle } from '@shared/types';
 const HomePage: React.FC = () => {
   const [latestNews, setLatestNews] = useState<NewsArticle[]>([]);
@@ -20,8 +21,16 @@ const HomePage: React.FC = () => {
         setLatestNews(response.items.slice(0, 3));
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Gagal memuat berita.');
-        console.error(err);
+        const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
+        setError(errorMessage);
+        errorReporter.report({
+          message: errorMessage,
+          stack: err instanceof Error ? err.stack : undefined,
+          url: window.location.href,
+          timestamp: new Date().toISOString(),
+          level: 'error',
+          category: 'network',
+        });
       } finally {
         setIsLoading(false);
       }
