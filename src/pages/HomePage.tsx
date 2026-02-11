@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { api } from '@/lib/api-client';
 import { errorReporter } from '@/lib/errorReporter';
+import { newsService } from '@/services';
 import type { NewsArticle } from '@shared/types';
 const HomePage: React.FC = () => {
   const [latestNews, setLatestNews] = useState<NewsArticle[]>([]);
@@ -17,8 +17,8 @@ const HomePage: React.FC = () => {
     const fetchNews = async () => {
       try {
         setIsLoading(true);
-        const response = await api<{ items: NewsArticle[] }>('/api/news');
-        setLatestNews(response.items.slice(0, 3));
+        const articles = await newsService.listArticles();
+        setLatestNews(newsService.getRecentArticles(articles, 3));
         setError(null);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';

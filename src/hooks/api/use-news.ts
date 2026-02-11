@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { newsService, type NewsArticleDetail } from '@/services';
+import { errorReporter } from '@/lib/errorReporter';
 
 interface UseNewsReturn {
   articles: NewsArticleDetail[];
@@ -20,7 +21,16 @@ export function useNews(): UseNewsReturn {
       const data = await newsService.listArticles();
       setArticles(data as NewsArticleDetail[]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal memuat berita.');
+      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
+      setError(errorMessage);
+      errorReporter.report({
+        message: errorMessage,
+        stack: err instanceof Error ? err.stack : undefined,
+        url: typeof window !== 'undefined' ? window.location.href : '',
+        timestamp: new Date().toISOString(),
+        level: 'error',
+        category: 'network',
+      });
     } finally {
       setIsLoading(false);
     }
