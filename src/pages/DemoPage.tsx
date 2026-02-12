@@ -8,6 +8,7 @@ import { Toaster, toast } from '@/components/ui/sonner'
 import type { User, Chat, ChatMessage } from '@shared/types'
 import { api } from '@/lib/api-client'
 import { AppLayout } from '@/components/layout/AppLayout'
+import { errorReporter } from '@/lib/errorReporter'
 
 export function DemoPage() {
   // Minimal state — small demo for AI to extend
@@ -37,7 +38,17 @@ export function DemoPage() {
   }, [])
 
   useEffect(() => {
-    loadBasics().catch(err => toast.error(err.message))
+    loadBasics().catch(err => {
+      errorReporter.report({
+        message: err.message,
+        stack: err.stack,
+        url: typeof window !== 'undefined' ? window.location.href : '',
+        timestamp: new Date().toISOString(),
+        level: 'error',
+        category: 'network',
+      });
+      toast.error(err.message);
+    });
   }, [loadBasics])
 
   // Select first user/chat once data arrives
@@ -50,7 +61,19 @@ export function DemoPage() {
   }, [chats, selectedChatId])
 
   useEffect(() => {
-    if (selectedChatId) loadMessages(selectedChatId).catch(err => toast.error(err.message))
+    if (selectedChatId) {
+      loadMessages(selectedChatId).catch(err => {
+        errorReporter.report({
+          message: err.message,
+          stack: err.stack,
+          url: typeof window !== 'undefined' ? window.location.href : '',
+          timestamp: new Date().toISOString(),
+          level: 'error',
+          category: 'network',
+        });
+        toast.error(err.message);
+      });
+    }
   }, [selectedChatId, loadMessages])
 
   const createUser = useCallback(async () => {
@@ -151,7 +174,17 @@ export function DemoPage() {
         {/* Compose */}
         <div className="flex gap-2">
           <Textarea placeholder="Type a message" value={text} onChange={(e) => updateText(e.target.value)} disabled={!selectedUserId || !selectedChatId} />
-          <Button onClick={() => send().catch(err => toast.error(err.message))} disabled={!selectedUserId || !selectedChatId || !text.trim()}>Send</Button>
+          <Button onClick={() => send().catch(err => {
+            errorReporter.report({
+              message: err.message,
+              stack: err.stack,
+              url: typeof window !== 'undefined' ? window.location.href : '',
+              timestamp: new Date().toISOString(),
+              level: 'error',
+              category: 'user',
+            });
+            toast.error(err.message);
+          })} disabled={!selectedUserId || !selectedChatId || !text.trim()}>Send</Button>
         </div>
       </div>
 
