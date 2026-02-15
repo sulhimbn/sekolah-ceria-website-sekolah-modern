@@ -5,16 +5,18 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Toaster, toast } from '@/components/ui/sonner'
-import type { User, Chat, ChatMessage } from '@shared/types'
-import { api } from '@/lib/api-client'
+import type { User } from '@shared/types'
 import { AppLayout } from '@/components/layout/AppLayout'
-import { errorReporter } from '@/lib/errorReporter'
+import { useUsers } from '@/hooks/api/use-users'
+import { useChats } from '@/hooks/api/use-chats'
+import { useChatMessages } from '@/hooks/api/use-chat-messages'
 
 export function DemoPage() {
-  // Minimal state — small demo for AI to extend
-  const [users, updateUsers] = useState<User[]>([])
-  const [chats, updateChats] = useState<Chat[]>([])
-  const [messages, updateMessages] = useState<ChatMessage[]>([])
+  // Use custom hooks instead of direct API calls (HARDEN-001 fix)
+  const { users, isLoading: isLoadingUsers, createUser, isCreating: isCreatingUser } = useUsers();
+  const { chats, isLoading: isLoadingChats, createChat, isCreating: isCreatingChat } = useChats();
+  const { messages, isLoading: isLoadingMessages, loadMessages, sendMessage, isSending } = useChatMessages();
+
   const [selectedUserId, chooseUserId] = useState<string>('')
   const [selectedChatId, chooseChatId] = useState<string>('')
   const [name, updateName] = useState('')
@@ -22,34 +24,6 @@ export function DemoPage() {
   const [text, updateText] = useState('')
 
   const usersById = useMemo(() => new Map(users.map(u => [u.id, u])), [users])
-
-  const loadBasics = useCallback(async () => {
-    const [uPage, cPage] = await Promise.all([
-      api<{ items: User[]; next: string | null }>('/api/users'),
-      api<{ items: Chat[]; next: string | null }>('/api/chats'),
-    ])
-    updateUsers(uPage.items)
-    updateChats(cPage.items)
-  }, [])
-
-  const loadMessages = useCallback(async (chatId: string) => {
-    const m = await api<ChatMessage[]>(`/api/chats/${chatId}/messages`)
-    updateMessages(m)
-  }, [])
-
-  useEffect(() => {
-    loadBasics().catch(err => {
-      errorReporter.report({
-        message: err.message,
-        stack: err.stack,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
-      toast.error(err.message);
-    });
-  }, [loadBasics])
 
   // Select first user/chat once data arrives
   useEffect(() => {
@@ -60,46 +34,46 @@ export function DemoPage() {
     if (!selectedChatId && chats.length) chooseChatId(chats[0].id)
   }, [chats, selectedChatId])
 
+  // Load messages when chat is selected
   useEffect(() => {
     if (selectedChatId) {
       loadMessages(selectedChatId).catch(err => {
-        errorReporter.report({
-          message: err.message,
-          stack: err.stack,
-          url: typeof window !== 'undefined' ? window.location.href : '',
-          timestamp: new Date().toISOString(),
-          level: 'error',
-          category: 'network',
-        });
-        toast.error(err.message);
+        toast.error(err instanceof Error ? err.message : 'Gagal memuat pesan');
       });
     }
   }, [selectedChatId, loadMessages])
 
-  const createUser = useCallback(async () => {
+  const handleCreateUser = useCallback(async () => {
     if (!name.trim()) return
-    const u = await api<User>('/api/users', { method: 'POST', body: JSON.stringify({ name: name.trim() }) })
-    updateUsers(prev => [...prev, u])
-    updateName('')
-    toast.success('User created')
-    if (!selectedUserId) chooseUserId(u.id)
-  }, [name, selectedUserId])
+    const newUser = await createUser(name.trim());
+    if (newUser) {
+      updateName('')
+      toast.success('User created')
+      if (!selectedUserId) chooseUserId(newUser.id)
+    }
+  }, [name, createUser, selectedUserId])
 
-  const createChat = useCallback(async () => {
+  const handleCreateChat = useCallback(async () => {
     if (!title.trim()) return
-    const c = await api<Chat>('/api/chats', { method: 'POST', body: JSON.stringify({ title: title.trim() }) })
-    updateChats(prev => [...prev, c])
-    updateTitle('')
-    toast.success('Chat created')
-    if (!selectedChatId) chooseChatId(c.id)
-  }, [title, selectedChatId])
+    const newChat = await createChat(title.trim());
+    if (newChat) {
+      updateTitle('')
+      toast.success('Chat created')
+      if (!selectedChatId) chooseChatId(newChat.id)
+    }
+  }, [title, createChat, selectedChatId])
 
-  const send = useCallback(async () => {
+  const handleSendMessage = useCallback(async () => {
     if (!selectedUserId || !selectedChatId || !text.trim()) return
-    const m = await api<ChatMessage>(`/api/chats/${selectedChatId}/messages`, { method: 'POST', body: JSON.stringify({ userId: selectedUserId, text: text.trim() }) })
-    updateMessages(prev => [...prev, m])
-    updateText('')
-  }, [selectedUserId, selectedChatId, text])
+    const newMessage = await sendMessage(selectedChatId, selectedUserId, text.trim());
+    if (newMessage) {
+      updateText('')
+    } else {
+      toast.error('Gagal mengirim pesan');
+    }
+  }, [selectedUserId, selectedChatId, text, sendMessage])
+
+  const isLoading = isLoadingUsers || isLoadingChats;
 
   return (
     <AppLayout>
@@ -119,15 +93,36 @@ export function DemoPage() {
           Minimal Users + Chats Demo
         </h1>
 
+        {/* Loading state */}
+        {isLoading && (
+          <div className="text-center text-muted-foreground">
+            Memuat data...
+          </div>
+        )}
+
         {/* Quick create controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="flex gap-2">
-            <Input placeholder="New user name" value={name} onChange={(e) => updateName(e.target.value)} />
-            <Button onClick={createUser}>Add User</Button>
+            <Input 
+              placeholder="New user name" 
+              value={name} 
+              onChange={(e) => updateName(e.target.value)} 
+              disabled={isCreatingUser}
+            />
+            <Button onClick={handleCreateUser} disabled={isCreatingUser || !name.trim()}>
+              {isCreatingUser ? '...' : 'Add User'}
+            </Button>
           </div>
           <div className="flex gap-2">
-            <Input placeholder="New chat title" value={title} onChange={(e) => updateTitle(e.target.value)} />
-            <Button onClick={createChat}>Add Chat</Button>
+            <Input 
+              placeholder="New chat title" 
+              value={title} 
+              onChange={(e) => updateTitle(e.target.value)} 
+              disabled={isCreatingChat}
+            />
+            <Button onClick={handleCreateChat} disabled={isCreatingChat || !title.trim()}>
+              {isCreatingChat ? '...' : 'Add Chat'}
+            </Button>
           </div>
         </div>
 
@@ -135,7 +130,12 @@ export function DemoPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="flex items-center gap-2">
             <label className="text-sm text-muted-foreground w-20">User</label>
-            <select className="w-full bg-background border px-2 py-2 rounded" value={selectedUserId} onChange={(e) => chooseUserId(e.target.value)}>
+            <select 
+              className="w-full bg-background border px-2 py-2 rounded" 
+              value={selectedUserId} 
+              onChange={(e) => chooseUserId(e.target.value)}
+              disabled={isLoadingUsers}
+            >
               <option value="">Select a user</option>
               {users.map(u => (
                 <option key={u.id} value={u.id}>{u.name}</option>
@@ -144,7 +144,12 @@ export function DemoPage() {
           </div>
           <div className="flex items-center gap-2">
             <label className="text-sm text-muted-foreground w-20">Chat</label>
-            <select className="w-full bg-background border px-2 py-2 rounded" value={selectedChatId} onChange={(e) => chooseChatId(e.target.value)}>
+            <select 
+              className="w-full bg-background border px-2 py-2 rounded" 
+              value={selectedChatId} 
+              onChange={(e) => chooseChatId(e.target.value)}
+              disabled={isLoadingChats}
+            >
               <option value="">Select a chat</option>
               {chats.map(c => (
                 <option key={c.id} value={c.id}>{c.title}</option>
@@ -155,7 +160,9 @@ export function DemoPage() {
 
         {/* Messages */}
         <div className="border rounded p-3 h-64 overflow-y-auto bg-muted/30">
-          {selectedChatId ? (
+          {isLoadingMessages ? (
+            <div className="text-sm text-muted-foreground">Memuat pesan...</div>
+          ) : selectedChatId ? (
             messages.length ? (
               messages.map(m => (
                 <div key={m.id} className="text-sm mb-2">
@@ -173,18 +180,18 @@ export function DemoPage() {
 
         {/* Compose */}
         <div className="flex gap-2">
-          <Textarea placeholder="Type a message" value={text} onChange={(e) => updateText(e.target.value)} disabled={!selectedUserId || !selectedChatId} />
-          <Button onClick={() => send().catch(err => {
-            errorReporter.report({
-              message: err.message,
-              stack: err.stack,
-              url: typeof window !== 'undefined' ? window.location.href : '',
-              timestamp: new Date().toISOString(),
-              level: 'error',
-              category: 'user',
-            });
-            toast.error(err.message);
-          })} disabled={!selectedUserId || !selectedChatId || !text.trim()}>Send</Button>
+          <Textarea 
+            placeholder="Type a message" 
+            value={text} 
+            onChange={(e) => updateText(e.target.value)} 
+            disabled={!selectedUserId || !selectedChatId || isSending} 
+          />
+          <Button 
+            onClick={handleSendMessage} 
+            disabled={!selectedUserId || !selectedChatId || !text.trim() || isSending}
+          >
+            {isSending ? '...' : 'Send'}
+          </Button>
         </div>
       </div>
 

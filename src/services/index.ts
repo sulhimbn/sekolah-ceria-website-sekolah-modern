@@ -2,6 +2,10 @@ export { newsService } from './news.service';
 export type { NewsListResponse, NewsArticleDetail } from './news.service';
 export { contactService } from './contact.service';
 export type { ContactFormData, ContactResponse } from './contact.service';
+export { userService } from './user.service';
+export type { UserListResponse } from './user.service';
+export { chatService } from './chat.service';
+export type { ChatListResponse } from './chat.service';
 
 /**
  * Centralized API error handler (HARDEN-004)

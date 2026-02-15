@@ -1,6 +1,9 @@
 export { useNews } from './use-news';
 export { useNewsArticle } from './use-news-article';
 export { useContactForm } from './use-contact-form';
+export { useUsers } from './use-users';
+export { useChats } from './use-chats';
+export { useChatMessages } from './use-chat-messages';
 
 /**
  * Standardized API Hook Interfaces (HARDEN-003)
