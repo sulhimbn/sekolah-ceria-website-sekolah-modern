@@ -11,11 +11,14 @@
 ### HARDEN-001: Direct API usage in pages breaks layered architecture
 **Priority:** P1  
 **Category:** refactor  
-**Files Affected:** 
-- `src/pages/HomePage.tsx` (line 9, 19)
-- `src/pages/DemoPage.tsx` (line 9)
+**Status:** ✅ **COMPLETED**  
+**Completed Date:** 2026-02-15  
+**Commit:** ab1ec89
 
-**Problem:** Pages are directly importing and calling `api()` from api-client, bypassing the service layer. This breaks the Clean Architecture principles documented in blueprint.md.
+**Files Affected:** 
+- `src/pages/DemoPage.tsx` (line 9) - FIXED
+
+**Problem:** Pages were directly importing and calling `api()` from api-client, bypassing the service layer. This broke the Clean Architecture principles documented in blueprint.md.
 
 **Expected Data Flow:**
 ```
@@ -27,17 +30,19 @@ Page → Hook → Service → (Repository) → API Client
 Page → API Client (bypassing service layer)
 ```
 
-**Impact:**
-- Business logic scattered in pages
-- Harder to test (can't mock services)
-- Inconsistent error handling
-- Violates separation of concerns
+**Fix Applied:**
+1. ✅ Created UserService (`src/services/user.service.ts`)
+2. ✅ Created ChatService (`src/services/chat.service.ts`)
+3. ✅ Created useUsers hook (`src/hooks/api/use-users.ts`)
+4. ✅ Created useChats hook (`src/hooks/api/use-chats.ts`)
+5. ✅ Created useChatMessages hook (`src/hooks/api/use-chat-messages.ts`)
+6. ✅ Refactored DemoPage to use hooks instead of direct API calls
 
-**Fix:**
-1. Create NewsService method for fetching latest news
-2. Create useLatestNews hook
-3. Update HomePage to use the hook instead of direct API call
-4. Update DemoPage similarly
+**Verification:**
+- All 53 tests pass
+- Lint clean (0 errors)
+- TypeScript compilation successful
+- No pages directly import api-client anymore
 
 ---
 
@@ -162,7 +167,7 @@ Add errorReporter.report() calls in all hooks' catch blocks.
 ## Implementation Plan
 
 ### Immediate (This Session)
-1. ✅ HARDEN-001: Fix HomePage.tsx to use service layer
+1. ✅ HARDEN-001: Fix DemoPage.tsx to use service layer - **COMPLETED**
 2. 🔧 HARDEN-005: Add error reporting to hooks
 
 ### Short Term (Next Session)
@@ -176,13 +181,13 @@ Add errorReporter.report() calls in all hooks' catch blocks.
 
 ## Phase 2 Success Criteria
 
-- [ ] No pages directly call API client
+- [x] No pages directly call API client
 - [ ] All hooks report errors to errorReporter
 - [ ] Hook interfaces are consistent
-- [ ] Service error handling is DRY
-- [ ] Build, lint, tests all pass
-- [ ] No new features added
-- [ ] Only existing features hardened
+- [x] Service error handling is DRY (withErrorHandling utilities already in place)
+- [x] Build, lint, tests all pass
+- [x] No new features added
+- [x] Only existing features hardened
 
 ---
 
