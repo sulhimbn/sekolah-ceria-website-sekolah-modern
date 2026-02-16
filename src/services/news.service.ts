@@ -1,5 +1,6 @@
 import type { NewsArticle } from '@shared/types';
-import { api } from '@/lib/api-client';
+import type { INewsRepository, NewsArticleDetail } from '@/repositories/interfaces';
+import { createNewsRepository } from '@/repositories/implementations';
 import { VALIDATION_CONFIG } from '@/lib/validation-config';
 import { MESSAGES } from '@/lib/messages';
 
@@ -8,16 +9,18 @@ export interface NewsListResponse {
   next?: string;
 }
 
-export interface NewsArticleDetail extends NewsArticle {
-  fullContent?: string;
-  category?: string;
-  tags?: string[];
-}
+export { type NewsArticleDetail };
 
 export class NewsService {
+  private repository: INewsRepository;
+
+  constructor(repository: INewsRepository = createNewsRepository()) {
+    this.repository = repository;
+  }
+
   async listArticles(): Promise<NewsArticle[]> {
     try {
-      const response = await api<{ items: NewsArticle[]; next?: string }>('/api/news');
+      const response = await this.repository.fetchArticles();
       return response.items;
     } catch (error) {
       throw new Error(MESSAGES.NEWS.LOAD_FAILED);
@@ -26,8 +29,8 @@ export class NewsService {
 
   async getArticle(id: string): Promise<NewsArticleDetail> {
     try {
-      const article = await api<NewsArticle>(`/api/news/${id}`);
-      return article as NewsArticleDetail;
+      const article = await this.repository.fetchArticle(id);
+      return article;
     } catch (error) {
       if (error instanceof Error && error.message.includes('not found')) {
         throw new Error(MESSAGES.NEWS.ARTICLE_NOT_FOUND);
