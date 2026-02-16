@@ -1,5 +1,6 @@
 import type { ContactFormPayload } from '@shared/types';
-import { api } from '@/lib/api-client';
+import type { IContactRepository } from '@/repositories/interfaces';
+import { createContactRepository } from '@/repositories/implementations';
 import { VALIDATION_CONFIG } from '@/lib/validation-config';
 import { MESSAGES } from '@/lib/messages';
 
@@ -13,18 +14,21 @@ export interface ContactResponse {
 }
 
 export class ContactService {
+  private repository: IContactRepository;
+
+  constructor(repository: IContactRepository = createContactRepository()) {
+    this.repository = repository;
+  }
+
   async submitContactForm(data: ContactFormPayload): Promise<ContactResponse> {
     try {
       const formData: ContactFormData = {
         ...data,
         timestamp: Date.now(),
       };
-      
-      const response = await api<{ message: string }>('/api/contact', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      });
-      
+
+      const response = await this.repository.submitContact(formData);
+
       return {
         message: response.message || MESSAGES.CONTACT.SEND_SUCCESS,
         success: true,
