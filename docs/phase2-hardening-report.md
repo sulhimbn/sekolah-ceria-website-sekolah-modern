@@ -147,20 +147,30 @@ try {
 ### HARDEN-005: Missing error propagation to error reporter
 **Priority:** P1  
 **Category:** bug  
+**Status:** ✅ **COMPLETED**
+
 **Files Affected:**
-- `src/hooks/api/use-news.ts`
-- `src/hooks/api/use-news-article.ts`
-- `src/hooks/api/use-contact-form.ts`
+- `src/hooks/api/use-news.ts` ✅
+- `src/hooks/api/use-news-article.ts` ✅
+- `src/hooks/api/use-contact-form.ts` ✅
+- `src/hooks/api/use-users.ts` ✅
+- `src/hooks/api/use-chats.ts` ✅
+- `src/hooks/api/use-chat-messages.ts` ✅
 
 **Problem:** Hooks catch errors and set error state but don't report to errorReporter for monitoring.
 
-**Impact:**
-- Errors not tracked in production
-- No visibility into user-facing errors
-- Missing error analytics
+**Resolution:** ✅ All 6 API hooks now include errorReporter.report() calls in their catch blocks, properly reporting errors with:
+- Error message
+- Stack trace (when available)
+- Current URL
+- Timestamp
+- Error level ('error')
+- Category ('network' or 'user')
 
-**Fix:**
-Add errorReporter.report() calls in all hooks' catch blocks.
+**Verification:**
+- All 53 tests pass
+- Build succeeds
+- Lint clean
 
 ---
 
@@ -168,7 +178,7 @@ Add errorReporter.report() calls in all hooks' catch blocks.
 
 ### Immediate (This Session)
 1. ✅ HARDEN-001: Fix DemoPage.tsx to use service layer - **COMPLETED**
-2. 🔧 HARDEN-005: Add error reporting to hooks
+2. ✅ HARDEN-005: Add error reporting to hooks - **COMPLETED**
 
 ### Short Term (Next Session)
 3. 🔧 HARDEN-003: Standardize hook interfaces
@@ -182,7 +192,7 @@ Add errorReporter.report() calls in all hooks' catch blocks.
 ## Phase 2 Success Criteria
 
 - [x] No pages directly call API client
-- [ ] All hooks report errors to errorReporter
+- [x] All hooks report errors to errorReporter
 - [ ] Hook interfaces are consistent
 - [x] Service error handling is DRY (withErrorHandling utilities already in place)
 - [x] Build, lint, tests all pass
