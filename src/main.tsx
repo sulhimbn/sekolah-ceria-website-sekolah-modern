@@ -1,7 +1,7 @@
 import '@/lib/errorReporter';
 import { enableMapSet } from "immer";
 enableMapSet();
-import { StrictMode } from 'react'
+import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -9,53 +9,83 @@ import {
 } from "react-router-dom";
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
+import { PageLoader } from '@/components/PageLoader';
 import '@/index.css'
-// Import pages
-import HomePage from '@/pages/HomePage';
-import AboutPage from '@/pages/AboutPage';
-import AcademicsPage from '@/pages/AcademicsPage';
-import AdmissionsPage from '@/pages/AdmissionsPage';
-import NewsPage from '@/pages/NewsPage';
-import ContactPage from '@/pages/ContactPage';
-import NewsDetailPage from '@/pages/NewsDetailPage';
+
+const HomePage = lazy(() => import('@/pages/HomePage'));
+const AboutPage = lazy(() => import('@/pages/AboutPage'));
+const AcademicsPage = lazy(() => import('@/pages/AcademicsPage'));
+const AdmissionsPage = lazy(() => import('@/pages/AdmissionsPage'));
+const NewsPage = lazy(() => import('@/pages/NewsPage'));
+const ContactPage = lazy(() => import('@/pages/ContactPage'));
+const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'));
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <HomePage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/about",
-    element: <AboutPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AboutPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/academics",
-    element: <AcademicsPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AcademicsPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/admissions",
-    element: <AdmissionsPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AdmissionsPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/news",
-    element: <NewsPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <NewsPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/news/:articleId",
-    element: <NewsDetailPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <NewsDetailPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/contact",
-    element: <ContactPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ContactPage />
+      </Suspense>
+    ),
     errorElement: <RouteErrorBoundary />,
   },
 ]);
-// Do not touch this code
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
