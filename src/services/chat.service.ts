@@ -1,17 +1,19 @@
 import type { Chat, ChatMessage } from '@shared/types';
-import { api } from '@/lib/api-client';
+import type { IChatRepository } from '@/repositories/interfaces';
+import { createChatRepository } from '@/repositories/implementations';
 import { withErrorHandling } from '.';
 
-export interface ChatListResponse {
-  items: Chat[];
-  next: string | null;
-}
-
 export class ChatService {
+  private repository: IChatRepository;
+
+  constructor(repository: IChatRepository = createChatRepository()) {
+    this.repository = repository;
+  }
+
   async listChats(): Promise<Chat[]> {
     return withErrorHandling(
       async () => {
-        const response = await api<ChatListResponse>('/api/chats');
+        const response = await this.repository.fetchChats();
         return response.items;
       },
       'Gagal memuat data chat. Silakan coba lagi nanti.'
@@ -21,10 +23,7 @@ export class ChatService {
   async createChat(title: string): Promise<Chat> {
     return withErrorHandling(
       async () => {
-        const response = await api<Chat>('/api/chats', {
-          method: 'POST',
-          body: JSON.stringify({ title: title.trim() }),
-        });
+        const response = await this.repository.createChat(title);
         return response;
       },
       'Gagal membuat chat. Silakan coba lagi nanti.'
@@ -34,7 +33,7 @@ export class ChatService {
   async getMessages(chatId: string): Promise<ChatMessage[]> {
     return withErrorHandling(
       async () => {
-        const response = await api<ChatMessage[]>(`/api/chats/${chatId}/messages`);
+        const response = await this.repository.fetchMessages(chatId);
         return response;
       },
       'Gagal memuat pesan. Silakan coba lagi nanti.'
@@ -44,10 +43,7 @@ export class ChatService {
   async sendMessage(chatId: string, userId: string, text: string): Promise<ChatMessage> {
     return withErrorHandling(
       async () => {
-        const response = await api<ChatMessage>(`/api/chats/${chatId}/messages`, {
-          method: 'POST',
-          body: JSON.stringify({ userId, text: text.trim() }),
-        });
+        const response = await this.repository.sendMessage(chatId, userId, text);
         return response;
       },
       'Gagal mengirim pesan. Silakan coba lagi nanti.'
