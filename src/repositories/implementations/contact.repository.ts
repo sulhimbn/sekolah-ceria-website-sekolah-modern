@@ -1,4 +1,6 @@
 import { api } from '@/lib/api-client';
+import { validateResponse } from '@/lib/api-validator';
+import { schemas } from '@/lib/zod-schemas';
 import type {
   IContactRepository,
   ContactFormData,
@@ -8,6 +10,7 @@ import type {
 /**
  * API implementation of ContactRepository
  * Submits data to REST API endpoint
+ * Includes runtime validation for API responses
  */
 export class ContactApiRepository implements IContactRepository {
   async submitContact(data: ContactFormData): Promise<ContactResponse> {
@@ -16,9 +19,16 @@ export class ContactApiRepository implements IContactRepository {
       body: JSON.stringify(data),
     });
 
+    // Validate the response and construct the ContactResponse
+    const validated = validateResponse(
+      schemas.contactResponse,
+      { message: response.message, success: true },
+      'ContactResponse'
+    );
+
     return {
-      message: response.message,
-      success: true,
+      message: validated.message,
+      success: validated.success,
     };
   }
 }
