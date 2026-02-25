@@ -38,7 +38,7 @@ export default tseslint.config(
       'import/no-unresolved': [
         'error',
         {
-          ignore: ['cloudflare:workers', 'agents'],
+          ignore: ['cloudflare:workers', 'agents', 'embla-carousel-react', 'input-otp', 'react-resizable-panels', 'i18next', 'react-i18next', 'i18next-browser-languagedetector'],
         },
       ],
 
