@@ -5,6 +5,7 @@ import { VALIDATION_CONFIG } from '@/lib/validation-config';
 import { MESSAGES } from '@/lib/messages';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import { semanticSearchService, type SearchResult } from './semantic-search.service';
+import { withErrorHandling, withConditionalErrorHandling } from '.';
 
 export interface NewsListResponse {
   items: NewsArticle[];
@@ -22,24 +23,28 @@ export class NewsService {
   }
 
   async listArticles(): Promise<NewsArticle[]> {
-    try {
-      const response = await this.repository.fetchArticles();
-      return response.items;
-    } catch (error) {
-      throw new Error(MESSAGES.NEWS.LOAD_FAILED);
-    }
+    return withErrorHandling(
+      async () => {
+        const response = await this.repository.fetchArticles();
+        return response.items;
+      },
+      MESSAGES.NEWS.LOAD_FAILED
+    );
   }
 
   async getArticle(id: string): Promise<NewsArticleDetail> {
-    try {
-      const article = await this.repository.fetchArticle(id);
-      return article;
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('not found')) {
-        throw new Error(MESSAGES.NEWS.ARTICLE_NOT_FOUND);
+    return withConditionalErrorHandling(
+      async () => {
+        const article = await this.repository.fetchArticle(id);
+        return article;
+      },
+      {
+        defaultError: MESSAGES.NEWS.ARTICLE_LOAD_FAILED,
+        notFoundError: MESSAGES.NEWS.ARTICLE_NOT_FOUND,
+        notFoundCheck: (error: unknown) => 
+          error instanceof Error && error.message.includes('not found'),
       }
-      throw new Error(MESSAGES.NEWS.ARTICLE_LOAD_FAILED);
-    }
+    );
   }
 
   /**
