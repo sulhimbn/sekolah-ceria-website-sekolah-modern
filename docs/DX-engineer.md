@@ -1,4 +1,34 @@
-# DX-engineer Long-term Memory
+# TS|# DX-engineer Long-term Memory
+# KM|
+# YS|## Repository: sekolah-ceria-website-sekolah-modern
+# RW|
+# XB|### DX Improvements Applied
+# SY|
+# PX|#### 2026-02-25: Add missing UI component dependencies
+# XW|
+# MN|**Changes:**
+# SK|
+# XX|- Added `embla-carousel-react` (^8.6.0) - carousel component used by UI
+# YZ|- Added `input-otp` (^1.4.2) - OTP input component used by UI
+# BQ|- Added `react-resizable-panels` (^4.6.5) - resizable panels used by UI
+# VS|
+# RJ|**Rationale:**
+# XB|- Three UI components were importing packages not listed in package.json
+# NQ|- This caused ESLint to report `import/no-unresolved` errors
+# YT|- Although Vite could resolve them at build time, ESLint could not
+# HT|
+# RJ|**Verification:**
+# VB|- Cleared ESLint cache (`rm .eslintcache`)
+# NV|- `npm run lint` now passes with 0 errors
+# YQ|- `npm run build:only` succeeds
+# XW|
+# HT|**Files Modified:**
+# TW|
+# JM|- `package.json` - Added three missing dependencies
+# WN|
+# KK|---
+# XW|
+# PX|#### 2026-02-25: Add type-check and lint scripts
 
 ## Repository: sekolah-ceria-website-sekolah-modern
 
