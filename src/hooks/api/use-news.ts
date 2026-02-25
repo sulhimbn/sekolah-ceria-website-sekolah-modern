@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { newsService, type NewsArticleDetail } from '@/services';
+import { newsService, type NewsArticleDetail } from '@/services/news.service';
 import { errorReporter } from '@/lib/errorReporter';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 

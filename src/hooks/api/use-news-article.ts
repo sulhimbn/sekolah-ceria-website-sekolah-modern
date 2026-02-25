@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { newsService } from '@/services';
+import { newsService } from '@/services/news.service';
 import { errorReporter } from '@/lib/errorReporter';
 import type { NewsArticle } from '@shared/types';
 
