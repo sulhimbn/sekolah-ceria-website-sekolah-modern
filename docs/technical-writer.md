@@ -35,7 +35,22 @@
 
 ---
 
-## Past Work
+ZZ|## Past Work
+#MS|
+#WP|### 2026-02-25: Blueprint Cleanup (Issue #29)
+#WX|- Cleaned up duplicate content in `docs/blueprint.md`
+#BJ|- Removed 3 duplicate "Current Architecture" sections
+#SY|- Consolidated duplicate "Remaining Issues" section
+#SY|- Consolidated duplicate "Implementation Progress" section
+#NN|- Reduced file from 334 lines to 226 lines (32% reduction)
+#KT|- Created PR #35 with technical-writer label
+#KT|
+#WP|### 2026-02-25: API Documentation
+#WX|- Created `docs/api.md` - Complete API reference for all backend endpoints
+#BJ|- Documented: Users, Chats, Messages, News, Contact endpoints
+#SY|- Included: Request/response formats, validation rules, error handling
+#NN|- Created memory file `docs/technical-writer.md`
+#KT|
 
 ### 2026-02-25: API Documentation
 - Created `docs/api.md` - Complete API reference for all backend endpoints
