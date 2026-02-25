@@ -4,7 +4,138 @@
 
 ### Frontend Structure
 
-```
+src/
+├── assets/           # Static assets (images, logos)
+├── components/      # React components
+│   ├── layout/      # Layout components (Header, Footer, MainLayout, AppLayout)
+│   ├── ui/          # ShadCN UI components
+│   │   ├── accordion.tsx
+│   │   ├── alert-dialog.tsx
+│   │   ├── alert.tsx
+│   │   ├── aspect-ratio.tsx
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── breadcrumb.tsx
+│   │   ├── button.tsx
+│   │   ├── button.test.tsx
+│   │   ├── calendar.tsx
+│   │   ├── card.tsx
+│   │   ├── card.test.tsx
+│   │   ├── carousel.tsx
+│   │   ├── chart.tsx
+│   │   ├── checkbox.tsx
+│   │   ├── collapsible.tsx
+│   │   ├── command.tsx
+│   │   ├── context-menu.tsx
+│   │   ├── dialog.tsx
+│   │   ├── drawer.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── form.tsx
+│   │   ├── hover-card.tsx
+│   │   ├── input-otp.tsx
+│   │   ├── input.tsx
+│   │   ├── input.test.tsx
+│   │   ├── label.tsx
+│   │   ├── menubar.tsx
+│   │   ├── navigation-menu.tsx
+│   │   ├── pagination.tsx
+│   │   ├── popover.tsx
+│   │   ├── progress.tsx
+│   │   ├── radio-group.tsx
+│   │   ├── resizable.tsx
+│   │   ├── scroll-area.tsx
+│   │   ├── select.tsx
+│   │   ├── separator.tsx
+│   │   ├── sheet.tsx
+│   │   ├── sidebar.tsx
+│   │   ├── skeleton.tsx
+│   │   ├── slider.tsx
+│   │   ├── sonner.tsx
+│   │   ├── switch.tsx
+│   │   ├── table.tsx
+│   │   ├── tabs.tsx
+│   │   ├── textarea.tsx
+│   │   ├── toggle-group.tsx
+│   │   ├── toggle.tsx
+│   │   └── tooltip.tsx
+│   ├── ErrorBoundary.tsx
+│   ├── ErrorBoundary.test.tsx
+│   ├── ErrorFallback.tsx
+│   ├── PageLoader.tsx
+│   ├── PlaceholderImage.tsx
+│   ├── RouteErrorBoundary.tsx
+│   ├── ThemeToggle.tsx
+│   └── app-sidebar.tsx
+├── hooks/          # Custom hooks
+│   ├── api/        # API-related hooks
+│   │   ├── use-news.ts
+│   │   ├── use-news-article.ts
+│   │   ├── use-contact-form.ts
+│   │   ├── use-users.ts
+│   │   ├── use-chats.ts
+│   │   ├── use-chat-messages.ts
+│   │   └── index.ts
+│   ├── use-theme.ts
+│   ├── use-mobile.tsx
+│   ├── useErrorHandler.ts
+│   └── useSkeletonLoader.tsx
+├── i18n/            # Internationalization
+│   ├── index.ts
+│   └── locales/
+│       ├── en.json
+│       └── id.json
+├── lib/            # Utilities
+│   ├── api-client.ts       # API client
+│   ├── api-validator.ts    # Runtime validation with Zod
+│   ├── api-validator.test.ts # Validator tests
+│   ├── errorReporter.ts    # Error reporting
+│   ├── feature-flags.ts    # Feature toggle configuration
+│   ├── messages.ts         # Centralized error messages
+│   ├── mock-data.ts        # Demo data
+│   ├── utils.ts
+│   ├── validation-config.ts # Validation constants
+│   └── zod-schemas.ts      # Zod validation schemas
+├── pages/          # Page components
+│   ├── AboutPage.tsx
+│   ├── AcademicsPage.tsx
+│   ├── AdmissionsPage.tsx
+│   ├── ContactPage.tsx
+│   ├── DemoPage.tsx
+│   ├── HomePage.tsx
+│   ├── NewsDetailPage.tsx
+│   ├── NewsPage.tsx
+│   ├── NotFoundPage.tsx
+│   └── ServerErrorPage.tsx
+├── repositories/   # Data access layer
+│   ├── interfaces/         # Repository contracts
+│   │   ├── news.repository.interface.ts
+│   │   ├── contact.repository.interface.ts
+│   │   ├── user.repository.interface.ts
+│   │   ├── chat.repository.interface.ts
+│   │   └── index.ts
+│   └── implementations/    # Repository implementations
+│       ├── news.repository.ts
+│       ├── contact.repository.ts
+│       ├── user.repository.ts
+│       ├── chat.repository.ts
+│       └── index.ts
+├── services/       # Business logic services
+│   ├── news.service.ts           # News operations
+│   ├── news.service.pure.test.ts # News service tests
+│   ├── news.service.api.test.ts  # API integration tests
+│   ├── contact.service.ts        # Contact operations
+│   ├── contact.service.validation.test.ts
+│   ├── contact.service.api.test.ts
+│   ├── user.service.ts           # User operations
+│   ├── chat.service.ts          # Chat operations
+│   ├── semantic-search.service.ts # AI semantic search
+│   └── index.ts
+├── test/           # Test utilities
+│   └── setup.ts
+├── App.css
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
 src/
 ├── assets/           # Static assets (images, logos)
 ├── components/      # React components (UI + Layout)
