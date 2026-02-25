@@ -3,6 +3,7 @@ import type { IContactRepository } from '@/repositories/interfaces';
 import { createContactRepository } from '@/repositories/implementations';
 import { VALIDATION_CONFIG } from '@/lib/validation-config';
 import { MESSAGES } from '@/lib/messages';
+import { withErrorHandling } from '.';
 
 export interface ContactFormData extends ContactFormPayload {
   timestamp?: number;
@@ -21,21 +22,22 @@ export class ContactService {
   }
 
   async submitContactForm(data: ContactFormPayload): Promise<ContactResponse> {
-    try {
-      const formData: ContactFormData = {
-        ...data,
-        timestamp: Date.now(),
-      };
+    return withErrorHandling(
+      async () => {
+        const formData: ContactFormData = {
+          ...data,
+          timestamp: Date.now(),
+        };
 
-      const response = await this.repository.submitContact(formData);
+        const response = await this.repository.submitContact(formData);
 
-      return {
-        message: response.message || MESSAGES.CONTACT.SEND_SUCCESS,
-        success: true,
-      };
-    } catch (error) {
-      throw new Error(MESSAGES.CONTACT.SEND_FAILED);
-    }
+        return {
+          message: response.message || MESSAGES.CONTACT.SEND_SUCCESS,
+          success: true,
+        };
+      },
+      MESSAGES.CONTACT.SEND_FAILED
+    );
   }
 
   validateContactForm(data: Partial<ContactFormPayload>): { isValid: boolean; errors: Record<string, string> } {
