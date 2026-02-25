@@ -1,4 +1,6 @@
 import { api } from '@/lib/api-client';
+import { validateResponse } from '@/lib/api-validator';
+import { schemas } from '@/lib/zod-schemas';
 import type {
   IChatRepository,
   ChatListResponse,
@@ -8,11 +10,12 @@ import type { Chat, ChatMessage } from '@shared/types';
 /**
  * API implementation of ChatRepository
  * Fetches data from REST API endpoints
+ * Includes runtime validation for API responses
  */
 export class ChatApiRepository implements IChatRepository {
   async fetchChats(): Promise<ChatListResponse> {
     const response = await api<ChatListResponse>('/api/chats');
-    return response;
+    return validateResponse(schemas.chatListResponse, response, 'ChatListResponse');
   }
 
   async createChat(title: string): Promise<Chat> {
@@ -20,12 +23,12 @@ export class ChatApiRepository implements IChatRepository {
       method: 'POST',
       body: JSON.stringify({ title: title.trim() }),
     });
-    return response;
+    return validateResponse(schemas.chat, response, 'Chat');
   }
 
   async fetchMessages(chatId: string): Promise<ChatMessage[]> {
     const response = await api<ChatMessage[]>(`/api/chats/${chatId}/messages`);
-    return response;
+    return validateResponse(schemas.chatMessageList, response, 'ChatMessage[]');
   }
 
   async sendMessage(chatId: string, userId: string, text: string): Promise<ChatMessage> {
@@ -33,7 +36,7 @@ export class ChatApiRepository implements IChatRepository {
       method: 'POST',
       body: JSON.stringify({ userId, text: text.trim() }),
     });
-    return response;
+    return validateResponse(schemas.chatMessage, response, 'ChatMessage');
   }
 }
 
