@@ -59,3 +59,30 @@ export const deleteManySchema = z.object({
 });
 
 export type DeleteManyInput = z.infer<typeof deleteManySchema>;
+
+export type DeleteManyInput = z.infer<typeof deleteManySchema>;
+
+// Auth validation schemas
+export const loginSchema = z.object({
+  email: z.string()
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format email tidak valid.")
+    .trim(),
+  password: z.string()
+    .min(6, "Password minimal 6 karakter."),
+});
+
+export type LoginInput = z.infer<typeof loginSchema>;
+
+export const registerSchema = z.object({
+  name: z.string()
+    .min(2, "Nama minimal 2 karakter.")
+    .trim()
+    .max(100, "Nama terlalu panjang."),
+  email: z.string()
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format email tidak valid.")
+    .trim(),
+  password: z.string()
+    .min(6, "Password minimal 6 karakter."),
+});
+
+export type RegisterInput = z.infer<typeof registerSchema>;

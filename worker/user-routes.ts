@@ -8,7 +8,17 @@ import {
   createChatSchema,
   sendMessageSchema,
   deleteManySchema,
+  loginSchema,
+  registerSchema,
 } from './validators';
+import {
+  authMiddleware,
+  generateAuthResponse,
+  requireAuth,
+  type UserRole,
+  hashPassword,
+  verifyPassword,
+} from './auth';
 
 // Maximum limit for list endpoints to prevent DoS via large page sizes
 const MAX_LIMIT = 100;
@@ -21,6 +31,50 @@ function parseLimit(lq: string | null): number | undefined {
 }
 
 export function userRoutes(app: Hono<{ Bindings: Env }>) {
+  // AUTH - Public routes
+  app.post('/api/auth/register', async c => {
+    const body = await c.req.json();
+    const result = registerSchema.safeParse(body);
+    if (!result.success) {
+      return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
+    }
+    const { name, email, password } = result.data;
+    const userId = crypto.randomUUID();
+    const hashedPassword = await hashPassword(password);
+    await UserEntity.create(c.env, {
+      id: userId,
+      name,
+      email,
+      password: hashedPassword,
+    });
+    return ok(c, await generateAuthResponse(c, userId, name, 'user'));
+  });
+
+  app.post('/api/auth/login', async c => {
+    const body = await c.req.json();
+    const result = loginSchema.safeParse(body);
+    if (!result.success) {
+      return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
+    }
+    const { email, password } = result.data;
+    const users = await UserEntity.list(c.env, null, 100);
+    const user = users.items.find((u: any) => u.email === email);
+    if (!user) return bad(c, 'Email atau password salah');
+    const passwordValid = await verifyPassword(password, user.password || '');
+    if (!passwordValid) return bad(c, 'Email atau password salah');
+    return ok(
+      c,
+      await generateAuthResponse(
+        c,
+        user.id,
+        user.name,
+        (user.role as UserRole) || 'user'
+      )
+    );
+  });
+
+  app.get('/api/auth/me', authMiddleware, c => ok(c, requireAuth(c)));
+
   app.get('/api/test', c =>
     c.json({ success: true, data: { name: 'CF Workers Demo' } })
   );
@@ -103,8 +157,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
   app.get('/api/news', async c => {
     await NewsArticleEntity.ensureSeed(c.env);
     const page = await NewsArticleEntity.list(c.env);
-    // Sort by date descending, assuming date is in a sortable format.
-    // For "DD MMMM YYYY", we need to parse it. A simpler approach for now is to reverse the seeded array order.
+    // Sort by date descending
     page.items.reverse();
     return ok(c, page);
   });
