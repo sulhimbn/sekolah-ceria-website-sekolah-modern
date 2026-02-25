@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { chatService } from '@/services';
-import { useErrorHandler } from '@/useErrorHandler';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { ChatMessage } from '@shared/types';
 
 interface UseChatMessagesReturn {

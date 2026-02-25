@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { userService } from '@/services';
-import { useErrorHandler } from '@/useErrorHandler';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { User } from '@shared/types';
 
 interface UseUsersReturn {

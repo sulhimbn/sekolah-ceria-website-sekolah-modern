@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { contactService } from '@/services';
-import { useErrorHandler } from '@/useErrorHandler';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { ContactFormPayload } from '@shared/types';
 
 interface UseContactFormReturn {
