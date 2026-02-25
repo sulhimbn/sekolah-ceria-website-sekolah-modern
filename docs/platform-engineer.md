@@ -15,12 +15,18 @@ Sekolah Ceria is a Cloudflare Pages + Workers application with React/Vite fronte
 
 ### Workflow Files
 
-| File | Purpose | Trigger |
-|------|---------|---------|
-| `on-push.yml` | Main CI pipeline | Push to main |
-| `on-pull.yml` | PR validation | Pull requests |
-| `main.yml` | Deployment | Manual/Scheduled |
+|| `main.yml` | Deployment | Manual/Scheduled |
 
+### Action Versions
+
+All GitHub Actions should use consistent, pinned versions:
+
+| Action | Recommended Version | Purpose |
+|--------|-------------------|---------|
+| `actions/checkout` | v6 | Repository checkout |
+| `actions/cache` | v5 | Dependency caching |
+| `actions/setup-node` | v6 | Node.js setup |
+| `softprops/turnstyle` | v3 | Concurrency control |
 ### Node.js Setup
 
 ```yaml
