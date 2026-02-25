@@ -1,0 +1,211 @@
+{
+  "common": {
+    "schoolName": "Sekolah Ceria",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "loading": "Memuat...",
+    "submit": "Kirim",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "search": "Cari",
+    "readMore": "Baca selengkapnya",
+    "back": "Kembali",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "viewAll": "Lihat semua",
+    "learnMore": "Pelajari selengkapnya",
+    "download": "Unduh",
+    "contact": "Hubungi kami",
+    "email": "Email",
+    "phone": "Telepon",
+    "address": "Alamat"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "academics": "Akademik",
+    "admissions": "Pendaftaran",
+    "news": "Berita",
+    "contact": "Kontak"
+  },
+  "footer": {
+    "quickLinks": "Tautan Cepat",
+    "contactUs": "Hubungi Kami",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Dapatkan berita terbaru dari kami.",
+    "subscribe": "Daftar",
+    "emailPlaceholder": "Email Anda",
+    "address": "Jl. Pendidikan No. 123, Jakarta",
+    "emailContact": "info@sekolahceria.sch.id",
+    "phoneContact": "(021) 123-4567",
+    "copyright": "Hak cipta dilindungi.",
+    "builtWithLove": "Dibuat dengan ❤️ di Cloudflare",
+    "tagline": "Membentuk generasi cerdas, kreatif, dan berakhlak mulia."
+  },
+  "sidebar": {
+    "search": "Cari",
+    "projects": "Proyek",
+    "explore": "Jelajahi",
+    "starred": "Favorit",
+    "support": "Dukungan",
+    "settings": "Pengaturan",
+    "quickLinks": "Tautan Cepat"
+  },
+  "home": {
+    "hero": {
+      "title": "Selamat Datang di Sekolah Ceria",
+      "subtitle": "Membentuk generasi cerdas, kreatif, dan berakhlak mulia",
+      "cta": "Daftar Sekarang",
+      "ctaSecondary": "Pelajari Lebih Lanjut"
+    },
+    "features": {
+      "title": "Mengapa Memilih Kami",
+      "quality": {
+        "title": "Pendidikan Berkualitas",
+        "description": "Kurikulum modern dan relevan dengan standar internasional"
+      },
+      "facilities": {
+        "title": "Fasilitas Lengkap",
+        "description": "Fasilitas olahraga, seni, dan teknologi yang memadai"
+      },
+      "environment": {
+        "title": "Lingkungan Aman & Nyaman",
+        "description": "Suasana belajar yang positif dan mendukung perkembangan siswa"
+      }
+    },
+    "programs": {
+      "title": "Program Pendidikan",
+      "primary": "Sekolah Dasar",
+      "primaryDesc": "Fondasi kuat untuk masa depan cerah",
+      "secondary": "Sekolah Menengah Pertama",
+      "secondaryDesc": "Pengembangan potensi akademik dan non-akademik",
+      "senior": "Sekolah Menengah Atas",
+      "seniorDesc": "Persiapan menuju perguruan tinggi"
+    },
+    "cta": {
+      "title": "Bergabunglah dengan Kami",
+      "subtitle": "Mari wujudkan pendidikan terbaik untuk anak-anak kita",
+      "button": "Daftar Sekarang"
+    }
+  },
+  "about": {
+    "title": "Tentang Kami",
+    "subtitle": "Membangun masa depan melalui pendidikan karakter",
+    "history": {
+      "title": "Sejarah Singkat",
+      "description": "Sekolah Ceria didirikan dengan visi untuk memberikan pendidikan terbaik bagi generasi penerus bangsa."
+    },
+    "vision": {
+      "title": "Visi",
+      "description": "Menjadi sekolah pilihan utama yang membentuk generasi cerdas, kreatif, dan berakhlak mulia."
+    },
+    "mission": {
+      "title": "Misi",
+      "items": [
+        "Menyediakan pendidikan berkualitas berbasis karakter",
+        "Mengembangkan potensi akademik dan non-akademik siswa",
+        "Menciptakan lingkungan belajar yang aman dan mendukung",
+        "Membangun kemitraan dengan orang tua dan masyarakat"
+      ]
+    },
+    "values": {
+      "title": "Nilai-Nilai Kami",
+      "integrity": "Integritas",
+      "excellence": "Keunggulan",
+      "creativity": "Kreativitas",
+      "respect": "Penghormatan"
+    }
+  },
+  "academics": {
+    "title": "Program Akademik",
+    "subtitle": "Kurikulum komprehensif untuk pengembangan holistik",
+    "levels": {
+      "primary": {
+        "title": "Sekolah Dasar (SD)",
+        "description": "Program pendidikan tingkat dasar yang fokus pada fondasi akademik dan pembentukan karakter."
+      },
+      "secondary": {
+        "title": "Sekolah Menengah Pertama (SMP)",
+        "description": "Pengembangan akademik yang lebih mendalam dengan berbagai ekstrakurikuler."
+      },
+      "senior": {
+        "title": "Sekolah Menengah Atas (SMA)",
+        "description": "Persiapan kompetensi untuk jenjang pendidikan tinggi."
+      }
+    },
+    "curriculum": {
+      "title": "Kurikulum",
+      "description": "Kurikulum berbasis kurikulum nasional dengan pengayaan sesuai kebutuhan siswa."
+    },
+    "extracurricular": {
+      "title": "Ekstrakurikuler",
+      "description": "Berbagai kegiatan untuk mengembangkan minat dan bakat siswa."
+    }
+  },
+  "admissions": {
+    "title": "Pendaftaran",
+    "subtitle": "Bergabunglah dengan keluarga besar Sekolah Ceria",
+    "requirements": {
+      "title": "Persyaratan Pendaftaran",
+      "items": [
+        "Foto kopi Akta Kelahiran",
+        "Foto kopi Kartu Keluarga",
+        "Foto kopi Raport terakhir",
+        "Pas foto terbaru"
+      ]
+    },
+    "process": {
+      "title": "Proses Pendaftaran",
+      "step1": "Mengisi formulir pendaftaran online",
+      "step2": "Menyerapkan dokumen persyaratan",
+      "step3": "Mengikuti tes masuk",
+      "step4": "Mengikuti wawancara orang tua"
+    },
+    "cta": {
+      "title": "Siap Membangun Masa Depan?",
+      "button": "Daftar Sekarang"
+    },
+    "contact": {
+      "title": "Hubungi Kami",
+      "description": "Untuk informasi lebih lanjut tentang pendaftaran"
+    }
+  },
+  "news": {
+    "title": "Berita Terbaru",
+    "subtitle": "Informasi terkini dari Sekolah Ceria",
+    "readMore": "Baca selengkapnya",
+    "published": "Diterbitkan",
+    "author": "Penulis",
+    "category": "Kategori",
+    "noNews": "Belum ada berita",
+    "loadMore": "Muat lebih banyak"
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Kami siap membantu Anda",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "subject": "Subjek",
+      "message": "Pesan",
+      "submit": "Kirim Pesan",
+      "sending": "Mengirim...",
+      "success": "Pesan berhasil dikirim!",
+      "error": "Gagal mengirim pesan. Silakan coba lagi."
+    },
+    "info": {
+      "title": "Informasi Kontak",
+      "address": "Jl. Pendidikan No. 123, Jakarta",
+      "phone": "(021) 123-4567",
+      "email": "info@sekolahceria.sch.id",
+      "hours": "Jam Kerja: Senin - Jumat, 08.00 - 16.00"
+    }
+  },
+  "errors": {
+    "notFound": "Halaman tidak ditemukan",
+    "serverError": "Terjadi kesalahan server",
+    "goHome": "Kembali ke Beranda"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "common": {
+    "schoolName": "Sekolah Ceria",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "readMore": "Read more",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "download": "Download",
+    "contact": "Contact us",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "academics": "Academics",
+    "admissions": "Admissions",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Get the latest news from us.",
+    "subscribe": "Subscribe",
+    "emailPlaceholder": "Your email",
+    "address": "Jl. Pendidikan No. 123, Jakarta",
+    "emailContact": "info@sekolahceria.sch.id",
+    "phoneContact": "(021) 123-4567",
+    "copyright": "All rights reserved.",
+    "builtWithLove": "Built with ❤️ at Cloudflare",
+    "tagline": "Building intelligent, creative, and morally upright generations."
+  },
+  "sidebar": {
+    "search": "Search",
+    "projects": "Projects",
+    "explore": "Explore",
+    "starred": "Starred",
+    "support": "Support",
+    "settings": "Settings",
+    "quickLinks": "Quick Links"
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to Sekolah Ceria",
+      "subtitle": "Building intelligent, creative, and morally upright generations",
+      "cta": "Enroll Now",
+      "ctaSecondary": "Learn More"
+    },
+    "features": {
+      "title": "Why Choose Us",
+      "quality": {
+        "title": "Quality Education",
+        "description": "Modern and relevant curriculum with international standards"
+      },
+      "facilities": {
+        "title": "Complete Facilities",
+        "description": "Adequate sports, arts, and technology facilities"
+      },
+      "environment": {
+        "title": "Safe & Comfortable Environment",
+        "description": "Positive learning atmosphere that supports student development"
+      }
+    },
+    "programs": {
+      "title": "Education Programs",
+      "primary": "Primary School",
+      "primaryDesc": "Strong foundation for a bright future",
+      "secondary": "Junior High School",
+      "secondaryDesc": "Development of academic and non-academic potential",
+      "senior": "Senior High School",
+      "seniorDesc": "Preparation for higher education"
+    },
+    "cta": {
+      "title": "Join Us",
+      "subtitle": "Let's create the best education for our children",
+      "button": "Enroll Now"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Building the future through character education",
+    "history": {
+      "title": "Our History",
+      "description": "Sekolah Ceria was founded with the vision to provide the best education for future generations."
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "To become the preferred school that shapes intelligent, creative, and morally upright generations."
+    },
+    "mission": {
+      "title": "Mission",
+      "items": [
+        "Provide quality character-based education",
+        "Develop students' academic and non-academic potential",
+        "Create a safe and supportive learning environment",
+        "Build partnerships with parents and community"
+      ]
+    },
+    "values": {
+      "title": "Our Values",
+      "integrity": "Integrity",
+      "excellence": "Excellence",
+      "creativity": "Creativity",
+      "respect": "Respect"
+    }
+  },
+  "academics": {
+    "title": "Academic Programs",
+    "subtitle": "Comprehensive curriculum for holistic development",
+    "levels": {
+      "primary": {
+        "title": "Primary School (SD)",
+        "description": "Foundational education focusing on academic basics and character building."
+      },
+      "secondary": {
+        "title": "Junior High School (SMP)",
+        "description": "Deeper academic development with various extracurricular activities."
+      },
+      "senior": {
+        "title": "Senior High School (SMA)",
+        "description": "Competency preparation for higher education levels."
+      }
+    },
+    "curriculum": {
+      "title": "Curriculum",
+      "description": "National curriculum-based with enrichment according to student needs."
+    },
+    "extracurricular": {
+      "title": "Extracurricular Activities",
+      "description": "Various activities to develop students' interests and talents."
+    }
+  },
+  "admissions": {
+    "title": "Admissions",
+    "subtitle": "Join the big family of Sekolah Ceria",
+    "requirements": {
+      "title": "Admission Requirements",
+      "items": [
+        "Copy of Birth Certificate",
+        "Copy of Family Card (Kartu Keluarga)",
+        "Copy of Latest Report Card",
+        "Recent passport-sized photo"
+      ]
+    },
+    "process": {
+      "title": "Admission Process",
+      "step1": "Fill out the online registration form",
+      "step2": "Submit required documents",
+      "step3": "Take the entrance test",
+      "step4": "Attend parent interview"
+    },
+    "cta": {
+      "title": "Ready to Build the Future?",
+      "button": "Enroll Now"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "For more information about admissions"
+    }
+  },
+  "news": {
+    "title": "Latest News",
+    "subtitle": "Latest information from Sekolah Ceria",
+    "readMore": "Read more",
+    "published": "Published",
+    "author": "Author",
+    "category": "Category",
+    "noNews": "No news available",
+    "loadMore": "Load more"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help you",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "Failed to send message. Please try again."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Jl. Pendidikan No. 123, Jakarta",
+      "phone": "(021) 123-4567",
+      "email": "info@sekolahceria.sch.id",
+      "hours": "Office Hours: Monday - Friday, 08.00 - 16.00"
+    }
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "serverError": "Server error occurred",
+    "goHome": "Go to Home"
+  }
+}
