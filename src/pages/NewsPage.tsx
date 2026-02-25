@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowRight, AlertCircle, Inbox } from 'lucide-react';
 import { useNews } from '@/hooks/api';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
 const NewsPage: React.FC = () => {
   const { articles, isLoading, error } = useNews();
   const renderContent = () => {
@@ -51,8 +52,8 @@ const NewsPage: React.FC = () => {
         transition={{ duration: 0.5, delay: index * 0.05 }}
       >
         <Card className="overflow-hidden h-full flex flex-col group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-          <div className="aspect-video bg-school-blue/20 flex items-center justify-center overflow-hidden">
-            <p className="text-gray-500">[Gambar Berita]</p>
+          <div className="aspect-video flex items-center justify-center overflow-hidden">
+            <PlaceholderImage variant="news" className="w-full h-full rounded-lg" />
           </div>
           <CardContent className="p-6 flex-grow flex flex-col">
             <p className="text-sm text-muted-foreground mb-2">{article.date} • {article.author}</p>
