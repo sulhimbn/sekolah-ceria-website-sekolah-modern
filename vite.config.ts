@@ -164,7 +164,8 @@ export default ({ mode }: { mode: string }) => {
               }
             }
           ]
-        }
+        },
+        offlinePage: 'offline.html'
       })
     ],
     build: {
