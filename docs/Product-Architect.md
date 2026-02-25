@@ -79,6 +79,34 @@ shared/
 
 ## Recent Changes
 
+- 2026-02-25: Fixed TypeScript any types and deduplicated error handling (PR #99)
+  - Fixed `any` types in use-news.ts and ErrorFallback.tsx
+  - Created useErrorHandler hook to centralize error handling across 4+ hooks
+  - Created SkeletonLoader component with pre-defined variants
+- 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
+- 2026-02-25: Increased bundle size limit from 700KB to 750KB
+- 2026-02-25: Removed unused dependencies (@dnd-kit, react-use, react-swipeable, input-otp, embla-carousel, react-resizable-panels, react-flow)
+- 2026-02-25: Bundle size tracking already exists in build script (scripts/report-bundle-size.js)
+
+## New Architecture Patterns
+
+### useErrorHandler Hook
+- Location: `src/hooks/useErrorHandler.ts`
+- Provides standardized error handling across all API hooks
+- Reduces code duplication
+- Used by: use-users, use-news, use-contact-form, use-chat-messages
+
+### SkeletonLoader Component
+- Location: `src/components/SkeletonLoader.tsx`
+- Pre-defined variants: hero, card, list, article
+- Provides consistent loading placeholders
+
+## Last Updated
+
+- Date: 2026-02-25
+- Agent: Product-Architect (ulw-loop)
+- Changes: TypeScript quality fixes, error handling deduplication, skeleton loader component
+
 - 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
 - 2026-02-25: Increased bundle size limit from 700KB to 750KB
 - 2026-02-25: Removed unused dependencies (@dnd-kit, react-use, react-swipeable, input-otp, embla-carousel, react-resizable-panels, react-flow)
