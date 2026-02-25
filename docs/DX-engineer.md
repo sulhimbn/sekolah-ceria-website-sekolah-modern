@@ -93,4 +93,30 @@
 
 **Files Modified:**
 
-- `scripts/report-bundle-size.js` - Changed `SIZE_LIMIT_KB` from 700 to 750
+VH|- `scripts/report-bundle-size.js` - Changed `SIZE_LIMIT_KB` from 700 to 750
+
+---
+
+#### 2026-02-25: Fix TypeScript any types and create deduplication hooks
+
+**Changes:**
+
+- Fixed `use-news.ts`: Changed `articles as any` to `articles as NewsArticle[]` (proper type)
+- Fixed `ErrorFallback.tsx`: Changed `error?: Error | any` to `error?: unknown` (type-safe)
+- Created `useErrorHandler.ts`: Custom hook that extracts common error handling patterns
+- Created `useSkeletonLoader.tsx`: Reusable skeleton components for loading states
+
+**Rationale:**
+
+- Issue #96 explicitly requested fixing TypeScript `any` types for better type safety
+- The `any` type bypasses TypeScript's type checking - using `unknown` forces proper type narrowing
+- Error handling patterns were duplicated across 6+ hook files - extracted to reusable hook
+- Skeleton loading patterns were duplicated in HomePage and NewsPage - extracted to reusable components
+- These hooks are now available for other developers to use
+
+**Files Modified:**
+
+- `src/hooks/api/use-news.ts` - Fixed type assertion
+- `src/components/ErrorFallback.tsx` - Fixed error prop type
+- `src/hooks/useErrorHandler.ts` - Created new hook
+- `src/hooks/useSkeletonLoader.tsx` - Created new hook
