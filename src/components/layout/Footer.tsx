@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Facebook, Twitter, Instagram } from 'lucide-react';
+
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-white border-t">
@@ -17,13 +18,31 @@ export const Footer: React.FC = () => {
               Membentuk generasi cerdas, kreatif, dan berakhlak mulia.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook Sekolah Ceria" className="text-muted-foreground hover:text-school-blue transition-colors">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Facebook"
+                className="text-muted-foreground hover:text-school-blue transition-colors"
+              >
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter Sekolah Ceria" className="text-muted-foreground hover:text-school-blue transition-colors">
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Twitter"
+                className="text-muted-foreground hover:text-school-blue transition-colors"
+              >
                 <Twitter className="h-6 w-6" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram Sekolah Ceria" className="text-muted-foreground hover:text-school-blue transition-colors">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Instagram"
+                className="text-muted-foreground hover:text-school-blue transition-colors"
+              >
                 <Instagram className="h-6 w-6" />
               </a>
             </div>
@@ -48,10 +67,20 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold text-gray-900">Newsletter</h3>
             <p className="mt-4 text-muted-foreground">Dapatkan berita terbaru dari kami.</p>
-            <form className="mt-4 flex" aria-label="Newsletter subscription">
+            <form className="mt-4 flex" aria-label="Newsletter subscription form">
               <label htmlFor="newsletter-email" className="sr-only">Email Anda</label>
-              <input id="newsletter-email" type="email" placeholder="Email Anda" className="w-full rounded-l-md border-gray-300 px-4 py-2 focus:border-school-blue focus:ring-school-blue" />
-              <button type="submit" className="rounded-r-md bg-school-blue px-4 py-2 text-white hover:bg-opacity-90 transition-colors">
+              <input 
+                id="newsletter-email"
+                type="email" 
+                placeholder="Email Anda" 
+                required
+                className="w-full rounded-l-md border-gray-300 px-4 py-2 focus:border-school-blue focus:ring-school-blue" 
+              />
+              <button 
+                type="submit" 
+                className="rounded-r-md bg-school-blue px-4 py-2 text-white hover:bg-opacity-90 transition-colors"
+                aria-label="Subscribe to newsletter"
+              >
                 Daftar
               </button>
             </form>
