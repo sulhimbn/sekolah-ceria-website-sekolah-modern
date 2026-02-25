@@ -20,6 +20,8 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "analyze": "vite build --mode analyze"
   },
   "dependencies": {
@@ -90,6 +92,7 @@
     "@cloudflare/vite-plugin": "^1.9.4",
     "@cloudflare/workers-types": "^4.20250807.0",
     "@eslint/js": "^9.22.0",
+    "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@types/node": "^22.15.3",
