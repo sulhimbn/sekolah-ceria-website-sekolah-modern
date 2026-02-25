@@ -4,12 +4,15 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookCopy, Palette, Dumbbell, Music, Code } from 'lucide-react';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
+
 const extracurriculars = [
   { icon: Dumbbell, name: 'Klub Olahraga', description: 'Sepak bola, basket, bulu tangkis, dan renang.' },
   { icon: Palette, name: 'Seni & Kerajinan', description: 'Menggambar, melukis, dan membuat kerajinan tangan.' },
   { icon: Music, name: 'Musik & Tari', description: 'Paduan suara, band, angklung, dan tari tradisional.' },
   { icon: Code, name: 'Klub STEM', description: 'Robotika, coding, dan eksperimen sains yang menyenangkan.' },
 ];
+
 const AcademicsPage: React.FC = () => {
   return (
     <MainLayout>
@@ -33,6 +36,7 @@ const AcademicsPage: React.FC = () => {
           </motion.p>
         </div>
       </div>
+
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -45,12 +49,10 @@ const AcademicsPage: React.FC = () => {
             >
               <h2 className="text-4xl font-bold font-display text-gray-900">Kurikulum Kami</h2>
               <p className="text-lg text-muted-foreground">
-                Sekolah Ceria mengimplementasikan Kurikulum Merdeka yang diperkaya dengan program-program unggulan sekolah. Pendekatan kami berpusat pada siswa, mendorong pemikiran kritis, kolaborasi, dan kreativitas.
+                Sekolah Ceria mengimplementasikan Kurikulum Merdeka yang diperkaya dengan program-programunggulan sekolah. Pendekatan kami berpusat pada siswa, mendorong pemikiran kritis, kolaborasi, dan kreativitas.
               </p>
-              <div className="aspect-video bg-school-yellow rounded-3xl p-4 shadow-lg mt-8">
-                <div className="w-full h-full bg-white/50 rounded-2xl flex items-center justify-center">
-                  <p className="text-2xl font-semibold text-gray-600">[Ilustrasi Kurikulum]</p>
-                </div>
+              <div className="aspect-video rounded-3xl p-1 shadow-lg mt-8">
+                <PlaceholderImage variant="curriculum" className="w-full h-full rounded-2xl" />
               </div>
             </motion.div>
             <motion.div
@@ -89,12 +91,13 @@ const AcademicsPage: React.FC = () => {
           </div>
         </div>
       </section>
+
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-4xl font-bold font-display text-gray-900">Kegiatan Ekstrakurikuler</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Kami percaya belajar tidak hanya terjadi di dalam kelas. Siswa dapat menyalurkan energi dan kreativitas mereka melalui berbagai pilihan ekstrakurikuler.
+              kami percaya belajar tidak hanya terjadi di dalam kelas. Siswa dapat menyalurkan energi dan kreativitas mereka melalui berbagai pilihan ekstrakurikuler.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -125,4 +128,5 @@ const AcademicsPage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default AcademicsPage;
