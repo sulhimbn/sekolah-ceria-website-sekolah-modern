@@ -60,7 +60,6 @@ export const deleteManySchema = z.object({
 
 export type DeleteManyInput = z.infer<typeof deleteManySchema>;
 
-export type DeleteManyInput = z.infer<typeof deleteManySchema>;
 
 // Auth validation schemas
 export const loginSchema = z.object({

@@ -4,17 +4,13 @@ export interface ApiResponse<T = unknown> {
   error?: string;
 }
 // Minimal real-world chat example types (shared by frontend and worker)
-// Minimal real-world chat example types (shared by frontend and worker)
 export interface User {
   id: string;
   name: string;
   email?: string;
   password?: string;
-  role?: string;
-}
-  id: string;
-  name: string;
-}
+  }
+
 export interface Chat {
   id: string;
   title: string;
