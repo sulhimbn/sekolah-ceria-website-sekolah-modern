@@ -9,10 +9,13 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { errorReporter } from '@/lib/errorReporter';
 import { newsService } from '@/services';
 import type { NewsArticle } from '@shared/types';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
+
 const HomePage: React.FC = () => {
   const [latestNews, setLatestNews] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -37,6 +40,7 @@ const HomePage: React.FC = () => {
     };
     fetchNews();
   }, []);
+
   const testimonials = [
     {
       quote: "Sekolah Ceria memberikan fondasi pendidikan yang kuat bagi anak saya. Guru-gurunya sangat berdedikasi!",
@@ -54,6 +58,7 @@ const HomePage: React.FC = () => {
       role: "Alumni",
     },
   ];
+
   const NewsSectionContent = () => {
     if (isLoading) {
       return Array.from({ length: 3 }).map((_, index) => (
@@ -87,8 +92,8 @@ const HomePage: React.FC = () => {
         transition={{ duration: 0.5, delay: index * 0.1 }}
       >
         <Card className="overflow-hidden h-full flex flex-col group">
-          <div className="aspect-video bg-school-blue/20 flex items-center justify-center overflow-hidden">
-            <p className="text-gray-500">[Gambar Berita]</p>
+          <div className="aspect-video flex items-center justify-center overflow-hidden">
+            <PlaceholderImage variant="news" className="w-full h-full rounded-lg" />
           </div>
           <CardContent className="p-6 flex-grow flex flex-col">
             <p className="text-sm text-muted-foreground mb-2">{article.date} • {article.author}</p>
@@ -102,6 +107,7 @@ const HomePage: React.FC = () => {
       </motion.div>
     ));
   };
+
   return (
     <MainLayout>
       {/* Hero Section */}
@@ -134,15 +140,14 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="aspect-video bg-school-yellow rounded-3xl p-4 shadow-lg">
-                 <div className="w-full h-full bg-white/50 rounded-2xl flex items-center justify-center">
-                    <p className="text-2xl font-semibold text-gray-600">[Ilustrasi Sekolah Ceria]</p>
-                 </div>
+              <div className="aspect-video rounded-3xl p-1 shadow-lg">
+                <PlaceholderImage variant="school" className="w-full h-full rounded-2xl" />
               </div>
             </motion.div>
           </div>
         </div>
       </section>
+
       {/* Featured Programs Section */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -181,6 +186,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
       {/* Latest News Section */}
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,6 +204,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
       {/* Testimonials Section */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -229,4 +236,5 @@ const HomePage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default HomePage;

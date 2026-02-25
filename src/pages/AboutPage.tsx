@@ -4,12 +4,15 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Target, Eye, Heart } from 'lucide-react';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
+
 const teachers = [
   { name: 'Dr. Indah Permata, M.Pd.', role: 'Kepala Sekolah', image: 'https://i.pravatar.cc/150?img=1' },
   { name: 'Bambang Wijoyo, S.Pd.', role: 'Guru Matematika', image: 'https://i.pravatar.cc/150?img=2' },
   { name: 'Siti Aminah, S.S.', role: 'Guru Bahasa Inggris', image: 'https://i.pravatar.cc/150?img=3' },
   { name: 'Agus Setiawan, S.Or.', role: 'Guru Olahraga', image: 'https://i.pravatar.cc/150?img=4' },
 ];
+
 const AboutPage: React.FC = () => {
   return (
     <MainLayout>
@@ -33,6 +36,7 @@ const AboutPage: React.FC = () => {
           </motion.p>
         </div>
       </div>
+
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -42,10 +46,8 @@ const AboutPage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="aspect-video bg-school-blue rounded-3xl p-4 shadow-lg">
-                <div className="w-full h-full bg-white/50 rounded-2xl flex items-center justify-center">
-                  <p className="text-2xl font-semibold text-gray-600">[Ilustrasi Sejarah Sekolah]</p>
-                </div>
+              <div className="aspect-video rounded-3xl p-1 shadow-lg">
+                <PlaceholderImage variant="history" className="w-full h-full rounded-2xl" />
               </div>
             </motion.div>
             <motion.div
@@ -63,6 +65,7 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
       </section>
+
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -90,12 +93,13 @@ const AboutPage: React.FC = () => {
                   <div className="mx-auto bg-school-yellow p-4 rounded-full w-fit"><Heart className="h-8 w-8 text-school-blue" /></div>
                   <CardTitle className="pt-4 font-display text-3xl">Nilai-Nilai</CardTitle>
                 </CardHeader>
-                <CardContent><p className="text-muted-foreground">Integritas, Kreativitas, Kepedulian, Keunggulan, dan Kolaborasi menjadi pilar utama dalam setiap aspek kegiatan sekolah kami.</p></CardContent>
+                <CardContent><p className="text-muted-foreground">Integritas, Kreativitas, KepCartney, Keunggulan, dan Kolaborasi menjadi pilar utama dalam setiap aspek kegiatan sekolah kami.</p></CardContent>
               </Card>
             </motion.div>
           </div>
         </div>
       </section>
+
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
@@ -128,4 +132,5 @@ const AboutPage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default AboutPage;
