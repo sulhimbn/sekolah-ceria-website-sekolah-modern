@@ -39,6 +39,14 @@
 
 ## Past Work
 
+### 2026-02-25: Technical Writer Memory Cleanup (PR #52)
+
+- Fixed duplicate content in `docs/technical-writer.md`
+- Removed duplicate "API Documentation" section (was repeated 2x)
+- Cleaned up formatting and spacing issues
+- Updated PR #35 status to reflect MERGED state
+- Created PR #52 with technical-writer label
+
 ### 2026-02-25: Blueprint Cleanup (Issue #29)
 
 - Cleaned up duplicate content in `docs/blueprint.md`
