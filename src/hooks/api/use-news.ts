@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { newsService, type NewsArticleDetail } from '@/services/news.service';
-import { errorReporter } from '@/lib/errorReporter';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
+import { useErrorHandler } from './useErrorHandler';
 
 interface UseNewsReturn {
   articles: NewsArticleDetail[];
@@ -23,23 +23,19 @@ export function useNews(): UseNewsReturn {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { handleError } = useErrorHandler(setError, {
+    defaultMessage: 'Gagal memuat berita.',
+    category: 'network',
+  });
+
   const fetchNews = async () => {
     try {
       setIsLoading(true);
       setError(null);
       const data = await newsService.listArticles();
-      setArticles(data as NewsArticleDetail[]);
+      setArticles(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
+      handleError(err);
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +55,7 @@ export function useNews(): UseNewsReturn {
 
 /**
  * Hook for news with semantic search support
- * 
+ *
  * Provides search functionality using TF-IDF based semantic search
  * when enabled, with fallback to keyword search.
  */
@@ -70,23 +66,19 @@ export function useNewsSearch(): UseNewsSearchReturn {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
+  const { handleError } = useErrorHandler(setError, {
+    defaultMessage: 'Gagal memuat berita.',
+    category: 'network',
+  });
+
   const fetchNews = async () => {
     try {
       setIsLoading(true);
       setError(null);
       const data = await newsService.listArticles();
-      setArticles(data as NewsArticleDetail[]);
+      setArticles(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
+      handleError(err);
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +102,7 @@ export function useNewsSearch(): UseNewsSearchReturn {
     setIsSearching(true);
     try {
       // Use the news service search which handles semantic + fallback
-      const results = newsService.searchArticles(searchQuery, articles as any);
+      const results = newsService.searchArticles(searchQuery, articles);
       return results as NewsArticleDetail[];
     } finally {
       // Use setTimeout to avoid blocking UI
