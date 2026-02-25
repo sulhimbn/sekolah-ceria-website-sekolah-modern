@@ -2,15 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 import { chatService } from '@/services';
 import { errorReporter } from '@/lib/errorReporter';
 import type { Chat } from '@shared/types';
+import type { ApiQueryHookResult } from './index';
 
-interface UseChatsReturn {
+type UseChatsReturn = ApiQueryHookResult<Chat[]> & {
+  /** Backward compatible alias for data */
   chats: Chat[];
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
+  /** Mutation: Create a new chat */
   createChat: (title: string) => Promise<Chat | null>;
+  /** Mutation loading state */
   isCreating: boolean;
-}
+};
 
 export function useChats(): UseChatsReturn {
   const [chats, setChats] = useState<Chat[]>([]);
@@ -25,7 +26,8 @@ export function useChats(): UseChatsReturn {
       const data = await chatService.listChats();
       setChats(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat data chat.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal memuat data chat.';
       setError(errorMessage);
       errorReporter.report({
         message: errorMessage,
@@ -40,36 +42,41 @@ export function useChats(): UseChatsReturn {
     }
   }, []);
 
-  const createChat = useCallback(async (title: string): Promise<Chat | null> => {
-    if (!title.trim()) return null;
-    
-    try {
-      setIsCreating(true);
-      const newChat = await chatService.createChat(title.trim());
-      setChats(prev => [...prev, newChat]);
-      return newChat;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal membuat chat.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
-      return null;
-    } finally {
-      setIsCreating(false);
-    }
-  }, []);
+  const createChat = useCallback(
+    async (title: string): Promise<Chat | null> => {
+      if (!title.trim()) return null;
+
+      try {
+        setIsCreating(true);
+        const newChat = await chatService.createChat(title.trim());
+        setChats(prev => [...prev, newChat]);
+        return newChat;
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Gagal membuat chat.';
+        setError(errorMessage);
+        errorReporter.report({
+          message: errorMessage,
+          stack: err instanceof Error ? err.stack : undefined,
+          url: typeof window !== 'undefined' ? window.location.href : '',
+          timestamp: new Date().toISOString(),
+          level: 'error',
+          category: 'user',
+        });
+        return null;
+      } finally {
+        setIsCreating(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     fetchChats();
   }, [fetchChats]);
 
   return {
+    data: chats,
     chats,
     isLoading,
     error,

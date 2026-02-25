@@ -2,21 +2,22 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { newsService, type NewsArticleDetail } from '@/services/news.service';
 import { errorReporter } from '@/lib/errorReporter';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
+import type { ApiQueryHookResult } from './index';
 
-interface UseNewsReturn {
+type UseNewsReturn = ApiQueryHookResult<NewsArticleDetail[]> & {
+  /** Backward compatible alias for data */
   articles: NewsArticleDetail[];
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
+};
 
-interface UseNewsSearchReturn extends UseNewsReturn {
+type UseNewsSearchReturn = ApiQueryHookResult<NewsArticleDetail[]> & {
+  /** Backward compatible alias for data */
+  articles: NewsArticleDetail[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   searchResults: NewsArticleDetail[];
   isSearching: boolean;
   searchMode: 'semantic' | 'keyword';
-}
+};
 
 export function useNews(): UseNewsReturn {
   const [articles, setArticles] = useState<NewsArticleDetail[]>([]);
@@ -30,7 +31,8 @@ export function useNews(): UseNewsReturn {
       const data = await newsService.listArticles();
       setArticles(data as NewsArticleDetail[]);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal memuat berita.';
       setError(errorMessage);
       errorReporter.report({
         message: errorMessage,
@@ -50,6 +52,7 @@ export function useNews(): UseNewsReturn {
   }, []);
 
   return {
+    data: articles,
     articles,
     isLoading,
     error,
@@ -59,7 +62,7 @@ export function useNews(): UseNewsReturn {
 
 /**
  * Hook for news with semantic search support
- * 
+ *
  * Provides search functionality using TF-IDF based semantic search
  * when enabled, with fallback to keyword search.
  */
@@ -77,7 +80,8 @@ export function useNewsSearch(): UseNewsSearchReturn {
       const data = await newsService.listArticles();
       setArticles(data as NewsArticleDetail[]);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat berita.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal memuat berita.';
       setError(errorMessage);
       errorReporter.report({
         message: errorMessage,
@@ -123,6 +127,7 @@ export function useNewsSearch(): UseNewsSearchReturn {
   }, []);
 
   return {
+    data: articles,
     articles,
     isLoading,
     error,
