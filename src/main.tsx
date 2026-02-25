@@ -1,16 +1,13 @@
 import '@/lib/errorReporter';
-import { enableMapSet } from "immer";
+import { enableMapSet } from 'immer';
 enableMapSet();
-import { StrictMode, Suspense, lazy } from 'react'
-import { createRoot } from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { StrictMode, Suspense, lazy } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import { PageLoader } from '@/components/PageLoader';
-import '@/index.css'
+import '@/index.css';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const AboutPage = lazy(() => import('@/pages/AboutPage'));
@@ -19,10 +16,12 @@ const AdmissionsPage = lazy(() => import('@/pages/AdmissionsPage'));
 const NewsPage = lazy(() => import('@/pages/NewsPage'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const ServerErrorPage = lazy(() => import('@/pages/ServerErrorPage'));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <Suspense fallback={<PageLoader />}>
         <HomePage />
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/about",
+    path: '/about',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AboutPage />
@@ -40,7 +39,7 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/academics",
+    path: '/academics',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AcademicsPage />
@@ -49,7 +48,7 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/admissions",
+    path: '/admissions',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AdmissionsPage />
@@ -58,7 +57,7 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/news",
+    path: '/news',
     element: (
       <Suspense fallback={<PageLoader />}>
         <NewsPage />
@@ -67,7 +66,7 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/news/:articleId",
+    path: '/news/:articleId',
     element: (
       <Suspense fallback={<PageLoader />}>
         <NewsDetailPage />
@@ -76,13 +75,39 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
   {
-    path: "/contact",
+    path: '/contact',
     element: (
       <Suspense fallback={<PageLoader />}>
         <ContactPage />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
+  },
+  // Custom error pages
+  {
+    path: '/404',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/500',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ServerErrorPage />
+      </Suspense>
+    ),
+  },
+  // Catch-all for 404
+  {
+    path: '*',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
   },
 ]);
 
@@ -91,5 +116,5 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <RouterProvider router={router} />
     </ErrorBoundary>
-  </StrictMode>,
-)
+  </StrictMode>
+);
