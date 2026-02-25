@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Home, Layers, Compass, Star, Settings, LifeBuoy } from "lucide-react";
 import {
   Sidebar,
@@ -30,13 +31,13 @@ export function AppSidebar(): JSX.Element {
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
-                <a href="#"><Home /> <span>Home</span></a>
+              <SidebarMenuButton asChild isActive={useLocation().pathname === "/"}>
+                <Link to="/"><Home /> <span>Home</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Layers /> <span>Projects</span></a>
+                <Link to="/admissions"><Layers /> <span>Projects</span></Link>
               </SidebarMenuButton>
               <SidebarMenuAction>
                 <Star className="size-4" />
@@ -44,7 +45,7 @@ export function AppSidebar(): JSX.Element {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Compass /> <span>Explore</span></a>
+                <Link to="/news"><Compass /> <span>Explore</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -57,18 +58,18 @@ export function AppSidebar(): JSX.Element {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Star /> <span>Starred</span></a>
+                <Link to="/news"><Star /> <span>Starred</span></Link>
               </SidebarMenuButton>
               <SidebarMenuBadge>5</SidebarMenuBadge>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><LifeBuoy /> <span>Support</span></a>
+                <Link to="/contact"><LifeBuoy /> <span>Support</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#"><Settings /> <span>Settings</span></a>
+                <Link to="/about"><Settings /> <span>Settings</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
