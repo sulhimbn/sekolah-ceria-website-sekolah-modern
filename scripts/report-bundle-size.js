@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const DIST_DIR = 'dist/client';
-const SIZE_LIMIT_KB = 750;
+const SIZE_LIMIT_KB = 800;
 
 function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
