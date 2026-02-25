@@ -13,6 +13,15 @@ This document serves as the long-term memory for the security-engineer agent. It
    - Referrer-Policy: strict-origin-when-cross-origin
    - Permissions-Policy: geolocation=(), microphone=(), camera=()
    - Content-Security-Policy (CSP)
+   - Strict-Transport-Security (HSTS): max-age=31536000; includeSubDomains
+   - Cross-Origin-Opener-Policy (COOP): same-origin
+   - Cross-Origin-Resource-Policy (CORP): same-origin
+   - X-Content-Type-Options: nosniff
+   - X-Frame-Options: DENY
+   - X-XSS-Protection: 1; mode=block
+   - Referrer-Policy: strict-origin-when-cross-origin
+   - Permissions-Policy: geolocation=(), microphone=(), camera=()
+   - Content-Security-Policy (CSP)
 
 2. **CORS Configuration**:
    - Configurable allowed origins via ALLOWED_ORIGINS environment variable
@@ -55,7 +64,32 @@ app.use('/api/*', strictRateLimiter);
 
 **Limitations**:
 - Per-worker instance state (not shared across workers)
-- For production, recommend using Cloudflare Rate Limiting or KV store
+ZR|- For production, recommend using Cloudflare Rate Limiting or KV store
+
+### 2026-02-25: Additional Security Headers
+**File Changed**: worker/index.ts
+
+**Description**: Added three additional security headers to enhance browser security.
+
+**Implementation Details**:
+- **Strict-Transport-Security (HSTS)**: Forces browsers to use HTTPS for 1 year (max-age=31536000) and includes subdomains
+- **Cross-Origin-Opener-Policy (COOP)**: Prevents cross-origin documents from accessing your page's browsing context
+- **Cross-Origin-Resource-Policy (CORP)**: Prevents cross-origin loading of resources from your page
+
+**Security Benefits**:
+- HSTS: Protects against man-in-the-middle attacks and protocol downgrade attacks
+- COOP: Prevents window-based attacks (e.g., opening a malicious page that can access your page)
+- CORP: Mitigates Spectre-like attacks by preventing cross-origin resource loading
+
+**Code Addition**:
+```typescript
+// Additional security headers
+c.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+c.header('Cross-Origin-Opener-Policy', 'same-origin');
+c.header('Cross-Origin-Resource-Policy', 'same-origin');
+```
+
+## Potential Future Improvements
 
 ## Potential Future Improvements
 
@@ -64,6 +98,12 @@ app.use('/api/*', strictRateLimiter);
    - Implement KV store for distributed rate limiting
 
 2. **Content Security Policy Hardening**:
+   - Remove 'unsafe-inline' and 'unsafe-eval' from CSP
+   - Use nonces or hashes for inline scripts
+
+3. ~~**Additional Security Headers**~~ - ✅ IMPLEMENTED
+
+4. **Authentication/Authorization**:
    - Remove 'unsafe-inline' and 'unsafe-eval' from CSP
    - Use nonces or hashes for inline scripts
 
@@ -97,6 +137,9 @@ npm run test
 ## Security Scanning Results
 
 ### XSS Prevention
+- dangerouslySetInnerHTML found in chart.tsx (used for CSS theming only - low risk)
+- No eval() usage found
+- Input validation in place via Zod
 - No usage of dangerouslySetInnerHTML found
 - No eval() usage found
 - Input validation in place via Zod
