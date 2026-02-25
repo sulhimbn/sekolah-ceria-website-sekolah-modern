@@ -3,14 +3,15 @@
 ## Current Architecture
 
 ### Frontend Structure
+
 ```
 src/
-├── components/        # React components (UI + Layout)
-│   ├── layout/      # Layout components (Header, Footer, MainLayout)
+├── assets/           # Static assets (images, logos)
+├── components/      # React components (UI + Layout)
+│   ├── layout/      # Layout components (Header, Footer, MainLayout, AppLayout)
 │   └── ui/          # ShadCN UI components
-├── pages/          # Page components (refactored to use hooks/services)
 ├── hooks/          # Custom hooks
-│   ├── api/        # API-related hooks (useNews, useNewsArticle, useContactForm)
+│   ├── api/        # API-related hooks
 │   │   ├── use-news.ts
 │   │   ├── use-news-article.ts
 │   │   ├── use-contact-form.ts
@@ -18,13 +19,36 @@ src/
 │   │   ├── use-chats.ts
 │   │   ├── use-chat-messages.ts
 │   │   └── index.ts
-│   └── ui/         # UI-related hooks (useTheme, useMobile)
-├── services/       # Business logic services
-│   ├── news.service.ts      # News operations: list, get, search, filter
-│   ├── contact.service.ts   # Contact operations: submit, validate
-│   ├── user.service.ts      # User operations: list, create
-│   ├── chat.service.ts     # Chat operations: list, messages
-│   └── index.ts
+│   └── ui/         # UI-related hooks
+│       ├── use-theme.ts
+│       └── use-mobile.tsx
+├── i18n/            # Internationalization
+│   ├── index.ts
+│   └── locales/
+│       ├── en.json
+│       └── id.json
+├── lib/            # Utilities
+│   ├── api-client.ts       # API client
+│   ├── api-validator.ts    # Runtime validation with Zod
+│   ├── api-validator.test.ts # Validator tests
+│   ├── error-reporter.ts   # Error reporting
+│   ├── feature-flags.ts    # Feature toggle configuration
+│   ├── messages.ts         # Centralized error messages
+│   ├── mock-data.ts        # Demo data
+│   ├── utils.ts
+│   ├── validation-config.ts # Validation constants
+│   └── zod-schemas.ts      # Zod validation schemas
+├── pages/          # Page components
+│   ├── AboutPage.tsx
+│   ├── AcademicsPage.tsx
+│   ├── AdmissionsPage.tsx
+│   ├── ContactPage.tsx
+│   ├── DemoPage.tsx
+│   ├── HomePage.tsx
+│   ├── NewsDetailPage.tsx
+│   ├── NewsPage.tsx
+│   ├── NotFoundPage.tsx
+│   └── ServerErrorPage.tsx
 ├── repositories/   # Data access layer
 │   ├── interfaces/         # Repository contracts
 │   │   ├── news.repository.interface.ts
@@ -38,24 +62,38 @@ src/
 │       ├── user.repository.ts
 │       ├── chat.repository.ts
 │       └── index.ts
-└── lib/            # Utilities
-    ├── api-client.ts       # API client
-    ├── error-reporter.ts   # Error reporting
-    ├── messages.ts         # Centralized error messages
-    ├── validation-config.ts # Validation constants
-    └── utils.ts
+├── services/       # Business logic services
+│   ├── news.service.ts           # News operations
+│   ├── news.service.pure.test.ts # News service tests
+│   ├── news.service.api.test.ts  # API integration tests
+│   ├── contact.service.ts        # Contact operations
+│   ├── contact.service.validation.test.ts
+│   ├── contact.service.api.test.ts
+│   ├── user.service.ts           # User operations
+│   ├── chat.service.ts          # Chat operations
+│   ├── semantic-search.service.ts # AI semantic search
+│   └── index.ts
+├── test/           # Test utilities
+│   └── setup.ts
+├── App.css
+├── index.css
+├── main.tsx
+└── vite-env.d.ts
 ```
 
 ### Backend Structure
+
 ```
 worker/
 ├── index.ts        # Worker entry point (Hono app setup)
-├── user-routes.ts  # API route definitions
+├── user-routes.ts  # API route definitions (all routes in single file)
 ├── core-utils.ts   # Durable Object utilities (Entity, Index base classes)
-└── entities.ts     # Entity implementations (User, Chat, News)
+├── entities.ts     # Entity implementations (User, Chat, News)
+└── validators.ts  # Request validation schemas (Zod)
 ```
 
 ### Shared Types
+
 ```
 shared/
 ├── types.ts        # TypeScript types (API contracts)
@@ -67,19 +105,19 @@ shared/
 ## Remaining Issues (Post-Refactoring)
 
 ### 1. **API Hook Interface Standardization** (Medium Priority)
+
 - Issue #12 tracks this effort
 - Different hooks return differently named items (articles vs users vs chats)
 - Need consistent return interface across all hooks
 
 ### 2. ~~Type Safety - Runtime Validation~~ ✅ (Complete - Issue #64)
-   - Zod schemas defined in src/lib/zod-schemas.ts
-   - Runtime validation integrated in all repositories
-   - Tests added in src/lib/api-validator.test.ts
-- Issue #9 tracks this effort
-- Zod is installed but not yet used for runtime validation
-- Need Zod schemas for API response validation
+
+- Zod schemas defined in src/lib/zod-schemas.ts
+- Runtime validation integrated in all repositories
+- Tests added in src/lib/api-validator.test.ts
 
 ### 3. **Testing** (Low Priority)
+
 - Issue #10, #11 track testing infrastructure
 - Services and hooks have test files but coverage needs expansion
 - Mocking strategies defined but not fully implemented
@@ -105,70 +143,45 @@ shared/
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Proposed Frontend Structure
-```
-src/
-├── components/        # Pure presentation components
-│   ├── layout/      # Layout components
-│   └── ui/          # ShadCN UI components
-├── pages/          # Container components (minimal logic)
-├── hooks/          # Custom hooks (data fetching, business logic)
-│   ├── api/        # API-related hooks (useNews, useContact)
-│   └── ui/         # UI-related hooks (useTheme, useMobile)
-├── services/       # Business logic services
-│   ├── news.service.ts
-│   ├── contact.service.ts
-│   └── ...
-├── lib/            # Utilities
-│   ├── api-client.ts (enhanced)
-│   ├── error-reporter.ts
-│   └── utils.ts
-└── types/          # Frontend-specific types
-    └── index.ts
-```
+### Current Backend Structure (Flat - No Subdirectories)
 
-### Proposed Backend Structure (Keep as-is)
 ```
 worker/
 ├── index.ts        # Worker entry point
-├── routes/         # Route definitions (organize by feature)
-│   ├── index.ts
-│   ├── news.routes.ts
-│   ├── contact.routes.ts
-│   └── ...
+├── user-routes.ts  # API route definitions (all routes in single file)
 ├── core-utils.ts   # Durable Object utilities
-├── entities/       # Entity implementations
-│   ├── index.ts
-│   ├── user.entity.ts
-│   ├── news.entity.ts
-│   └── ...
-└── validators/     # Request validation schemas (zod)
-    └── index.ts
+├── entities.ts     # Entity implementations (User, Chat, News)
+└── validators.ts   # Request validation schemas (Zod)
 ```
 
-## Key Patterns to Implement
+## Key Patterns Implemented
 
-### 1. Repository Pattern
+### 1. Repository Pattern ✅
+
 - Abstract data access behind interfaces
 - Centralize API call logic
 - Enable easy mocking for tests
 
-### 2. Service Layer
+### 2. Service Layer ✅
+
 - Encapsulate business rules
 - Coordinate between multiple repositories
 - Handle data transformations
 
-### 3. Custom Hooks for Data Fetching
+### 3. Custom Hooks for Data Fetching ✅
+
 - Reuse loading/error/success patterns
 - Encapsulate API calls with proper error handling
 - Provide typed responses
 
-### 4. Dependency Inversion
+### 4. Dependency Inversion ✅
+
 - Depend on abstractions (interfaces) not implementations
 - Use factory functions for creating services
 - Make components testable
 
-### 5. Single Responsibility
+### 5. Single Responsibility ✅
+
 - Each component/service has one clear purpose
 - Pages orchestrate, services handle logic, repositories handle data
 
@@ -206,8 +219,6 @@ worker/
    - Validation layer in src/lib/api-validator.ts
    - Integrated in all repositories (User, Contact, Chat, News)
    - Tests added in src/lib/api-validator.test.ts
-   - Zod installed but not yet used
-   - Future: Add runtime type validation for API responses
 
 ## Data Flow
 

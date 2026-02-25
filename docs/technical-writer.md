@@ -39,6 +39,21 @@
 
 ## Past Work
 
+### 2026-02-25: Update Blueprint to Actual Codebase Structure (PR #84)
+
+- Updated `docs/blueprint.md` to accurately reflect actual codebase structure
+- Added missing directories: `assets/`, `i18n/`, `test/`
+- Added all lib utilities: `api-validator.ts`, `api-validator.test.ts`, `error-reporter.ts`, `feature-flags.ts`, `mock-data.ts`, `zod-schemas.ts`
+- Added all page components with exact filenames
+- Added `semantic-search.service.ts` to services
+- Added UI hooks: `useTheme`, `useMobile`
+- Added test files for services
+- Updated backend to include `validators.ts`
+- Removed duplicate content and cleaned up formatting
+- Linked to Issue #63
+- Created PR #84 with technical-writer label
+
+
 ### 2026-02-25: Technical Writer Memory Cleanup (PR #52)
 
 - Fixed duplicate content in `docs/technical-writer.md`
