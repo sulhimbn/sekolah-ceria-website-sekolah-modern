@@ -4,12 +4,15 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, UserCheck, MessageCircle, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 const admissionSteps = [
   { icon: FileText, title: '1. Pendaftaran Online', description: 'Isi formulir pendaftaran secara online melalui website kami dan unggah dokumen yang diperlukan.' },
   { icon: UserCheck, title: '2. Seleksi & Observasi', description: 'Calon siswa akan mengikuti tes potensi akademik dan observasi untuk mengetahui minat dan bakat.' },
   { icon: MessageCircle, title: '3. Wawancara Orang Tua', description: 'Sesi diskusi antara pihak sekolah dan orang tua untuk menyamakan visi pendidikan anak.' },
-  { icon: Calendar, title: '4. Pengumuman & Daftar Ulang', description: 'Hasil seleksi akan diumumkan sesuai jadwal, dilanjutkan dengan proses daftar ulang.' },
+  { icon: Calendar, title: '4. Pengumuman & Daftar Ulang', description: 'Hasil seleksi akan diumuman sesuai jadwal, dilanjutkan dengan proses daftar ulang.' },
 ];
+
 const AdmissionsPage: React.FC = () => {
   return (
     <MainLayout>
@@ -90,8 +93,12 @@ const AdmissionsPage: React.FC = () => {
                 Untuk informasi detail mengenai biaya pendaftaran, SPP, dan biaya lainnya, silakan unduh brosur kami atau hubungi bagian administrasi.
               </p>
               <div className="mt-6 flex space-x-4">
-                <Button size="lg" className="bg-school-blue hover:bg-school-blue/90">Unduh Brosur</Button>
-                <Button size="lg" variant="outline">Hubungi Kami</Button>
+                <Link to="/contact">
+                  <Button size="lg" className="bg-school-blue hover:bg-school-blue/90">Unduh Brosur</Button>
+                </Link>
+                <Link to="/contact">
+                  <Button size="lg" variant="outline">Hubungi Kami</Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -100,4 +107,5 @@ const AdmissionsPage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default AdmissionsPage;
