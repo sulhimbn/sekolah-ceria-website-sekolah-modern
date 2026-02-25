@@ -22,7 +22,8 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 | Issue | Title                                        | Status     | Priority |
 | ----- | -------------------------------------------- | ---------- | -------- |
-| #48   | Fix accessibility - Remove placeholder links | PR Created | P1       |
+PK|| ----- | -------------------------------------------- | ---------- | -------- |
+PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
 
 ## Past Work
 
@@ -31,6 +32,12 @@ This document serves as the long-term memory for the R&D (Research & Development
   - Links had mismatched labels and destinations (e.g., "Projects" pointed to /admissions)
   - Removed "Quick Links" section with placeholder links
   - Improves accessibility by removing misleading navigation
+TX|
+KN|- **#94** (2026-02-25): Fix missing npm dependencies for UI components
+HT|  - Installed 3 missing packages: embla-carousel-react, input-otp, react-resizable-panels
+MZ|  - Resolved lint errors for carousel.tsx, input-otp.tsx, resizable.tsx
+MW|  - Components now have their dependencies available for future use
+ZK|  - PR #107 created with RnD label
 
 - **#67** (2026-02-25): Bundle Size Optimization
   - Removed 7 unused dependencies (@dnd-kit/core, @dnd-kit/sortable, react-flow, react-select, react-swipeable, react-use, tw-animate-css)
