@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { newsService, type NewsArticleDetail } from '@/services/news.service';
+import { newsService, type NewsArticle, type NewsArticleDetail } from '@/services/news.service';
 import { errorReporter } from '@/lib/errorReporter';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 
@@ -110,7 +109,7 @@ export function useNewsSearch(): UseNewsSearchReturn {
     setIsSearching(true);
     try {
       // Use the news service search which handles semantic + fallback
-      const results = newsService.searchArticles(searchQuery, articles as any);
+      const results = newsService.searchArticles(searchQuery, articles as NewsArticle[]);
       return results as NewsArticleDetail[];
     } finally {
       // Use setTimeout to avoid blocking UI
