@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export interface ErrorFallbackProps {
   title?: string;
   message?: string;
-  error?: Error | any;
+  error?: unknown;
   onRetry?: () => void;
   onGoHome?: () => void;
   showErrorDetails?: boolean;
