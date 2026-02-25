@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Book, Users, Award, MessageSquare, AlertCircle } from 'lucide-react';
+import { ArrowRight, Book, Users, Award, MessageSquare, AlertCircle, Inbox } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -80,6 +80,15 @@ const HomePage: React.FC = () => {
           <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
           <h3 className="text-xl font-semibold text-red-800">Gagal Memuat Berita</h3>
           <p className="text-red-600">{error}</p>
+        </div>
+      );
+    }
+    if (latestNews.length === 0) {
+      return (
+        <div className="md:col-span-3 flex flex-col items-center justify-center text-center bg-gray-50 border rounded-lg p-8">
+          <Inbox className="w-12 h-12 text-gray-400 mb-4" />
+          <h3 className="text-xl font-semibold text-gray-800">Belum Ada Berita</h3>
+          <p className="text-gray-500">Saat ini belum ada berita atau acara yang dipublikasikan. Silakan cek kembali nanti.</p>
         </div>
       );
     }
