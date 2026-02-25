@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port ${PORT:-3000}",
-    "build": "vite build",
+    "build": "vite build && node scripts/report-bundle-size.js",
+    "build:only": "vite build",
     "lint": "eslint --cache -f json --quiet .",
     "lint:fix": "eslint --cache --fix .",
     "type-check": "tsc --noEmit",
@@ -16,7 +17,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "analyze": "vite build --mode analyze"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
