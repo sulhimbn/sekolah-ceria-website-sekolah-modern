@@ -13,6 +13,7 @@ export function ThemeToggle({ className = "absolute top-4 right-4" }: ThemeToggl
       onClick={toggleTheme} 
       variant="ghost"
       size="icon"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       className={`${className} text-2xl hover:scale-110 hover:rotate-12 transition-all duration-200 active:scale-90 z-50`}
     >
       {isDark ? '☀️' : '🌙'}
