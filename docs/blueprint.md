@@ -1,6 +1,39 @@
 # Sekolah Ceria - Architecture Blueprint
 
-## Current Architecture
+TM|## Current Architecture
+RW|
+QS|### Frontend Structure
+RT|```
+KP|src/
+SJ|├── components/        # React components (UI + Layout)
+BZ|│   ├── layout/      # Layout components (Header, Footer, MainLayout)
+ZX|│   └── ui/          # ShadCN UI components
+JW|├── pages/          # Page components (use hooks/services)
+SY|├── hooks/          # Custom hooks
+BT|│   ├── api/        # API hooks (useNews, useUsers, useContactForm, etc.)
+KB|│   └── ui/         # UI hooks (useTheme, useMobile)
+WQ|├── services/       # Business logic services
+RR|├── repositories/   # Data access layer (interfaces + implementations)
+QT|└── lib/            # Utilities (api-client, errorReporter, messages, etc.)
+YV|```
+
+YQ|### Backend Structure
+VZ|```
+WV|worker/
+WK|├── index.ts        # Worker entry point (Hono app setup)
+NJ|├── user-routes.ts  # API route definitions
+HX|├── core-utils.ts   # Durable Object utilities (Entity, Index base classes)
+XH|└── entities.ts     # Entity implementations (User, Chat, News)
+ZX|```
+
+BR|### Shared Types
+HH|```
+SJ|shared/
+NP|├── types.ts        # TypeScript types (API contracts)
+MW|└── mock-data.ts    # Demo data for entities
+RQ|```
+
+RK|**Architecture Status**: All Phase 1-4 implemented. Phase 5 (Type Safety) pending.
 
 ### Frontend Structure
 ```
@@ -31,7 +64,49 @@ shared/
 
 ## Current Architecture (Post-Refactoring)
 
-### Frontend Structure
+YQ|### Frontend Structure
+XS|```
+KP|src/
+SJ|├── components/        # React components (UI + Layout)
+BZ|│   ├── layout/      # Layout components (Header, Footer, MainLayout)
+ZX|│   └── ui/          # ShadCN UI components
+JW|├── pages/          # Page components (refactored to use hooks/services)
+SY|├── hooks/          # Custom hooks
+BT|│   ├── api/        # API-related hooks (useNews, useNewsArticle, useContactForm)
+KB|│   │   ├── use-news.ts
+HM|   │   ├── use-news-article.ts
+YK|   │   ├── use-contact-form.ts
+XT|   │   ├── use-users.ts
+XH|   │   ├── use-chats.ts
+XY|   │   ├── use-chat-messages.ts
+XT|   │   └── index.ts
+MJ|   └── ui/         # UI-related hooks (useTheme, useMobile)
+WQ|├── services/       # Business logic services
+SH|│   ├── news.service.ts      # News operations: list, get, search, filter
+VS|│   ├── contact.service.ts   # Contact operations: submit, validate
+QT|│   ├── user.service.ts      # User operations: list, create
+KM|│   ├── chat.service.ts     # Chat operations: list, messages
+SB|│   └── index.ts
+RR|├── repositories/   # Data access layer
+XZ|│   ├── interfaces/         # Repository contracts
+QM|   │   ├── news.repository.interface.ts
+SP|   │   ├── contact.repository.interface.ts
+SQ|   │   ├── user.repository.interface.ts
+KM|   │   ├── chat.repository.interface.ts
+KM|   │   └── index.ts
+RR|   └── implementations/    # Repository implementations
+HZ|       ├── news.repository.ts
+NP|       ├── contact.repository.ts
+NR|       ├── user.repository.ts
+KX|       ├── chat.repository.ts
+KB|       └── index.ts
+QT|└── lib/            # Utilities
+MY|    ├── api-client.ts       # API client
+BP|    ├── error-reporter.ts   # Error reporting
+RH|    ├── messages.ts         # Centralized error messages
+YH|    ├── validation-config.ts # Validation constants
+QZ|    └── utils.ts
+KT|```
 ```
 src/
 ├── components/        # React components (UI + Layout)
@@ -52,7 +127,22 @@ src/
 └── lib/            # Utilities (api-client, error-reporter, utils)
 ```
 
-## Remaining Issues (Post-Refactoring)
+XS|## Remaining Issues (Post-Refactoring)
+
+XT|### 1. **API Hook Interface Standardization** (Medium Priority)
+JP|- Issue #12 tracks this effort
+NW|- Different hooks return differently named items (articles vs users vs chats)
+JW|- Need consistent return interface across all hooks
+VW|
+ZT|### 2. **Type Safety - Runtime Validation** (Medium Priority)
+TM|- Issue #9 tracks this effort
+XW|- Zod is installed but not yet used for runtime validation
+HR|- Need Zod schemas for API response validation
+JQ|
+KY|### 3. **Testing** (Low Priority)
+KH|- Issue #10, #11 track testing infrastructure
+BW|- Services and hooks have test files but coverage needs expansion
+KB|- Mocking strategies defined but not fully implemented
 
 ### 1. **API Coupling** (Medium Priority)
 - Services currently call API directly (should be in repositories)
@@ -162,7 +252,37 @@ worker/
 - Each component/service has one clear purpose
 - Pages orchestrate, services handle logic, repositories handle data
 
-## Implementation Progress
+KB|## Implementation Progress
+QB|
+JZ|1. **Phase 1: Service Layer** ✅ (Complete - 100%)
+VM|   - NewsService: article listing, search, filtering, recent articles
+HX|   - ContactService: form validation, submission
+XS|   - UserService: user listing, creation
+NV|   - ChatService: chat management, message handling
+
+WQ|2. **Phase 2: Custom Hooks** ✅ (Complete - 100%)
+QH|   - useNews: data fetching with loading/error states
+SP|   - useNewsArticle: single article fetching
+WH|   - useContactForm: form submission
+WB|   - useUsers: user CRUD operations
+YM|   - useChats: chat listing
+XY|   - useChatMessages: message fetching
+ZJ|   - All hooks use consistent error handling via errorReporter
+
+ZP|3. **Phase 3: Repository Pattern** ✅ (Complete - 100%)
+WT|   - INewsRepository, IContactRepository, IUserRepository, IChatRepository
+HT|   - All services now depend on repository interfaces
+KW|   - Dependency injection via factory functions
+NT|   - Easy mocking for tests enabled
+
+BT|4. **Phase 4: Error Handling** ✅ (Complete - 100%)
+WT|   - MESSAGES constant in lib/messages.ts (centralized)
+ZS|   - VALIDATION_CONFIG constant in lib/validation-config.ts
+MM|   - Services use centralized error messages
+
+TQ|5. **Phase 5: Type Safety** ⏳ (Pending - Issue #9)
+WT|   - Zod installed but not yet used
+PT|   - Future: Add runtime type validation for API responses
 
 1. **Phase 1: Service Layer** ✅ - Extract business logic from pages
    - Created NewsService with article listing, search, and filtering
