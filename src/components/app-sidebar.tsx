@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Layers, Compass, Star, Settings, LifeBuoy } from "lucide-react";
+import { Home, Layers, Compass, Star, LifeBuoy } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -65,11 +65,6 @@ export function AppSidebar(): JSX.Element {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link to="/contact"><LifeBuoy /> <span>Support</span></Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link to="/about"><Settings /> <span>Settings</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
