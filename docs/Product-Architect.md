@@ -12,17 +12,18 @@
 
 ```
 src/
-├── components/     # UI + Layout (shadcn/ui)
-├── pages/         # Route components (lazy-loaded)
-├── hooks/         # Custom hooks (api/, ui/)
+├── components/     # UI + Layout (60+ shadcn/ui components)
+├── pages/         # Route components (lazy-loaded, 10 pages)
+├── hooks/         # Custom hooks (api/, ui/, useErrorHandler)
 ├── services/      # Business logic
-├── repositories/  # Data access layer
+├── repositories/  # Data access layer (interfaces + implementations)
 └── lib/           # Utilities
 worker/
 ├── index.ts       # Hono entry point
-├── routes/        # API routes
-├── entities/     # Durable Objects
-└── validators/   # Zod schemas
+├── user-routes.ts # API routes (single file)
+├── core-utils.ts  # Durable Object utilities
+├── entities.ts    # Entity implementations
+└── validators.ts  # Zod schemas
 shared/
 ├── types.ts       # Shared TypeScript types
 └── mock-data.ts   # Demo data
@@ -31,17 +32,17 @@ shared/
 ### Key Architectural Decisions
 
 1. **Clean Architecture**: Separation of concerns with services, repositories, hooks
-2. **Route-based Code Splitting**: All 7 routes use `lazy()` loading
+2. **Route-based Code Splitting**: All 10 routes use `lazy()` loading
 3. **Vendor Chunking**: Manual chunks for react-vendor, router, ui-vendor, animation, charts, forms, query
-4. **Error Handling**: Centralized via `lib/errorReporter.ts` and `lib/messages.ts`
-5. **Type Safety**: Zod for runtime validation (Phase 5 pending)
+4. **Error Handling**: Centralized via `lib/errorReporter.ts`, `lib/messages.ts`, and `hooks/useErrorHandler.ts`
+5. **Type Safety**: Zod for runtime validation (Phase 5 complete)
 
 ## Performance Benchmarks
 
 | Metric              | Current  | Target   | Status |
 | ------------------- | -------- | -------- | ------ |
 | Bundle Size         | 790KB    | <750KB   | ✅     |
-| Lazy Routes         | 7/7      | 7/7      | ✅     |
+| Lazy Routes         | 10/10    | 10/10    | ✅     |
 | Manual Chunks       | 7 chunks | 7 chunks | ✅     |
 | Build Time          | ~5s      | <30s     | ✅     |
 | Performance Budgets | Enabled  | Enabled  | ✅     |
@@ -53,6 +54,7 @@ shared/
    - recharts (heavy charting library)
    - framer-motion (animation library) - ~120KB
    - react-hook-form + zod (forms library) - ~94KB
+
 2. **Opportunities**:
    - Consider tree-shaking unused radix components
    - Evaluate lighter chart alternatives
@@ -79,6 +81,8 @@ shared/
 
 ## Recent Changes
 
+- 2026-02-25: Updated blueprint.md to reflect actual codebase structure (layout components, hooks, UI components count)
+- 2026-02-25: Updated Product-Architect.md structure to match actual codebase
 - 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
 - 2026-02-25: Increased bundle size limit from 700KB to 750KB
 - 2026-02-25: Removed unused dependencies (@dnd-kit, react-use, react-swipeable, input-otp, embla-carousel, react-resizable-panels, react-flow)
@@ -88,4 +92,4 @@ shared/
 
 - Date: 2026-02-25
 - Agent: Product-Architect (ulw-loop)
-- Changes: Performance budgets implemented, bundle size tracking enhanced, i18n dependencies added
+- Changes: Blueprint documentation updated, structure corrected, performance budgets implemented

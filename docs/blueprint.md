@@ -8,8 +8,12 @@
 src/
 ├── assets/           # Static assets (images, logos)
 ├── components/      # React components (UI + Layout)
-│   ├── layout/      # Layout components (Header, Footer, MainLayout, AppLayout)
-│   └── ui/          # ShadCN UI components
+│   ├── layout/      # Layout components
+│   │   ├── Header.tsx, Footer.tsx, MainLayout.tsx, AppLayout.tsx
+│   │   ├── ErrorBoundary.tsx, ErrorFallback.tsx, RouteErrorBoundary.tsx
+│   │   ├── ThemeToggle.tsx, PageLoader.tsx, PlaceholderImage.tsx
+│   │   └── app-sidebar.tsx
+│   └── ui/          # ShadCN UI components (60+)
 ├── hooks/          # Custom hooks
 │   ├── api/        # API-related hooks
 │   │   ├── use-news.ts
@@ -19,9 +23,10 @@ src/
 │   │   ├── use-chats.ts
 │   │   ├── use-chat-messages.ts
 │   │   └── index.ts
-│   └── ui/         # UI-related hooks
-│       ├── use-theme.ts
-│       └── use-mobile.tsx
+│   ├── ui/         # UI-related hooks
+│   │   ├── use-theme.ts
+│   │   └── use-mobile.tsx
+│   └── useErrorHandler.ts # Global error handling hook
 ├── i18n/            # Internationalization
 │   ├── index.ts
 │   └── locales/
@@ -200,6 +205,7 @@ worker/
    - useUsers: user CRUD operations
    - useChats: chat listing
    - useChatMessages: message fetching
+   - useErrorHandler: global error handling hook
    - All hooks use consistent error handling via errorReporter
 
 3. **Phase 3: Repository Pattern** ✅ (Complete - 100%)
