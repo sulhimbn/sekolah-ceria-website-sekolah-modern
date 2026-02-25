@@ -1,10 +1,14 @@
-import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import {
+  useRouteError,
+  isRouteErrorResponse,
+  useNavigate,
+} from 'react-router-dom';
 import { useEffect } from 'react';
 import { errorReporter } from '@/lib/errorReporter';
-import { ErrorFallback } from './ErrorFallback';
 
 export function RouteErrorBoundary() {
   const error = useRouteError();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Report the route error
@@ -17,13 +21,23 @@ export function RouteErrorBoundary() {
         if (error.data) {
           errorMessage += ` - ${JSON.stringify(error.data)}`;
         }
+
+        // Navigate to custom error pages based on status code
+        if (error.status === 404) {
+          navigate('/404', { replace: true });
+        } else if (error.status >= 500) {
+          navigate('/500', { replace: true });
+        }
       } else if (error instanceof Error) {
         errorMessage = error.message;
         errorStack = error.stack || '';
+        // Navigate to 500 page for unexpected errors
+        navigate('/500', { replace: true });
       } else if (typeof error === 'string') {
         errorMessage = error;
       } else {
         errorMessage = JSON.stringify(error);
+        navigate('/500', { replace: true });
       }
 
       errorReporter.report({
@@ -33,29 +47,11 @@ export function RouteErrorBoundary() {
         timestamp: new Date().toISOString(),
         source: 'react-router',
         error: error,
-        level: "error",
+        level: 'error',
       });
     }
-  }, [error]);
+  }, [error, navigate]);
 
-  // Render error UI using shared ErrorFallback component
-  if (isRouteErrorResponse(error)) {
-    return (
-      <ErrorFallback
-        title={`${error.status} ${error.statusText}`}
-        message="Sorry, an error occurred while loading this page."
-        error={error.data ? { message: JSON.stringify(error.data, null, 2) } : error}
-        statusMessage="Navigation error detected"
-      />
-    );
-  }
-
-  return (
-    <ErrorFallback
-      title="Unexpected Error"
-      message="An unexpected error occurred while loading this page."
-      error={error}
-      statusMessage="Routing error detected"
-    />
-  );
+  // Return null since we're navigating to custom error pages
+  return null;
 }
