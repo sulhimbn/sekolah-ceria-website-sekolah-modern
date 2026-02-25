@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { AlertCircle, Calendar, User, ArrowLeft } from 'lucide-react';
 import { useNewsArticle } from '@/hooks/api';
 import type { NewsArticle } from '@shared/types';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
 const NewsDetailPage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
   const { article, isLoading, error } = useNewsArticle(articleId || '');
@@ -63,8 +64,8 @@ const NewsDetailPage: React.FC = () => {
             <span>{article.author}</span>
           </div>
         </div>
-        <div className="aspect-video bg-school-blue/20 rounded-lg mb-8 flex items-center justify-center">
-          <p className="text-gray-500">[Gambar Berita Detail]</p>
+        <div className="aspect-video rounded-lg mb-8 flex items-center justify-center overflow-hidden">
+          <PlaceholderImage variant="news" className="w-full h-full rounded-lg" label="Berita Detail" />
         </div>
         <div className="prose prose-lg max-w-none text-gray-800">
           <p>{article.excerpt}</p>
