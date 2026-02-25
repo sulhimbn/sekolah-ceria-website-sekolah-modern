@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { userService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { useErrorHandler } from '@/useErrorHandler';
 import type { User } from '@shared/types';
 
 interface UseUsersReturn {
@@ -16,54 +16,42 @@ export function useUsers(): UseUsersReturn {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { error, handleError, clearError } = useErrorHandler({
+    defaultMessage: 'Gagal memuat data pengguna.',
+    category: 'network',
+  });
 
   const fetchUsers = useCallback(async () => {
     try {
       setIsLoading(true);
-      setError(null);
+      clearError();
       const data = await userService.listUsers();
       setUsers(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat data pengguna.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
+      handleError(err, 'Gagal memuat data pengguna.');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [clearError, handleError]);
 
-  const createUser = useCallback(async (name: string): Promise<User | null> => {
-    if (!name.trim()) return null;
-    
-    try {
-      setIsCreating(true);
-      const newUser = await userService.createUser(name.trim());
-      setUsers(prev => [...prev, newUser]);
-      return newUser;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal membuat pengguna.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
-      return null;
-    } finally {
-      setIsCreating(false);
-    }
-  }, []);
+  const createUser = useCallback(
+    async (name: string): Promise<User | null> => {
+      if (!name.trim()) return null;
+
+      try {
+        setIsCreating(true);
+        const newUser = await userService.createUser(name.trim());
+        setUsers(prev => [...prev, newUser]);
+        return newUser;
+      } catch (err) {
+        handleError(err, 'Gagal membuat pengguna.');
+        return null;
+      } finally {
+        setIsCreating(false);
+      }
+    },
+    [handleError]
+  );
 
   useEffect(() => {
     fetchUsers();

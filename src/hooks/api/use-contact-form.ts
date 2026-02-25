@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { contactService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { useErrorHandler } from '@/useErrorHandler';
 import type { ContactFormPayload } from '@shared/types';
 
 interface UseContactFormReturn {
@@ -12,31 +12,23 @@ interface UseContactFormReturn {
 
 export function useContactForm(): UseContactFormReturn {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { error, handleError, clearError } = useErrorHandler({
+    defaultMessage: 'Gagal mengirim pesan.',
+    category: 'user',
+  });
 
   const submitContactForm = async (data: ContactFormPayload) => {
     try {
       setIsSubmitting(true);
-      setError(null);
+      clearError();
       await contactService.submitContactForm(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal mengirim pesan.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
+      handleError(err, 'Gagal mengirim pesan.');
       throw err;
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  const clearError = () => setError(null);
 
   return {
     isSubmitting,
