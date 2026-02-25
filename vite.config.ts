@@ -199,6 +199,13 @@ export default ({ mode }: { mode: string }) => {
           },
         },
       },
+      // Performance budgets - fail build if exceeded
+      // maxAssetSize: 512KB per individual file
+      // maxEntrypointSize: 768KB total initial load
+      performance: {
+        maxAssetSize: 512 * 1024,
+        maxEntrypointSize: 768 * 1024,
+      },
     },
     customLogger: env.VITE_LOGGER_TYPE === 'json' ? customLogger : undefined,
     // Enable source maps in development too
