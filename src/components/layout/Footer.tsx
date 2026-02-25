@@ -18,33 +18,30 @@ export const Footer: React.FC = () => {
               Membentuk generasi cerdas, kreatif, dan berakhlak mulia.
             </p>
             <div className="flex space-x-4">
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <button 
+                onClick={() => window.open('https://facebook.com/sekolahceria', '_blank')}
                 aria-label="Facebook"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
+                type="button"
               >
                 <Facebook className="h-6 w-6" />
-              </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              </button>
+              <button 
+                onClick={() => window.open('https://twitter.com/sekolahceria', '_blank')}
                 aria-label="Twitter"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
+                type="button"
               >
                 <Twitter className="h-6 w-6" />
-              </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              </button>
+              <button 
+                onClick={() => window.open('https://instagram.com/sekolahceria', '_blank')}
                 aria-label="Instagram"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
+                type="button"
               >
                 <Instagram className="h-6 w-6" />
-              </a>
+              </button>
             </div>
           </div>
           <div>

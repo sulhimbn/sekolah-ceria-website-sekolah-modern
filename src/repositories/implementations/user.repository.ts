@@ -1,4 +1,6 @@
 import { api } from '@/lib/api-client';
+import { validateResponse } from '@/lib/api-validator';
+import { schemas } from '@/lib/zod-schemas';
 import type {
   IUserRepository,
   UserListResponse,
@@ -8,11 +10,12 @@ import type { User } from '@shared/types';
 /**
  * API implementation of UserRepository
  * Fetches data from REST API endpoints
+ * Includes runtime validation for API responses
  */
 export class UserApiRepository implements IUserRepository {
   async fetchUsers(): Promise<UserListResponse> {
     const response = await api<UserListResponse>('/api/users');
-    return response;
+    return validateResponse(schemas.userListResponse, response, 'UserListResponse');
   }
 
   async createUser(name: string): Promise<User> {
@@ -20,7 +23,7 @@ export class UserApiRepository implements IUserRepository {
       method: 'POST',
       body: JSON.stringify({ name: name.trim() }),
     });
-    return response;
+    return validateResponse(schemas.user, response, 'User');
   }
 }
 

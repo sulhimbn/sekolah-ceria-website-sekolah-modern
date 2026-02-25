@@ -1,17 +1,15 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import importPlugin from 'eslint-plugin-import'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
+import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended
-    ],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2022,
@@ -20,16 +18,16 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      'import': importPlugin,
+      import: importPlugin,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
       ...importPlugin.configs.typescript.rules,
       'prefer-const': 'off',
-      "react-hooks/rules-of-hooks": "error", 
-      "react-hooks/exhaustive-deps": "error",
-      '@typescript-eslint/no-unused-vars': "off",
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
+      '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'react-refresh/only-export-components': [
         'error',
@@ -37,26 +35,33 @@ export default tseslint.config(
       ],
       'import/named': 'error',
       'import/default': 'error',
-      'import/no-unresolved': ['error', { 
-        ignore: ['cloudflare:workers', 'agents'] 
-      }],
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: ['cloudflare:workers', 'agents'],
+        },
+      ],
 
       // CHANGED: Replaced the flawed rule with a more intelligent one.
-      "no-restricted-syntax": [
-        "error",
+      'no-restricted-syntax': [
+        'error',
         {
           // This selector is more precise. In plain English, it means:
           // "Inside a function component (named in PascalCase), find any `set...` call,
           // but EXCLUDE any calls that are inside a nested function definition (like an event handler)."
           // This correctly finds the bug while ignoring the false positive.
-          "selector": ":function[id.name=/^[A-Z]/] CallExpression[callee.name=/^set[A-Z]/]:not(ArrowFunctionExpression CallExpression, FunctionExpression CallExpression)",
-          "message": "State setters should not be called directly in the component's render body. This will cause an infinite render loop. Use useEffect or an event handler instead."
+          selector:
+            ':function[id.name=/^[A-Z]/] CallExpression[callee.name=/^set[A-Z]/]:not(ArrowFunctionExpression CallExpression, FunctionExpression CallExpression)',
+          message:
+            "State setters should not be called directly in the component's render body. This will cause an infinite render loop. Use useEffect or an event handler instead.",
         },
         {
           // This rule is a good backup to prevent setters inside memoization hooks.
-          "selector": "CallExpression[callee.name=/^set[A-Z]/] > :function[parent.callee.name='useMemo'], CallExpression[callee.name=/^set[A-Z]/] > :function[parent.callee.name='useCallback']",
-          "message": "State setters should not be called inside useMemo or useCallback. These hooks are for memoization, not for side effects."
-        }
+          selector:
+            "CallExpression[callee.name=/^set[A-Z]/] > :function[parent.callee.name='useMemo'], CallExpression[callee.name=/^set[A-Z]/] > :function[parent.callee.name='useCallback']",
+          message:
+            'State setters should not be called inside useMemo or useCallback. These hooks are for memoization, not for side effects.',
+        },
       ],
     },
     settings: {
@@ -74,4 +79,6 @@ export default tseslint.config(
       'react-refresh/only-export-components': 'off',
     },
   },
-)
+  // Prettier config must be LAST to disable conflicting ESLint rules
+  prettier
+);
