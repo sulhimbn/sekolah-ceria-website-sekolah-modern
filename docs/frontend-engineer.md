@@ -1,0 +1,99 @@
+# Frontend Engineering - Long-term Memory
+
+## Overview
+
+Sekolah Ceria is a React/Vite frontend with TypeScript, Tailwind CSS, and shadcn/ui component library.
+
+## Technology Stack
+
+- **Frontend Framework**: React 18 with Vite
+- **Language**: TypeScript 5.8
+- **Styling**: Tailwind CSS + shadcn/ui
+- **State Management**: React Query + React Hook Form
+- **Routing**: React Router DOM
+- **Animation**: Framer Motion
+- **Testing**: Vitest + React Testing Library + Playwright
+- **Package Manager**: npm (project uses npm, not bun despite README)
+
+## Common Commands
+
+```bash
+# Development
+npm run dev
+
+# Build
+npm run build
+
+# Lint (use --no-cache after installing new dependencies)
+npm run lint
+npm run lint -- --no-cache
+
+# Type check
+npm run type-check
+
+# Test
+npm run test
+npm run test:run
+
+# E2E Test
+npm run test:e2e
+```
+
+## UI Components
+
+### Location
+
+All UI components are in `src/components/ui/` following shadcn/ui patterns.
+
+### Common Issues
+
+#### Missing Dependencies
+
+When adding new shadcn/ui components, ensure all peer dependencies are installed. Common missing dependencies:
+
+- `embla-carousel-react` - for carousel component
+- `input-otp` - for OTP input component
+- `react-resizable-panels` - for resizable panel component
+
+**ESLint Cache Issue**: After installing new dependencies, always run `npm run lint -- --no-cache` or clear `.eslintcache` to ensure ESLint picks up the new packages.
+
+#### ESLint Resolution
+
+The project uses `eslint-import-resolver-typescript` for import resolution. If ESLint reports `import/no-unresolved` errors for installed packages:
+
+1. Clear ESLint cache: `rm -f .eslintcache`
+2. Run with `--no-cache` flag
+3. Verify TypeScript can resolve the imports (`npm run type-check`)
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── ui/          # shadcn/ui components
+│   ├── layout/      # Layout components (Header, Footer, etc.)
+│   └── app-sidebar.tsx
+├── hooks/           # Custom React hooks
+│   └── api/         # React Query hooks
+├── lib/             # Utilities and configurations
+├── services/        # API service layer
+└── i18n/           # Internationalization
+```
+
+## Best Practices
+
+1. **Always run lint and build before committing**
+2. **Clear ESLint cache** after installing new npm dependencies
+3. **Verify build passes** - check bundle size is within budget (800KB)
+4. **Use TypeScript** - the project uses strict typing where possible
+5. **Follow shadcn/ui patterns** for component structure
+
+## Issue Labels
+
+- `frontend-engineer` - Frontend-specific tasks
+- `ui-ux-engineer` - Design and UX improvements
+
+## Related Documentation
+
+- [Blueprint](./blueprint.md) - Architecture overview
+- [UI/UX Engineer](./ui-ux-engineer.md) - Design system documentation
