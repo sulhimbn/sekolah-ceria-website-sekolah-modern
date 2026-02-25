@@ -78,7 +78,9 @@ describe('NewsService - Pure Functions', () => {
     it('should filter articles by author', () => {
       const result = newsService.searchArticles('budi santoso', mockArticles)
       expect(result).toHaveLength(2)
-      expect(result.map(a => a.id)).toEqual(['1', '5'])
+      // Semantic search may return results in different order based on relevance
+      const resultIds = result.map(a => a.id).sort()
+      expect(resultIds).toEqual(['1', '5'])
     })
 
     it('should return empty array when no matches found', () => {
