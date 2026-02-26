@@ -81,15 +81,23 @@ describe('Footer Component', () => {
   });
 
   describe('Social Media Links', () => {
-    it('should render social media buttons', () => {
+    it('should render social media links', () => {
       render(<Footer />);
-      const facebookBtn = screen.getByRole('button', { name: /facebook/i });
-      const twitterBtn = screen.getByRole('button', { name: /twitter/i });
-      const instagramBtn = screen.getByRole('button', { name: /instagram/i });
+      const facebookLink = screen.getByRole('link', { name: /facebook/i });
+      const twitterLink = screen.getByRole('link', { name: /twitter/i });
+      const instagramLink = screen.getByRole('link', { name: /instagram/i });
 
-      expect(facebookBtn).toBeInTheDocument();
-      expect(twitterBtn).toBeInTheDocument();
-      expect(instagramBtn).toBeInTheDocument();
+      expect(facebookLink).toBeInTheDocument();
+      expect(twitterLink).toBeInTheDocument();
+      expect(instagramLink).toBeInTheDocument();
+
+      // Verify security attributes are present
+      expect(facebookLink).toHaveAttribute('target', '_blank');
+      expect(facebookLink).toHaveAttribute('rel', 'noopener noreferrer');
+      expect(twitterLink).toHaveAttribute('target', '_blank');
+      expect(twitterLink).toHaveAttribute('rel', 'noopener noreferrer');
+      expect(instagramLink).toHaveAttribute('target', '_blank');
+      expect(instagramLink).toHaveAttribute('rel', 'noopener noreferrer');
     });
   });
 

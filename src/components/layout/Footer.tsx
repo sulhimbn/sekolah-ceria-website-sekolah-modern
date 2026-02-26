@@ -71,36 +71,33 @@ export const Footer = React.memo(() => {
               Membentuk generasi cerdas, kreatif, dan berakhlak mulia.
             </p>
             <div className="flex space-x-4">
-              <button
-                onClick={() =>
-                  window.open('https://facebook.com/sekolahceria', '_blank')
-                }
+              <a
+                href="https://facebook.com/sekolahceria"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
-                type="button"
               >
                 <Facebook className="h-6 w-6" />
-              </button>
-              <button
-                onClick={() =>
-                  window.open('https://twitter.com/sekolahceria', '_blank')
-                }
+              </a>
+              <a
+                href="https://twitter.com/sekolahceria"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Twitter"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
-                type="button"
               >
                 <Twitter className="h-6 w-6" />
-              </button>
-              <button
-                onClick={() =>
-                  window.open('https://instagram.com/sekolahceria', '_blank')
-                }
+              </a>
+              <a
+                href="https://instagram.com/sekolahceria"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="text-muted-foreground hover:text-school-blue transition-colors"
-                type="button"
               >
                 <Instagram className="h-6 w-6" />
-              </button>
+              </a>
             </div>
           </div>
           <div>
