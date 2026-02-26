@@ -5,6 +5,27 @@
 import { Context, Next } from 'hono';
 import type { Env } from './core-utils';
 
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * Uses Web Crypto API's timingSafeEqual for secure comparison
+ */
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const aBytes = encoder.encode(a);
+  const bBytes = encoder.encode(b);
+  // If lengths differ, still do comparison to not leak length info
+  if (aBytes.length !== bBytes.length) {
+    // Compare with padding to maintain constant time
+    const paddedB = new Uint8Array(aBytes.length);
+    bBytes.forEach((byte, i) => {
+      if (i < paddedB.length) paddedB[i] = byte;
+    });
+    await crypto.subtle.timingSafeEqual(aBytes, paddedB);
+    return false;
+  }
+  return crypto.subtle.timingSafeEqual(aBytes, bBytes);
+}
+
 // JWT payload interface
 export interface AuthPayload {
   sub: string; // user id
@@ -90,7 +111,11 @@ async function verifyToken(
       String.fromCharCode(...new Uint8Array(signature))
     );
 
-    if (signatureB64 !== expectedSignatureB64) return null;
+    const isValidSignature = await timingSafeEqual(
+      signatureB64,
+      expectedSignatureB64
+    );
+    if (!isValidSignature) return null;
 
     const payload = JSON.parse(atob(payloadB64)) as AuthPayload;
 
@@ -99,7 +124,12 @@ async function verifyToken(
     if (payload.exp < now) return null;
 
     return payload;
-  } catch {
+  } catch (e) {
+    // Log errors for debugging but don't leak details to client
+    console.error(
+      '[AUTH] Token verification error:',
+      e instanceof Error ? e.message : 'Unknown error'
+    );
     return null;
   }
 }
@@ -242,5 +272,5 @@ export async function verifyPassword(
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hash === hashHex;
+  return await timingSafeEqual(hash, hashHex);
 }

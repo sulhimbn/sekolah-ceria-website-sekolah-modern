@@ -25,6 +25,23 @@ import {
 // Maximum limit for list endpoints to prevent DoS via large page sizes
 const MAX_LIMIT = 100;
 
+// Seed flag to ensure seeding happens only once per worker instance
+let seeded = false;
+
+/**
+ * Seed all entities - runs once at startup (first API request)
+ * This replaces per-request ensureSeed calls for performance
+ */
+async function seedAll(env: Env): Promise<void> {
+  if (seeded) return;
+  await Promise.all([
+    UserEntity.ensureSeed(env),
+    ChatBoardEntity.ensureSeed(env),
+    NewsArticleEntity.ensureSeed(env),
+  ]);
+  seeded = true;
+}
+
 /** Parse and validate limit query parameter with upper bound */
 function parseLimit(lq: string | null): number | undefined {
   if (!lq) return undefined;
@@ -59,8 +76,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
     }
     const { email, password } = result.data;
-    const users = await UserEntity.list(c.env, null, 100);
-    const user = users.items.find((u: any) => u.email === email);
+    const user = await UserEntity.findByEmail(c.env, email);
     if (!user) return bad(c, 'Email atau password salah');
     const passwordValid = await verifyPassword(password, user.password || '');
     if (!passwordValid) return bad(c, 'Email atau password salah');
@@ -83,7 +99,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
   // USERS
   app.get('/api/users', async c => {
-    await UserEntity.ensureSeed(c.env);
+    await seedAll(c.env);
     const cq = c.req.query('cursor');
     const lq = c.req.query('limit');
     const limit = parseLimit(lq);
@@ -108,7 +124,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
   // CHATS
   app.get('/api/chats', async c => {
-    await ChatBoardEntity.ensureSeed(c.env);
+    await seedAll(c.env);
     const cq = c.req.query('cursor');
     const lq = c.req.query('limit');
     const limit = parseLimit(lq);
@@ -157,7 +173,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
   // NEWS ARTICLES
   app.get('/api/news', async c => {
-    await NewsArticleEntity.ensureSeed(c.env);
+    await seedAll(c.env);
     const page = await NewsArticleEntity.list(c.env);
     // Sort by date descending
     page.items.reverse();
@@ -182,7 +198,10 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
     }
 
-    return ok(c, { success: true, message: 'Pesan Anda telah berhasil dikirim!' });
+    return ok(c, {
+      success: true,
+      message: 'Pesan Anda telah berhasil dikirim!',
+    });
   });
 
   // DELETE: Users (admin only)
@@ -234,7 +253,6 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       ids,
     });
   });
-}
 
   // NEWSLETTER SUBSCRIPTION
   app.post('/api/newsletter', async c => {
@@ -253,3 +271,4 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
     return ok(c, { message: 'Terima kasih telah berlangganan!' });
   });
+}
