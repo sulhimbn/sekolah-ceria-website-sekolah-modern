@@ -21,12 +21,13 @@ Sekolah Ceria is a Cloudflare Pages + Workers application with React/Vite fronte
 
 All GitHub Actions should use consistent, pinned versions:
 
-| Action | Recommended Version | Purpose |
-|--------|-------------------|---------|
-| `actions/checkout` | v6 | Repository checkout |
-| `actions/cache` | v5 | Dependency caching |
-| `actions/setup-node` | v6 | Node.js setup |
-| `softprops/turnstyle` | v3 | Concurrency control |
+| Action                | Recommended Version | Purpose             |
+| --------------------- | ------------------- | ------------------- |
+| `actions/checkout`    | v6                  | Repository checkout |
+| `actions/cache`       | v5                  | Dependency caching  |
+| `actions/setup-node`  | v6                  | Node.js setup       |
+| `softprops/turnstyle` | v3                  | Concurrency control |
+
 ### Node.js Setup
 
 ```yaml
@@ -35,7 +36,7 @@ All GitHub Actions should use consistent, pinned versions:
   with:
     node-version: 20
     cache: 'npm'
-    cache-dependency-path: '**/package-lock.json'  # Explicit path required
+    cache-dependency-path: '**/package-lock.json' # Explicit path required
 ```
 
 **Important**: Always specify explicit `cache-dependency-path` to ensure correct cache invalidation.
@@ -74,6 +75,7 @@ bun run deploy
 ## Environment Variables
 
 Required secrets for CI:
+
 - `GITHUB_TOKEN`
 - `IFLOW_API_KEY`
 - `SUPABASE_SECRET_KEY`
@@ -88,6 +90,21 @@ Required secrets for CI:
 4. **Keep workflow versions pinned** for reproducibility
 
 ## Issue Labels
+
+- `ci` - CI/CD improvements
+- `platform-engineer` - Platform engineering tasks
+
+## Recent Fixes
+
+### 2026-02-26: ESLint packages in wrong dependencies
+
+**Issue**: ESLint packages (`@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`, `eslint-import-resolver-typescript`, `eslint-plugin-import`) were incorrectly placed in `dependencies` instead of `devDependencies`.
+
+**Fix**: Moved all ESLint-related packages to `devDependencies` in `package.json`.
+
+**Impact**: Reduced production bundle size by ~5MB.
+
+**Lesson**: Always verify package.json dependencies are correct - dev tools belong in devDependencies, not dependencies.
 
 - `ci` - CI/CD improvements
 - `platform-engineer` - Platform engineering tasks
