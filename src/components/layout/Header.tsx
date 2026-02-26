@@ -29,7 +29,7 @@ const NavItems = React.memo(({ className, onNavigate }: NavItemsProps) => (
         className={({ isActive }) =>
           cn(
             'text-lg font-medium transition-colors hover:text-school-blue',
-            isActive ? 'text-school-blue' : 'text-gray-700',
+            isActive ? 'text-school-blue' : 'text-muted-foreground',
             className
           )
         }
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
         <div className="flex h-20 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <BookOpen className="h-8 w-8 text-school-blue" />
-            <span className="text-2xl font-bold font-display text-gray-900">
+            <span className="text-2xl font-bold font-display text-foreground">
               Sekolah Ceria
             </span>
           </Link>
@@ -76,7 +76,7 @@ export const Header: React.FC = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <BookOpen className="h-7 w-7 text-school-blue" />
-                    <span className="text-xl font-bold font-display text-gray-900">
+                    <span className="text-xl font-bold font-display text-foreground">
                       Sekolah Ceria
                     </span>
                   </Link>

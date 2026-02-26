@@ -27,9 +27,9 @@ const NewsPage: React.FC = () => {
     }
     if (articles.length === 0) {
       return (
-        <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center bg-gray-50 border rounded-lg p-8">
-          <Inbox className="w-12 h-12 text-gray-400 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-800">
+        <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center bg-muted border rounded-lg p-8">
+          <Inbox className="w-12 h-12 text-muted-foreground mb-4" />
+          <h3 className="text-xl font-semibold text-foreground">
             Belum Ada Berita
           </h3>
           <p className="text-muted-foreground">
@@ -82,7 +82,7 @@ const NewsPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-6xl font-bold font-display text-gray-900"
+            className="text-5xl md:text-6xl font-bold font-display text-foreground"
           >
             Berita & Acara
           </motion.h1>

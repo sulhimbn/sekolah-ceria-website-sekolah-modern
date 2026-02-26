@@ -42,7 +42,7 @@ const NotFoundPage: React.FC = () => {
 
             {/* Content */}
             <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900">
+              <h1 className="text-4xl md:text-5xl font-bold font-display text-foreground">
                 Halaman Tidak Ditemukan
               </h1>
               <p className="text-lg text-muted-foreground max-w-md mx-auto">

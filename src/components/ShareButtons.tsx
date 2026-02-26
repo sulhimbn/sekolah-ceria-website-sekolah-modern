@@ -87,7 +87,7 @@ export const ShareButtons = React.memo(
                 href={option.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 ${option.color}`}
+                className={`flex items-center gap-3 p-2 rounded-md transition-colors text-muted-foreground ${option.color}`}
                 aria-label={option.label}
               >
                 <option.icon className="h-5 w-5" />
@@ -98,7 +98,7 @@ export const ShareButtons = React.memo(
               variant="ghost"
               size="sm"
               onClick={handleCopyLink}
-              className="justify-start gap-3 text-gray-700 hover:text-gray-900"
+              className="justify-start gap-3 text-muted-foreground hover:text-foreground"
             >
               {copied ? (
                 <>

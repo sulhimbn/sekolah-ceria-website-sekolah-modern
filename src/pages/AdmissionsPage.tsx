@@ -48,7 +48,7 @@ const AdmissionsPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-6xl font-bold font-display text-gray-900"
+            className="text-5xl md:text-6xl font-bold font-display text-foreground"
           >
             Pendaftaran Siswa Baru
           </motion.h1>
@@ -66,12 +66,12 @@ const AdmissionsPage: React.FC = () => {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl font-bold font-display text-gray-900">
+            <h2 className="text-4xl font-bold font-display text-foreground">
               Alur Pendaftaran
             </h2>
           </div>
           <div className="relative">
-            <div className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-0.5 h-[calc(100%-6rem)] bg-gray-200"></div>
+            <div className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-0.5 h-[calc(100%-6rem)] bg-muted"></div>
             <div className="space-y-12">
               {admissionSteps.map((step, index) => (
                 <motion.div
@@ -114,7 +114,7 @@ const AdmissionsPage: React.FC = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-3xl font-bold font-display text-gray-900">
+              <h3 className="text-3xl font-bold font-display text-foreground">
                 Jadwal Penting
               </h3>
               <ul className="mt-6 space-y-4 text-lg">
@@ -145,7 +145,7 @@ const AdmissionsPage: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h3 className="text-3xl font-bold font-display text-gray-900">
+              <h3 className="text-3xl font-bold font-display text-foreground">
                 Biaya Pendidikan
               </h3>
               <p className="mt-6 text-lg text-muted-foreground">
