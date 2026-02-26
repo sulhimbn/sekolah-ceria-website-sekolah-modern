@@ -36,7 +36,19 @@
 - Never skip verification
 
 ---
-
+## Past Work
+#BH|
+#NK|### 2026-02-26: README.md Documentation Enhancement
+#WY|
+#KP|- Enhanced `README.md` with missing developer workflow documentation
+#JM|- Added environment configuration step (`.env.example` reference)
+#HM|- Added Build section with `bun run build` command
+#TH|- Added Linting & Formatting section with lint, lint:fix, format, format:check
+#HP|- Added Testing section with all 6 test commands (test, test:run, test:coverage, test:e2e, test:e2e:ui)
+#XR|- Updated installation steps from 2 to 3 steps
+#KV|- Proactive scan found documentation gaps in developer workflow
+#NM|
+#NX|### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
 ## Past Work
 
 ### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
