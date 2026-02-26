@@ -20,16 +20,34 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 ## Active Improvements
 
-| Issue | Title                                        | Status     | Priority |
-| ----- | -------------------------------------------- | ---------- | -------- |
-| ----- | -------------------------------------------- | ---------- | -------- |
-| #140  | Fix missing React imports in use-news.ts    | PR #145    | P0       |
+| Issue | Title                                          | Status     | Priority |
+| ----- | ---------------------------------------------- | ---------- | -------- |
+| ----- | --------------------------------------------   | ---------- | -------- |
+| #200  | Type safety - worker/auth.ts uses 'as any'     | PR #207    | P2       |
+| #140  | Fix missing React imports in use-news.ts       | PR #145    | P0       |
 | #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
 
-| Issue | Title                                        | Status     | Priority |
-| ----- | -------------------------------------------- | ---------- | -------- |
-PK|| ----- | -------------------------------------------- | ---------- | -------- |
-PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+| Issue | Title                                          | Status     | Priority |
+| ----- | ---------------------------------------------- | ---------- | -------- |
+| ----- | --------------------------------------------   | ---------- | -------- |
+| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+
+- **#200** (2026-02-26): Type safety - Remove 'as any' casts in auth.ts
+  - Added AppContext type combining Bindings and Variables
+  - Used Hono's c.set() and c.get() instead of unsafe type casts
+  - Type-check passes, all 233 tests pass
+  - PR #207 created with RnD label
+
+| Issue | Title                                          | Status     | Priority |
+| ----- | ---------------------------------------------- | ---------- | -------- |
+| ----- | --------------------------------------------   | ---------- | -------- |
+| #140  | Fix missing React imports in use-news.ts       | PR #145    | P0       |
+| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+
+| Issue | Title | Status | Priority                                       |
+| ----- | ----- | ------ | ---------------------------------------------- | ---------- | -------- |
+| PK    |       | -----  | --------------------------------------------   | ---------- | -------- |
+| PK    |       | #94    | Fix missing npm dependencies for UI components | PR #107    | Low      |
 
 - **#140** (2026-02-26): Fix missing React imports in use-news.ts
   - Added missing React imports (useState, useEffect, useMemo, useCallback)
@@ -44,12 +62,12 @@ PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low  
   - Links had mismatched labels and destinations (e.g., "Projects" pointed to /admissions)
   - Removed "Quick Links" section with placeholder links
   - Improves accessibility by removing misleading navigation
-TX|
-KN|- **#94** (2026-02-25): Fix missing npm dependencies for UI components
-HT|  - Installed 3 missing packages: embla-carousel-react, input-otp, react-resizable-panels
-MZ|  - Resolved lint errors for carousel.tsx, input-otp.tsx, resizable.tsx
-MW|  - Components now have their dependencies available for future use
-ZK|  - PR #107 created with RnD label
+    TX|
+    KN|- **#94** (2026-02-25): Fix missing npm dependencies for UI components
+    HT| - Installed 3 missing packages: embla-carousel-react, input-otp, react-resizable-panels
+    MZ| - Resolved lint errors for carousel.tsx, input-otp.tsx, resizable.tsx
+    MW| - Components now have their dependencies available for future use
+    ZK| - PR #107 created with RnD label
 
 - **#67** (2026-02-25): Bundle Size Optimization
   - Removed 7 unused dependencies (@dnd-kit/core, @dnd-kit/sortable, react-flow, react-select, react-swipeable, react-use, tw-animate-css)
