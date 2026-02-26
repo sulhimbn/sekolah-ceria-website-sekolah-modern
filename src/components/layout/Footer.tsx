@@ -10,7 +10,7 @@ import {
   XCircle,
 } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+export const Footer = React.memo(() => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{
@@ -38,7 +38,10 @@ export const Footer: React.FC = () => {
         throw new Error(data.error || 'Gagal berlangganan');
       }
 
-      setMessage({ type: 'success', text: data.message || 'Terima kasih telah berlangganan!' });
+      setMessage({
+        type: 'success',
+        text: data.message || 'Terima kasih telah berlangganan!',
+      });
       setEmail('');
     } catch (err) {
       setMessage({
@@ -211,4 +214,4 @@ export const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+});
