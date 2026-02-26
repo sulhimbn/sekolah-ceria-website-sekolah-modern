@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-config-prettier';
+import security from 'eslint-plugin-security';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -19,11 +20,13 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       import: importPlugin,
+      security: security,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
       ...importPlugin.configs.typescript.rules,
+      ...security.configs.recommended.rules,
       'prefer-const': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
