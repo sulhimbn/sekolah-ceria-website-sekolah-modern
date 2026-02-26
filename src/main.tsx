@@ -1,7 +1,5 @@
 import '@/i18n';
 import '@/lib/errorReporter';
-import { enableMapSet } from 'immer';
-enableMapSet();
 import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
