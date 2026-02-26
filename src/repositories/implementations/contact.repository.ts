@@ -14,15 +14,18 @@ import type {
  */
 export class ContactApiRepository implements IContactRepository {
   async submitContact(data: ContactFormData): Promise<ContactResponse> {
-    const response = await api<{ message: string }>('/api/contact', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    const response = await api<{ success: boolean; message: string }>(
+      '/api/contact',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
 
     // Validate the response and construct the ContactResponse
     const validated = validateResponse(
       schemas.contactResponse,
-      { message: response.message, success: true },
+      { message: response.message, success: response.success },
       'ContactResponse'
     );
 

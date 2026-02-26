@@ -23,7 +23,7 @@ describe('ContactService - API Submission', () => {
         message: 'This is a test message',
       }
 
-      const mockApiResponse = { message: 'Message received' }
+      const mockApiResponse = { success: true, message: 'Message received' }
       vi.mocked(api).mockResolvedValueOnce(mockApiResponse)
 
       const result = await contactService.submitContactForm(formData)
@@ -44,7 +44,7 @@ describe('ContactService - API Submission', () => {
         message: 'This is a test message',
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: '' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: '' })
 
       const result = await contactService.submitContactForm(formData)
 
@@ -59,7 +59,7 @@ describe('ContactService - API Submission', () => {
         message: 'This is a test message',
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: 'Success' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: 'Success' })
       const beforeTime = Date.now()
 
       await contactService.submitContactForm(formData)
@@ -83,7 +83,7 @@ describe('ContactService - API Submission', () => {
         message: 'Hello, this is my message',
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: 'Success' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: 'Success' })
 
       await contactService.submitContactForm(formData)
 
@@ -102,7 +102,7 @@ describe('ContactService - API Submission', () => {
         message: 'Special chars: @#$%^&*()',
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: 'Success' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: 'Success' })
 
       const result = await contactService.submitContactForm(formData)
 
@@ -152,7 +152,7 @@ describe('ContactService - API Submission', () => {
         message: longMessage,
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: 'Success' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: 'Success' })
 
       const result = await contactService.submitContactForm(formData)
 
@@ -170,7 +170,7 @@ describe('ContactService - API Submission', () => {
         message: 'Test message',
       }
 
-      vi.mocked(api).mockResolvedValueOnce({ message: 'Success' })
+      vi.mocked(api).mockResolvedValueOnce({ success: true, message: 'Success' })
 
       await contactService.submitContactForm(formData)
 

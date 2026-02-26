@@ -182,7 +182,7 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
     }
 
-    return ok(c, { message: 'Pesan Anda telah berhasil dikirim!' });
+    return ok(c, { success: true, message: 'Pesan Anda telah berhasil dikirim!' });
   });
 
   // DELETE: Users (admin only)
