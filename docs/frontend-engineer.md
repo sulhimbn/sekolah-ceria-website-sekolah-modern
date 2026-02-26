@@ -110,21 +110,81 @@ src/
 When implementing API repositories, always use the actual values from the API response rather than hardcoding:
 
 **❌ Bad**:
+
 ```typescript
 const response = await api<T>('/api/endpoint', config);
 validateResponse(schema, { ...response, success: true }); // Hardcoded!
 ```
 
 **✅ Good**:
+
 ```typescript
-const response = await api<{ success: boolean; data: T }>('/api/endpoint', config);
+const response = await api<{ success: boolean; data: T }>(
+  '/api/endpoint',
+  config
+);
 validateResponse(schema, { ...response.data, success: response.success }); // Actual value
 ```
 
 ### Worker API Patterns
 
 The worker uses a consistent pattern for responses:
+
 - `ok(c, data)` returns `{ success: true, data: ... }`
 - `bad(c, error)` returns `{ success: false, error: ... }` with 400 status
 
 The frontend API client validates `success` at the HTTP layer and throws on failure, returning only `json.data`.
+
+### Component Organization
+
+**Hooks vs Components**: Files in `src/hooks/` should only export React hooks (functions starting with `use`). UI components should be placed in `src/components/`:
+
+**❌ Bad**:
+
+```typescript
+// src/hooks/useSkeletonLoader.tsx
+export function NewsCardSkeleton() { ... } // Not a hook!
+```
+
+**✅ Good**:
+
+```typescript
+// src/components/ui/skeleton-loaders.tsx
+export function NewsCardSkeleton() { ... } // UI component in components/
+```
+
+### DRY Principle for Types
+
+Define shared types in one location and import them. Don't duplicate type definitions:
+
+**❌ Bad**:
+
+```typescript
+// In contact.service.ts
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+// In contact.repository.interface.ts - DUPLICATE!
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
+```
+
+**✅ Good**:
+
+```typescript
+// Define once in repository interface
+// src/repositories/interfaces/contact.repository.interface.ts
+export interface ContactFormData extends ContactFormPayload {
+  timestamp?: number;
+}
+
+// Import in service
+// src/services/contact.service.ts
+import type { ContactFormData } from '@/repositories/interfaces/contact.repository.interface';
+```
