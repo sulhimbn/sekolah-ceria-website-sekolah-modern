@@ -122,13 +122,59 @@ NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.tri
 - Proper cleanup using `afterEach` and `cleanup()`
 - Using `vi.fn()` for mocking
 - Proper test isolation
-- Accessibility-aware queries (`getByRole`, `getByLabelText`, etc.)
-- Follow existing test patterns in the codebase
-- Test both valid and invalid inputs for validation schemas
-- Fixed validation bugs discovered through testing
+  #MT|- Accessibility-aware queries (`getByRole`, `getByLabelText`, etc.)
+  #YS|- Follow existing test patterns in the codebase
+  #YN|- Test both valid and invalid inputs for validation schemas
+  #HN|- Fixed validation bugs discovered through testing
+  #HP|
+  #HZ|
+
+### Current Test Count (2026-02-26 Session)
+
+#QM|
+#PQ|- **Before**: 214 tests (13 test files)
+#HV|- **After**: 233 tests (14 test files)
+#XP|- **New Tests**: 19 hook tests added
+#QZ|
+#BQ|#### Issue #10 Part 2: Add custom hook tests
+#QK|
+#KV|**Status**: Completed (PR #195)
+#PB|
+#JM|**Tests Added**:
+#XK|
+#JY|1. **API Hook Tests** (19 tests)
+#RB| - useNews: fetch articles successfully
+#BV| - useNewsSearch: search query functionality, search mode
+#VR| - useUsers: fetch users, create user
+#XZ| - useContactForm: submit form, error handling, clear error
+#JY| - useNewsArticle: fetch by ID, invalid ID, error handling
+#JM| - useChats: fetch chats, create chat, empty title validation
+#QM| - useChatMessages: load messages, invalid chatId, send message, validation
+#YH|
+#YQ|**Notes**:
+#JM|- Tests use @testing-library/react with TanStack Query testing utilities
+#QK|- Mock services (newsService, userService, contactService, chatService)
+#HQ|- Mock feature flags and error reporter
+#JJ|- 6 API hooks now have test coverage (previously 0 hook tests existed)
+#PH|
+#HH|
+
+### Future QA Work
+
+#YX|
+#HY|#### Remaining Issue #10 Scope:
+#QT|
+#KY|- Page tests for HomePage not yet implemented
+#XZ|- Additional component tests if needed
+#QK|
+#YZ|- Issue #11: Add E2E tests with Playwright - Not started
+#YQ|
+#XZ|
 
 ### PR Workflow Notes
 
-- **2026-02-26**: Fixed PR #133 which was out of date with main and contained unrelated commits. Created new PR #150 with clean, atomic changes rebased on current main.
-- Always verify PR branches are up to date with main before merging
-- Cherry-pick only relevant commits when recreating PRs
+#QT|
+#MB|- PR #195: test: Add API hook tests (Issue #10)
+#QM|- Label: quality-assurance added
+#XZ|- All 233 tests pass, no regressions
+#HZ|- Created branch qa/add-hook-tests-issue-10 from main
