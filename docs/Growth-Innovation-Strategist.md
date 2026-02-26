@@ -350,3 +350,51 @@ MT|- Test thoroughly before submitting PR
 - Use feature flags for gradual rollout
 - Keep changes small and atomic
 - Test thoroughly before submitting PR
+
+## Implemented Features
+
+### Traditional CI Pipeline Proposal (Issue #173)
+
+**Status**: PR Created ⚠️ (Blocked by permissions)
+
+**Issue**: The GitHub App token doesn't have workflow write permissions, which prevents pushing workflow files.
+
+**Changes Made**:
+
+1. Created documentation in `docs/ci-pipeline-proposal.md`:
+   - Complete CI workflow configuration
+   - Runs on every PR and push to main
+   - Executes: lint, type-check, build, test
+   - Fast feedback loop with cancel-in-progress
+
+2. Created workflow file locally (`.github/workflows/ci.yml`) but cannot push due to GitHub App permissions
+
+3. Created PR #183 with documentation
+
+**What's Needed to Complete**:
+- Grant workflow permissions to the GitHub App, OR
+- Manually copy the workflow from docs to `.github/workflows/ci.yml`
+
+**Benefits**:
+- Prevents bad code from reaching main
+- Fast feedback loop (< 5 min)
+- Required status check for PRs
+- 10x leverage improvement for codebase quality
+
+**Acceptance Criteria**:
+- [ ] CI workflow added (blocked by permissions)
+- [ ] Runs lint, type-check, build, test
+- [ ] Required status check for PRs
+- [ ] Fast feedback loop (< 5 min)
+
+---
+
+## Notes
+
+- GitHub Apps cannot push workflow files without explicit workflow permissions
+- Workaround: Use documentation to propose workflow changes, or use personal access token
+- Always maintain backward compatibility
+- Use feature flags for gradual rollout
+- Keep changes small and atomic
+- Test thoroughly before submitting PR
+
