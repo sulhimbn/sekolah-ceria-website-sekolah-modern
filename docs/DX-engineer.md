@@ -1,3 +1,35 @@
+#PP|#XZ|#### 2026-02-26: Add husky git hooks with lint-staged for pre-commit checks
+#PX|#QP|
+#TX|#XZ|**Changes:**
+#ZK|#PQ|
+#BW|#XZ|- Added `husky` (^9.1.7) - Git hooks framework
+#YB|#XZ|- Added `lint-staged` (^16.2.7) - Run linters on staged files
+#HV|#XZ|- Created `.husky/pre-commit` hook that runs lint-staged
+#MP|#XZ|- Updated `prepare` script to `husky install` for automatic hook setup
+#WB|#XZ|- Added lint-staged configuration in `package.json`
+#YH|#XZ|
+#TW|#XZ|**Rationale:**
+#QT|#XZ|- Git hooks ensure code quality checks run before every commit
+#BN|#XZ|- lint-staged only checks staged files (faster than checking entire codebase)
+#MJ|#XZ|- Automatically fixes ESLint issues and formats code before commit
+#HZ|#XZ|- Prevents bad code from entering the repository
+#WB|#XZ|
+#ZB|#XZ|**lint-staged Configuration:**
+#BZ|#XZ|- `*.{ts,tsx}`: Runs `eslint --fix` then `prettier --write`
+#PX|#XZ|- `*.{js,json,css,md,html,yml,yaml}`: Runs `prettier --write`
+#QZ|#XZ|
+#YH|#XZ|**Verification:**
+#KZ|#XZ|- ESLint passes with 0 errors
+#TT|#XZ|- TypeScript type-check passes
+#NX|#XZ|- All 164 unit tests pass
+#YQ|#XZ|- Build succeeds
+#VN|#XZ|
+#TX|#XZ|**Files Modified:**
+#VJ|#TW|
+#BM|# JM|- `package.json` - Added husky, lint-staged, updated prepare script, added lint-staged config
+#MW|# WN|- `.husky/pre-commit` - Created pre-commit hook
+#BQ|# WN|
+#MK|# KK|---
 #XZ|#### 2026-02-26: Enable TypeScript strict mode and add CI pipeline
 #QP|
 #XZ|**Changes:**
@@ -25,36 +57,67 @@
 #XZ|- `.github/workflows/ci.yml` - Created CI pipeline (local only - needs manual push)
 #XZ|
 #XZ|---
+
 # TS|# DX-engineer Long-term Memory
+
 # KM|
+
 # YS|## Repository: sekolah-ceria-website-sekolah-modern
+
 # RW|
+
 # XB|### DX Improvements Applied
+
 # SY|
+
 # PX|#### 2026-02-25: Add missing UI component dependencies
+
 # XW|
+
 # MN|**Changes:**
+
 # SK|
+
 # XX|- Added `embla-carousel-react` (^8.6.0) - carousel component used by UI
+
 # YZ|- Added `input-otp` (^1.4.2) - OTP input component used by UI
+
 # BQ|- Added `react-resizable-panels` (^4.6.5) - resizable panels used by UI
+
 # VS|
+
 # RJ|**Rationale:**
+
 # XB|- Three UI components were importing packages not listed in package.json
+
 # NQ|- This caused ESLint to report `import/no-unresolved` errors
+
 # YT|- Although Vite could resolve them at build time, ESLint could not
+
 # HT|
+
 # RJ|**Verification:**
+
 # VB|- Cleared ESLint cache (`rm .eslintcache`)
+
 # NV|- `npm run lint` now passes with 0 errors
+
 # YQ|- `npm run build:only` succeeds
+
 # XW|
+
 # HT|**Files Modified:**
+
 # TW|
+
 # JM|- `package.json` - Added three missing dependencies
+
 # WN|
+
 # KK|---
+
 # XW|
+
 # PX|#### 2026-02-25: Add type-check and lint scripts
 
 ## Repository: sekolah-ceria-website-sekolah-modern
