@@ -1,3 +1,34 @@
+#### 2026-02-26: Move ESLint packages from dependencies to devDependencies
+
+**Issue:** #170 - ESLint packages incorrectly in dependencies
+
+**Changes:**
+
+- Moved `@typescript-eslint/eslint-plugin` from dependencies to devDependencies
+- Moved `@typescript-eslint/parser` from dependencies to devDependencies
+- Moved `eslint-import-resolver-typescript` from dependencies to devDependencies
+- Moved `eslint-plugin-import` from dependencies to devDependencies
+
+**Rationale:**
+
+- ESLint and related packages are build-time tools, not runtime dependencies
+- These packages should not be included in production bundle
+- Reduces production bundle size by ~5MB
+
+**Verification:**
+
+- JSON validated
+- Package.json structure verified
+
+**Files Modified:**
+
+- `package.json` - Moved 4 packages to devDependencies
+
+**PR:** #177
+
+---
+
+
 #### 2026-02-26: Add CI pipeline PR (BLOCKED by GitHub App permissions)
 
 **Issue:** #123 - Add traditional CI pipeline with lint, type-check, test, build
