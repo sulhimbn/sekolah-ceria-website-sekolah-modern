@@ -39,6 +39,44 @@
 
 ## Past Work
 
+### 2026-02-26: Update Blueprint to Actual Codebase Structure v3 (PR #130)
+
+- Updated `docs/blueprint.md` to accurately reflect actual codebase structure
+- Removed duplicate frontend structure (reduced from 381 to 320 lines - 16% reduction)
+- Added missing UI components: progress, checkbox, calendar, table, toggle, aspect-ratio, command, dialog, skeleton
+- Added missing component: ShareButtons.tsx
+- Added worker/auth.ts to backend structure
+- Fixed filename: errorReporter.ts (was error-reporter.ts)
+- Added missing index files: repositories (root, interfaces, implementations), hooks/api, services
+- Linked to Issue #63
+- Created PR #130 with technical-writer label
+
+### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
+
+- Updated `docs/blueprint.md` to accurately reflect the actual codebase structure
+- Added all 48 UI components in `components/ui/` directory
+- Added new hooks: `useErrorHandler.ts`, `useSkeletonLoader.tsx`
+- Added new components: `ErrorBoundary.tsx`, `ErrorFallback.tsx`, `PlaceholderImage.tsx`, `ThemeToggle.tsx`, `RouteErrorBoundary.tsx`, `PageLoader.tsx`, `app-sidebar.tsx`
+- Added test files: `ErrorBoundary.test.tsx`, `button.test.tsx`, `input.test.tsx`, `card.test.tsx`
+- Fixed `error-reporter.ts` → `errorReporter.ts` (correct filename)
+- Added `user.repository.ts` to implementations
+- Linked to Issue #63
+- Created PR #109 with technical-writer label
+
+### 2026-02-25: Update Blueprint to Actual Codebase Structure (PR #84)
+
+- Updated `docs/blueprint.md` to accurately reflect actual codebase structure
+- Added missing directories: `assets/`, `i18n/`, `test/`
+- Added all lib utilities: `api-validator.ts`, `api-validator.test.ts`, `error-reporter.ts`, `feature-flags.ts`, `mock-data.ts`, `zod-schemas.ts`
+- Added all page components with exact filenames
+- Added `semantic-search.service.ts` to services
+- Added UI hooks: `useTheme`, `useMobile`
+- Added test files for services
+- Updated backend to include `validators.ts`
+- Removed duplicate content and cleaned up formatting
+- Linked to Issue #63
+- Created PR #84 with technical-writer label
+
 ### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
 
 - Updated `docs/blueprint.md` to accurately reflect the actual codebase structure
