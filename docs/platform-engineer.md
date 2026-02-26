@@ -21,12 +21,13 @@ Sekolah Ceria is a Cloudflare Pages + Workers application with React/Vite fronte
 
 All GitHub Actions should use consistent, pinned versions:
 
-| Action | Recommended Version | Purpose |
-|--------|-------------------|---------|
-| `actions/checkout` | v6 | Repository checkout |
-| `actions/cache` | v5 | Dependency caching |
-| `actions/setup-node` | v6 | Node.js setup |
-| `softprops/turnstyle` | v3 | Concurrency control |
+| Action                | Recommended Version | Purpose             |
+| --------------------- | ------------------- | ------------------- |
+| `actions/checkout`    | v6                  | Repository checkout |
+| `actions/cache`       | v5                  | Dependency caching  |
+| `actions/setup-node`  | v6                  | Node.js setup       |
+| `softprops/turnstyle` | v3                  | Concurrency control |
+
 ### Node.js Setup
 
 ```yaml
@@ -35,7 +36,7 @@ All GitHub Actions should use consistent, pinned versions:
   with:
     node-version: 20
     cache: 'npm'
-    cache-dependency-path: '**/package-lock.json'  # Explicit path required
+    cache-dependency-path: '**/package-lock.json' # Explicit path required
 ```
 
 **Important**: Always specify explicit `cache-dependency-path` to ensure correct cache invalidation.
@@ -74,6 +75,7 @@ bun run deploy
 ## Environment Variables
 
 Required secrets for CI:
+
 - `GITHUB_TOKEN`
 - `IFLOW_API_KEY`
 - `SUPABASE_SECRET_KEY`
@@ -92,7 +94,14 @@ Required secrets for CI:
 - `ci` - CI/CD improvements
 - `platform-engineer` - Platform engineering tasks
 
+## Known Limitations
+
+- **GitHub App Workflow Permission**: The github-actions[bot] GitHub App lacks "workflows" permission and cannot push changes to `.github/workflows/*` files directly. Workflow updates must be done manually or by a user with appropriate permissions.
+
 ## Related Documentation
+
+- [Blueprint](./blueprint.md) - Architecture overview
+- [Phase1 Diagnostic Report](./phase1-diagnostic-report.md) - Quality assessment
 
 - [Blueprint](./blueprint.md) - Architecture overview
 - [Phase1 Diagnostic Report](./phase1-diagnostic-report.md) - Quality assessment
