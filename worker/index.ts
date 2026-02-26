@@ -1,10 +1,10 @@
 // Making changes to this file is **STRICTLY** forbidden. Please add your routes in `user-routes.ts` file.
 
-import { Hono } from 'hono';
+import { Hono, Context } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { userRoutes } from './user-routes';
-import { Env, GlobalDurableObject } from './core-utils';
+import { Env, GlobalDurableObject, AppContext } from './core-utils';
 
 // Need to export GlobalDurableObject to make it available in wrangler
 export { GlobalDurableObject };
@@ -40,6 +40,7 @@ setInterval(() => {
 }, 60000);
 
 function createRateLimiter(maxRequests: number, windowMs: number) {
+    return async (c: Context<AppContext>, next: () => Promise<void>) => {
     return async (c: any, next: () => Promise<void>) => {
         const ip = c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || 'unknown';
         const now = Date.now();
@@ -78,11 +79,11 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
 const strictRateLimiter = createRateLimiter(60, 60000);
 const lenientRateLimiter = createRateLimiter(120, 60000);
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<AppContext>();
 
 app.use('*', logger());
 
-const allowedOrigins = (c: any) => {
+const allowedOrigins = (c: Context<AppContext>) => {
     const origin = c.req.header('Origin');
     const envAllowedOrigins = c.env?.ALLOWED_ORIGINS?.split(',') || [];
     if (envAllowedOrigins.length > 0 && origin && envAllowedOrigins.includes(origin)) {

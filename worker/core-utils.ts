@@ -11,6 +11,21 @@ export interface Env {
   JWT_SECRET?: string;
 }
 
+// Auth context type for extending Hono context
+// This allows us to type the user property on the context without using 'as any'
+export interface AuthContext {
+  user?: {
+    sub: string; // user id
+    name: string; // user name
+    role: 'admin' | 'user' | 'guest';
+    iat: number;
+    exp: number;
+  };
+}
+
+// Combined AppContext type for Hono
+export type AppContext = { Bindings: Env; Variables: AuthContext };
+
 type Doc<T> = { v: number; data: T };
 
 /**
@@ -314,7 +329,9 @@ export abstract class IndexedEntity<S extends { id: string }> extends Entity<S> 
   }
 }
 
-// API HELPERS
+export const ok = <T>(c: Context<AppContext>, data: T) => c.json({ success: true, data } as ApiResponse<T>);
+export const bad = (c: Context<AppContext>, error: string) => c.json({ success: false, error } as ApiResponse, 400);
+export const notFound = (c: Context<AppContext>, error = 'not found') => c.json({ success: false, error } as ApiResponse, 404);
 
 export const ok = <T>(c: Context, data: T) => c.json({ success: true, data } as ApiResponse<T>);
 export const bad = (c: Context, error: string) => c.json({ success: false, error } as ApiResponse, 400);

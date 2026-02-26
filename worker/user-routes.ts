@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import type { Env, AppContext } from './core-utils';
 import type { Env } from './core-utils';
 import { UserEntity, ChatBoardEntity, NewsArticleEntity } from './entities';
 import { ok, bad, notFound } from './core-utils';
@@ -49,7 +50,7 @@ function parseLimit(lq: string | null): number | undefined {
   return Math.min(parsed, MAX_LIMIT);
 }
 
-export function userRoutes(app: Hono<{ Bindings: Env }>) {
+export function userRoutes(app: Hono<AppContext>) {
   // AUTH - Public routes
   app.post('/api/auth/register', async c => {
     const body = await c.req.json();
