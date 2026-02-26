@@ -1,3 +1,42 @@
+#### 2026-02-26: Split errorReporter.ts into focused modules (SRP)
+
+**Issue:** #171 - errorReporter.ts at 794 lines - violates single responsibility
+
+**Changes:**
+
+- Split 794-line `errorReporter.ts` into focused modules:
+  - **error-types.ts** (180 lines): All interfaces and shared utilities
+  - **error-deduplication.ts** (168 lines): GlobalErrorDeduplication class
+  - **error-logger.ts** (153 lines): Console interceptors for error logging
+  - **error-reporter.ts** (423 lines): Main ErrorReporter class
+  - **errorReporter.ts** (67 lines): Barrel file for backward compatibility
+
+**Rationale:**
+
+- Issue #171 explicitly requested splitting the monolithic file following SRP
+- Each module has a single, well-defined responsibility
+- Barrel file maintains backward compatibility - all existing imports continue to work
+- No changes required to dependent files (11 files import from errorReporter)
+
+**Verification:**
+
+- TypeScript type-check: ✅ Passed
+- ESLint: ✅ 0 errors
+- Tests: ✅ 214 tests passed
+- Build: ✅ Passed
+
+**Files Created/Modified:**
+
+- `src/lib/error-types.ts` - Created (interfaces and utilities)
+- `src/lib/error-deduplication.ts` - Created (deduplication logic)
+- `src/lib/error-logger.ts` - Created (console interceptors)
+- `src/lib/error-reporter.ts` - Created (ErrorReporter class)
+- `src/lib/errorReporter.ts` - Refactored (barrel file)
+
+**PR:** #196
+
+---
+
 #### 2026-02-26: Add CI pipeline PR (BLOCKED by GitHub App permissions)
 
 **Issue:** #123 - Add traditional CI pipeline with lint, type-check, test, build
