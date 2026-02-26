@@ -31,6 +31,7 @@ Untuk menjalankan proyek ini secara lokal, Anda memerlukan Bun dan Git yang teri
 ### Instalasi
 
 1.  **Clone repositori:**
+
     ```bash
     git clone <repository-url>
     cd sekolah_ceria
@@ -38,8 +39,15 @@ Untuk menjalankan proyek ini secara lokal, Anda memerlukan Bun dan Git yang teri
 
 2.  **Instal dependensi:**
     Proyek ini menggunakan Bun sebagai package manager.
+
     ```bash
     bun install
+    ```
+
+3.  **Konfigurasi environment:**
+    Salin file `.env.example` ke `.env` dan sesuaikan nilai-nilainya:
+    ```bash
+    cp .env.example .env
     ```
 
 ## Development
@@ -52,11 +60,60 @@ bun dev
 
 Aplikasi akan tersedia di `http://localhost:3000` (atau port lain yang tersedia).
 
+## Build
+
+Untuk membangun aplikasi untuk produksi:
+
+```bash
+bun run build
+```
+
+Ini akan mengompilasi frontend dan menjalankan analisis bundle size.
+
+## Linting & Formatting
+
+Untuk memeriksa dan memperbaiki kode:
+
+```bash
+# Lint (cek error saja)
+bun run lint
+
+# Lint & fix otomatis
+bun run lint:fix
+
+# Format kode
+bun run format
+
+# Cek format saja
+bun run format:check
+```
+
+## Testing
+
+Proyek ini menggunakan Vitest untuk unit testing dan Playwright untuk e2e testing.
+
+```bash
+# Unit tests (watch mode)
+bun test
+
+# Unit tests (single run)
+bun run test:run
+
+# Unit tests dengan coverage
+bun run test:coverage
+
+# E2E tests
+bun run test:e2e
+
+# E2E tests dengan UI
+bun run test:e2e:ui
+```
+
 ## Project Structure
 
--   `src/`: Berisi semua kode frontend aplikasi React, termasuk halaman, komponen, dan hooks.
--   `worker/`: Berisi kode backend Cloudflare Worker yang dibangun dengan Hono, termasuk rute API dan logika entitas.
--   `shared/`: Berisi tipe TypeScript yang dibagikan antara frontend dan backend untuk memastikan konsistensi data.
+- `src/`: Berisi semua kode frontend aplikasi React, termasuk halaman, komponen, dan hooks.
+- `worker/`: Berisi kode backend Cloudflare Worker yang dibangun dengan Hono, termasuk rute API dan logika entitas.
+- `shared/`: Berisi tipe TypeScript yang dibagikan antara frontend dan backend untuk memastikan konsistensi data.
 
 ## Deployment
 
@@ -64,6 +121,7 @@ Proyek ini dirancang untuk di-deploy ke Cloudflare Pages & Workers.
 
 1.  **Login ke Wrangler:**
     Jika ini adalah pertama kalinya Anda, otentikasi dengan akun Cloudflare Anda.
+
     ```bash
     npx wrangler login
     ```
