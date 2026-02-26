@@ -74,7 +74,7 @@ export const Header: React.FC = () => {
                   <span className="sr-only">Open menu</span>
                 </span>
               </SheetTrigger>
-              </SheetTrigger>
+
               <SheetContent side="right" className="w-full sm:max-w-xs">
                 <div className="flex justify-between items-center p-4 border-b">
                   <Link
