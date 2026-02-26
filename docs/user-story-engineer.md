@@ -40,6 +40,16 @@
 ## Notes
 
 - First implementation: Newsletter form API integration (Issue #144)
+  - Added validator in worker/validators.ts
+  - Added API endpoint in worker/user-routes.ts
+  - Updated Footer.tsx to use real API
+
+- Second implementation: Skeleton components refactor (Issue #143)
+  - Moved skeleton components from src/hooks/ to src/components/
+  - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
+  - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
+
+- First implementation: Newsletter form API integration (Issue #144)
 - Added validator in worker/validators.ts
 - Added API endpoint in worker/user-routes.ts
 - Updated Footer.tsx to use real API
