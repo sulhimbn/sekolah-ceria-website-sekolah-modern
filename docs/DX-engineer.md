@@ -1,3 +1,30 @@
+#XZ|#### 2026-02-26: Enable TypeScript strict mode and add CI pipeline
+#QP|
+#XZ|**Changes:**
+#PQ|
+#XZ|- Enabled TypeScript strict mode in `tsconfig.app.json`
+#XZ|- Enabled `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`
+#XZ|- Added `immer` and `react-i18next` missing dependencies
+#XZ|- Created `.github/workflows/ci.yml` - traditional CI pipeline
+#XZ|
+#XZ|**Rationale:**
+#XZ|- Issue #120 requested enabling TypeScript strict mode for better type safety
+#XZ|- Issue #123 requested adding a traditional CI pipeline with lint, type-check, test, build
+#XZ|- The codebase already passes strict mode checks - no code changes needed
+#XZ|- CI pipeline ensures code quality on every push and PR
+#XZ|
+#XZ|**Verification:**
+#XZ|- TypeScript type-check passes with strict mode
+#XZ|- ESLint passes (cleared .eslintcache first)
+#XZ|- All 164 unit tests pass
+#XZ|- Build succeeds
+#XZ|
+#XZ|**Files Modified:**
+#XZ|- `tsconfig.app.json` - Enabled strict mode and related options
+#XZ|- `package.json` - Added missing dependencies
+#XZ|- `.github/workflows/ci.yml` - Created CI pipeline (local only - needs manual push)
+#XZ|
+#XZ|---
 # TS|# DX-engineer Long-term Memory
 # KM|
 # YS|## Repository: sekolah-ceria-website-sekolah-modern
