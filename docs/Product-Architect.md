@@ -36,6 +36,7 @@ shared/
 3. **Vendor Chunking**: Manual chunks for react-vendor, router, ui-vendor, animation, charts, forms, query
 4. **Error Handling**: Centralized via `lib/errorReporter.ts`, `lib/messages.ts`, and `hooks/useErrorHandler.ts`
 5. **Type Safety**: Zod for runtime validation (Phase 5 complete)
+6. **TypeScript Strict Mode**: Enabled in tsconfig.app.json for improved type safety
 
 ## Performance Benchmarks
 
@@ -66,6 +67,7 @@ shared/
 
 - [x] Add bundle size tracking to CI (fail on regression) - built into build script
 - [x] Implement performance budgets
+- [x] Enable TypeScript strict mode (strict, noUnusedLocals, noUnusedParameters, noFallthroughCasesInSwitch)
 - [ ] Investigate bundle size regression (614KB → 713KB)
 
 ### P2 - Medium Impact
@@ -81,6 +83,8 @@ shared/
 
 ## Recent Changes
 
+- 2026-02-26: Enabled TypeScript strict mode in tsconfig.app.json (strict, noUnusedLocals, noUnusedParameters, noFallthroughCasesInSwitch)
+- 2026-02-26: Added missing dependencies (immer, react-i18next) required for build
 - 2026-02-25: Updated blueprint.md to reflect actual codebase structure (layout components, hooks, UI components count)
 - 2026-02-25: Updated Product-Architect.md structure to match actual codebase
 - 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
@@ -90,6 +94,6 @@ shared/
 
 ## Last Updated
 
-- Date: 2026-02-25
+- Date: 2026-02-26
 - Agent: Product-Architect (ulw-loop)
-- Changes: Blueprint documentation updated, structure corrected, performance budgets implemented
+- Changes: Enabled TypeScript strict mode, added missing dependencies (immer, react-i18next)
