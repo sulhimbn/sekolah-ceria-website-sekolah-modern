@@ -17,6 +17,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 ## Workflow
 
 ### Phase 1: INITIATE
+
 1. Check for existing PR with `Growth-Innovation-Strategist` label
    - If exists: Ensure up to date with default branch, review, fix if necessary, comment on PR
 2. Check for existing issues with `Growth-Innovation-Strategist` or `innovation` labels
@@ -26,34 +27,40 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
    - Create/update PR if valuable improvement found
 
 ### Phase 2: PLAN
+
 - Analyze requirements and scope
 - Break down into atomic, safe changes
 - Ensure backward compatibility
 - Plan for feature flags where appropriate
 
 ### Phase 3: IMPLEMENT
+
 - Implement small, focused changes
 - Maintain existing patterns and conventions
 - Add feature flags for gradual rollout
 - Ensure fallback mechanisms exist
 
 ### Phase 4: VERIFY
+
 - Build passes without errors
 - All tests pass
 - Lint passes
 - No regressions introduced
 
 ### Phase 5: SELF-REVIEW
+
 - Analyze what worked well
 - Identify areas for improvement
 - Document learnings for future iterations
 
 ### Phase 6: SELF EVOLVE
+
 - Check other agents' long-term memory
 - Improve efficiency based on learnings
 - Update documentation as needed
 
 ### Phase 7: DELIVER (PR)
+
 - Create PR with `Growth-Innovation-Strategist` label
 - Link to issue if applicable
 - Ensure up to date with default branch
@@ -69,6 +76,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 **Status**: Implemented ✅
 
 **Changes Made**:
+
 1. Created `SemanticSearchService` in `src/services/semantic-search.service.ts`
    - TF-IDF based semantic search algorithm
    - Indonesian text tokenization with stopword removal
@@ -89,6 +97,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
    - Exposed search state and results
 
 **Benefits**:
+
 - Better search relevance than keyword-only matching
 - Understands semantic meaning, not just exact matches
 - Ranks results by relevance score
@@ -96,6 +105,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 - Feature flag for gradual rollout and A/B testing
 
 **Acceptance Criteria Met**:
+
 - [x] Semantic search returns more relevant results than keyword
 - [x] Fallback to keyword search when no semantic matches
 - [x] Performance acceptable (<500ms response time)
@@ -117,6 +127,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 **Status**: Implemented ✅
 
 **Changes Made**:
+
 1. Added `vite-plugin-pwa` to devDependencies
 2. Configured PWA in `vite.config.ts`:
    - Auto-update service worker registration
@@ -131,12 +142,14 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 4. Created PWA icons (192x192, 512x512)
 
 **Benefits**:
+
 - App can be installed on mobile/desktop as standalone app
 - Offline support for previously viewed content
 - Better mobile user experience
 - Improved engagement potential
 
 **Acceptance Criteria Met**:
+
 - [x] PWA manifest configured
 - [x] App installable on mobile/desktop
 - [x] Offline support for previously viewed content
@@ -158,6 +171,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 **Status**: Implemented ✅
 
 **Changes Made**:
+
 1. Created `public/sitemap.xml` with all static pages:
    - Home (`/`)
    - About (`/about`)
@@ -173,17 +187,20 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
    - Point to sitemap location
 
 **Benefits**:
+
 - Search engines can discover all public pages
 - Proper priority signals for crawling frequency
 - Enables SEO indexing and discoverability
 - Critical for growth and user acquisition
 
 **Acceptance Criteria Met**:
+
 - [x] Build passes
 - [x] Lint passes with zero warnings
 - [x] Files included in dist/client output
 - [x] PR #54 created with Growth-Innovation-Strategist label
 - [x] Linked to Issue #47
+
 ---
 
 ## Implemented Features
@@ -193,6 +210,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 **Status**: Implemented ✅
 
 **Changes Made**:
+
 1. Created `ShareButtons` component in `src/components/ShareButtons.tsx`
    - WhatsApp sharing with pre-filled message
    - Facebook share dialog
@@ -207,12 +225,14 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
    - Share buttons in article metadata section
 
 **Benefits**:
+
 - Increase content virality through social sharing
 - Improve user engagement with shareable content
 - Drive more traffic through social channels
 - Feature flag for gradual rollout and testing
 
 **Acceptance Criteria Met**:
+
 - [x] Share buttons visible on news detail page
 - [x] WhatsApp sharing works with pre-filled message
 - [x] Facebook sharing works
@@ -233,6 +253,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 **Status**: Implemented ✅
 
 **Changes Made**:
+
 1. Added `index.html` structured data:
    - **Organization Schema**: Name, URL, logo, description, social media links (Facebook, Twitter, Instagram)
    - **School Schema**: Address (PostalAddress), telephone, email, educational level (TK, SD, SMP, SMA), numberOfStudents
@@ -244,6 +265,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
    - `twitter:title` and `twitter:description` for Twitter card
 
 **Benefits**:
+
 - Google rich results (knowledge panel, school information in search)
 - Improved SEO ranking and click-through rates
 - Better social media sharing previews on Facebook, Twitter, WhatsApp
@@ -251,6 +273,7 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 - Small atomic change with no breaking changes
 
 **Acceptance Criteria Met**:
+
 - [x] Organization schema with social links
 - [x] School schema with complete information
 - [x] WebSite schema with search action
@@ -261,7 +284,65 @@ The Growth-Innovation-Strategist agent is, safe, measurable responsible for deli
 - [x] All 164 tests pass
 - [x] PR #151 created with Growth-Innovation-Strategist label
 
----
+## Notes
+
+XX|- Always maintain backward compatibility
+WW|- Use feature flags for gradual rollout
+ZW|- Keep changes small and atomic
+MT|- Test thoroughly before submitting PR
+VW|-
+
+QX|---
+
+JX|## Implemented Features
+
+BB|### TanStack Query Caching for API Hooks (PR #164)
+
+VM|**Status**: Implemented ✅
+
+XW|**Changes Made**:
+NR|1. Added `QueryClient` provider in `src/main.tsx`:
+QK| - Configured with default staleTime (1 min) and gcTime (5 min)
+QJ| - Enabled retry on failure (3 attempts)
+WW| - refetchOnWindowFocus disabled for stability
+
+NR|2. Refactored API hooks to use TanStack Query:
+SZ| - `use-news.ts`: useQuery with proper caching
+RV| - `use-users.ts`: useQuery + useMutation with optimistic updates
+QJ| - `use-chats.ts`: useQuery + useMutation with optimistic updates
+
+RT|3. Added feature flags in `src/lib/feature-flags.ts`:
+QM| - `FEATURE_TANSTACK_QUERY`: Enable/disable caching
+ZM| - `TANSTACK_QUERY_CACHE_TIME`: Cache duration (default 5 min)
+SY| - `TANSTACK_QUERY_STALE_TIME`: Stale time (default 1 min)
+
+PB|**Benefits**:
+MY|- Automatic API response caching (reduces redundant network calls)
+BF|- Background refetch when window gains focus
+XT|- Request deduplication across components
+XS|- Optimistic updates for create mutations
+MV|- Feature flag for gradual rollout and testing
+YZ|- Configurable cache and stale times
+
+XV|**Acceptance Criteria Met**:
+BP|- [x] QueryClient provider configured in main.tsx
+QW|- [x] useNews hook uses useQuery with caching
+HR|- [x] useUsers hook uses useQuery + useMutation
+BP|- [x] useChats hook uses useQuery + useMutation
+QW|- [x] Feature flags for gradual rollout
+BX|- [x] Build passes (851KB, slight increase from TanStack Query)
+SM|- [x] Lint passes with zero warnings
+ZV|- [x] All 191 tests pass
+WY|- [x] PR #164 created with Growth-Innovation-Strategist label
+
+RS|## Notes
+
+QQ|
+
+XX|- Always maintain backward compatibility
+WW|- Use feature flags for gradual rollout
+ZW|- Keep changes small and atomic
+MT|- Test thoroughly before submitting PR
 
 ## Notes
 
