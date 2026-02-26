@@ -68,6 +68,9 @@ The UI/UX Engineer agent is responsible for delivering small, safe, measurable i
 ## Long-term Memory
 
 ### Past Improvements
+- **Location Placeholder**: Added 'location' variant to PlaceholderImage component with map pin SVG illustration. Replaced text placeholder on ContactPage with visual component.
+- **Custom Error Pages (404/500)**: Created NotFoundPage and ServerErrorPage components with Indonesian text ("Halaman Tidak Ditemukan", "Terjadi Kesalahan"), school design system styling, navigation links, and retry functionality. Updated RouteErrorBoundary to redirect to appropriate error pages based on status code.
+- **Placeholder Image Component**: Created reusable PlaceholderImage component with SVG illustrations to replace text placeholders across HomePage, AboutPage, and AcademicsPage
 - **Custom Error Pages (404/500)**: Created NotFoundPage and ServerErrorPage components with Indonesian text ("Halaman Tidak Ditemukan", "Terjadi Kesalahan"), school design system styling, navigation links, and retry functionality. Updated RouteErrorBoundary to redirect to appropriate error pages based on status code.
 - **Placeholder Image Component**: Created reusable PlaceholderImage component with SVG illustrations to replace text placeholders across HomePage, AboutPage, and AcademicsPage
 - **Placeholder Image Component**: Created reusable PlaceholderImage component with SVG illustrations to replace text placeholders across HomePage, AboutPage, and AcademicsPage
