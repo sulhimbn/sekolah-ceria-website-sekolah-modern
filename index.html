@@ -11,12 +11,78 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sekolahceria.com" />
     <meta property="og:site_name" content="Sekolah Ceria" />
+    <meta property="og:image" content="https://sekolahceria.com/pwa-512x512.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sekolah Ceria - Sekolah Modern" />
+    <meta name="twitter:description" content="Membentuk generasi cerdas, kreatif, dan berakhlak mulia." />
     <meta name="theme-color" content="#4A90E2" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="SekolahCeria" />
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+    <link rel="canonical" href="https://sekolahceria.com" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://sekolahceria.com/#organization",
+            "name": "Sekolah Ceria",
+            "url": "https://sekolahceria.com",
+            "logo": "https://sekolahceria.com/pwa-512x512.png",
+            "description": "Sekolah modern dengan pendekatan pendidikan holistik yang membentuk generasi cerdas, kreatif, dan berakhlak mulia.",
+            "sameAs": [
+              "https://facebook.com/sekolahceria",
+              "https://twitter.com/sekolahceria",
+              "https://instagram.com/sekolahceria"
+            ]
+          },
+          {
+            "@type": "School",
+            "@id": "https://sekolahceria.com/#school",
+            "name": "Sekolah Ceria",
+            "url": "https://sekolahceria.com",
+            "description": "Sekolah modern dengan pendekatan pendidikan holistik.",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Jl. Pendidikan No. 123",
+              "addressLocality": "Jakarta",
+              "addressCountry": "ID",
+              "postalCode": "12345"
+            },
+            "telephone": "+62-21-123-4567",
+            "email": "info@sekolahceria.sch.id",
+            "areaServed": {
+              "@type": "Country",
+              "name": "Indonesia"
+            },
+            "educationalLevel": "TK, SD, SMP, SMA",
+            "numberOfStudents": 1000,
+            "@parent": {
+              "@id": "https://sekolahceria.com/#organization"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://sekolahceria.com/#website",
+            "url": "https://sekolahceria.com",
+            "name": "Sekolah Ceria",
+            "publisher": {
+              "@id": "https://sekolahceria.com/#organization"
+            },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://sekolahceria.com/news?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
