@@ -49,7 +49,7 @@ const NewsDetailPage: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto"
       >
-        <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900 mb-4 leading-tight">
+        <h1 className="text-4xl md:text-5xl font-bold font-display text-foreground mb-4 leading-tight">
           {article.title}
         </h1>
         <div className="flex flex-wrap items-center space-x-6 text-muted-foreground mb-8">
@@ -72,7 +72,7 @@ const NewsDetailPage: React.FC = () => {
             label="Berita Detail"
           />
         </div>
-        <div className="prose prose-lg max-w-none text-gray-800">
+        <div className="prose prose-lg max-w-none text-foreground">
           <p>{article.excerpt}</p>
           <p>
             Ini adalah konten lengkap dari artikel berita. Karena kita belum

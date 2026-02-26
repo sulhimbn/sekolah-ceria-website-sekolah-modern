@@ -7,7 +7,7 @@ type MainLayoutProps = {
 };
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen flex-col bg-school-bg text-gray-900">
+    <div className="flex min-h-screen flex-col bg-school-bg text-foreground">
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />

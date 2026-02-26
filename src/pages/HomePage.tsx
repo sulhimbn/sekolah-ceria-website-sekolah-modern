@@ -89,9 +89,9 @@ const HomePage: React.FC = () => {
     }
     if (latestNews.length === 0) {
       return (
-        <div className="md:col-span-3 flex flex-col items-center justify-center text-center bg-gray-50 border rounded-lg p-8">
-          <Inbox className="w-12 h-12 text-gray-400 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-800">
+        <div className="md:col-span-3 flex flex-col items-center justify-center text-center bg-muted border rounded-lg p-8">
+          <Inbox className="w-12 h-12 text-muted-foreground mb-4" />
+          <h3 className="text-xl font-semibold text-foreground">
             Belum Ada Berita
           </h3>
           <p className="text-muted-foreground">
@@ -148,7 +148,7 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.8 }}
               className="space-y-6"
             >
-              <h1 className="text-5xl md:text-6xl font-bold font-display text-gray-900 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold font-display text-foreground leading-tight">
                 Selamat Datang di{' '}
                 <span className="text-school-blue">Sekolah Ceria</span>
               </h1>
@@ -191,7 +191,7 @@ const HomePage: React.FC = () => {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl font-bold font-display text-gray-900">
+            <h2 className="text-4xl font-bold font-display text-foreground">
               Program Unggulan Kami
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
@@ -247,7 +247,7 @@ const HomePage: React.FC = () => {
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl font-bold font-display text-gray-900">
+            <h2 className="text-4xl font-bold font-display text-foreground">
               Berita & Acara Terbaru
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -269,7 +269,7 @@ const HomePage: React.FC = () => {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl font-bold font-display text-gray-900">
+            <h2 className="text-4xl font-bold font-display text-foreground">
               Apa Kata Mereka?
             </h2>
           </div>
@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
                     <p className="text-muted-foreground mb-4">
                       "{testimonial.quote}"
                     </p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-foreground">
                       {testimonial.author}
                     </p>
                     <p className="text-sm text-muted-foreground">

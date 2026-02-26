@@ -67,7 +67,7 @@ const ContactPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl md:text-6xl font-bold font-display text-gray-900"
+            className="text-5xl md:text-6xl font-bold font-display text-foreground"
           >
             Hubungi Kami
           </motion.h1>
@@ -94,7 +94,7 @@ const ContactPage: React.FC = () => {
               className="space-y-8"
             >
               <div>
-                <h2 className="text-3xl font-bold font-display text-gray-900">
+                <h2 className="text-3xl font-bold font-display text-foreground">
                   Informasi Kontak
                 </h2>
                 <div className="mt-6 space-y-4 text-lg text-muted-foreground">
@@ -114,7 +114,7 @@ const ContactPage: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold font-display text-gray-900">
+                <h3 className="text-2xl font-bold font-display text-foreground">
                   Jam Operasional
                 </h3>
                 <div className="mt-4 text-lg text-muted-foreground">
@@ -137,8 +137,8 @@ const ContactPage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold font-display text-gray-900 mb-6">
+              <div className="bg-background p-8 rounded-lg shadow-lg">
+                <h2 className="text-3xl font-bold font-display text-foreground mb-6">
                   Kirim Pesan
                 </h2>
                 <Form {...form}>

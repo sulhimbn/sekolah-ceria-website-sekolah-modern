@@ -46,7 +46,7 @@ const ServerErrorPage: React.FC = () => {
 
             {/* Content */}
             <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900">
+              <h1 className="text-4xl md:text-5xl font-bold font-display text-foreground">
                 Terjadi Kesalahan
               </h1>
               <p className="text-lg text-muted-foreground max-w-md mx-auto">
@@ -78,7 +78,7 @@ const ServerErrorPage: React.FC = () => {
               </div>
 
               {/* Contact support */}
-              <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
+              <div className="pt-8 border-t border-border">
                 <p className="text-sm text-muted-foreground mb-4">
                   Jika masalah berlanjut, hubungi kami:
                 </p>

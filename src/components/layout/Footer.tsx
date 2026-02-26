@@ -63,7 +63,7 @@ export const Footer = React.memo(() => {
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <BookOpen className="h-8 w-8 text-school-blue" />
-              <span className="text-2xl font-bold font-display text-gray-900">
+              <span className="text-2xl font-bold font-display text-foreground">
                 Sekolah Ceria
               </span>
             </Link>
@@ -101,7 +101,7 @@ export const Footer = React.memo(() => {
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-foreground">
               Tautan Cepat
             </h3>
             <ul className="mt-4 space-y-2">
@@ -140,7 +140,7 @@ export const Footer = React.memo(() => {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-foreground">
               Hubungi Kami
             </h3>
             <ul className="mt-4 space-y-2 text-muted-foreground">
@@ -150,7 +150,9 @@ export const Footer = React.memo(() => {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Newsletter</h3>
+            <h3 className="text-lg font-semibold text-foreground">
+              Newsletter
+            </h3>
             <p className="mt-4 text-muted-foreground">
               Dapatkan berita terbaru dari kami.
             </p>
@@ -170,7 +172,7 @@ export const Footer = React.memo(() => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 disabled={isLoading}
-                className="w-full rounded-l-md border-gray-300 px-4 py-2 focus:border-school-blue focus:ring-school-blue disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="w-full rounded-l-md border-input px-4 py-2 focus:border-school-blue focus:ring-school-blue disabled:bg-muted disabled:cursor-not-allowed"
               />
               <button
                 type="submit"
