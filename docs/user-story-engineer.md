@@ -39,17 +39,19 @@
 
 ## Notes
 
-- First implementation: Newsletter form API integration (Issue #144)
+- **Issue #175 (tabnabbing vulnerability)**: Already fixed in PR #179 - all `target="_blank"` links have `rel="noopener noreferrer"`. Issue was closed.
+
+- **Issue #142 (duplicate ContactFormData type)**: Fixed in PR #192
+  - Moved `ContactFormData` and `ContactResponse` to `shared/types.ts`
+  - Updated imports in `contact.repository.interface.ts` and `contact.service.ts`
+  - Eliminates DRY violation from duplicate type definitions
+
+- **Issue #144**: Newsletter form API integration
   - Added validator in worker/validators.ts
   - Added API endpoint in worker/user-routes.ts
   - Updated Footer.tsx to use real API
 
-- Second implementation: Skeleton components refactor (Issue #143)
+- **Issue #143**: Skeleton components refactor
   - Moved skeleton components from src/hooks/ to src/components/
   - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
   - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
-
-- First implementation: Newsletter form API integration (Issue #144)
-- Added validator in worker/validators.ts
-- Added API endpoint in worker/user-routes.ts
-- Updated Footer.tsx to use real API
