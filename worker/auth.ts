@@ -22,6 +22,28 @@ export interface AuthContext {
 }
 
 /**
+ * Constant-time string comparison to prevent timing attacks
+ * Uses crypto.subtle.timingSafeEqual for secure comparison
+ */
+function timingSafeEqual(a: string, b: string): boolean {
+  const encoder = new TextEncoder();
+  const aBytes = encoder.encode(a);
+  const bBytes = encoder.encode(b);
+
+  const maxLength = Math.max(aBytes.length, bBytes.length);
+  const aPadded = new Uint8Array(maxLength);
+  const bPadded = new Uint8Array(maxLength);
+  aPadded.set(aBytes);
+  bPadded.set(bBytes);
+
+  try {
+    return crypto.subtle.timingSafeEqual(aPadded, bPadded) && aBytes.length === bBytes.length;
+  } catch {
+    return aBytes.length === bBytes.length;
+  }
+}
+
+/**
  * Create a JWT-like token using Web Crypto API
  * Uses HS256 algorithm
  */
@@ -90,7 +112,7 @@ async function verifyToken(
       String.fromCharCode(...new Uint8Array(signature))
     );
 
-    if (signatureB64 !== expectedSignatureB64) return null;
+    if (!timingSafeEqual(signatureB64, expectedSignatureB64)) return null;
 
     const payload = JSON.parse(atob(payloadB64)) as AuthPayload;
 
@@ -99,7 +121,10 @@ async function verifyToken(
     if (payload.exp < now) return null;
 
     return payload;
-  } catch {
+  } catch (error) {
+    console.error('Token verification error:', error instanceof Error ? error.message : 'Unknown error');
+    return null;
+  }
     return null;
   }
 }
@@ -242,5 +267,5 @@ export async function verifyPassword(
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hash === hashHex;
+  return timingSafeEqual(hash, hashHex);
 }
