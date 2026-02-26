@@ -37,3 +37,13 @@ export interface ContactFormPayload {
   email: string;
   message: string;
 }
+// Tipe untuk data formulir kontak (dengan timestamp)
+export interface ContactFormData extends ContactFormPayload {
+  timestamp?: number;
+}
+
+// Tipe untuk response formulir kontak
+export interface ContactResponse {
+  message: string;
+  success: boolean;
+}
