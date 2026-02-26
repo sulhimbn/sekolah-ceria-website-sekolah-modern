@@ -9,6 +9,7 @@ https://your-worker.your-account.workers.dev
 ```
 
 For local development:
+
 ```
 http://localhost:8787
 ```
@@ -20,6 +21,7 @@ http://localhost:8787
 All API responses follow a consistent structure:
 
 ### Success Response
+
 ```json
 {
   "success": true,
@@ -28,6 +30,7 @@ All API responses follow a consistent structure:
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
@@ -36,7 +39,9 @@ All API responses follow a consistent structure:
 ```
 
 ### Pagination
+
 List endpoints return paginated results:
+
 ```json
 {
   "items": [...],
@@ -46,6 +51,7 @@ List endpoints return paginated results:
 ```
 
 Query parameters:
+
 - `cursor` - Pagination cursor from previous response
 - `limit` - Number of items per page (optional, defaults to backend value)
 
@@ -60,6 +66,7 @@ Query parameters:
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -84,13 +91,12 @@ Retrieve a paginated list of users.
 | limit | number? | Items per page |
 
 **Response:**
+
 ```json
 {
   "success": true,
   "data": {
-    "items": [
-      { "id": "uuid", "name": "John Doe", "createdAt": "timestamp" }
-    ],
+    "items": [{ "id": "uuid", "name": "John Doe", "createdAt": "timestamp" }],
     "nextCursor": "abc123",
     "hasMore": false
   }
@@ -104,6 +110,7 @@ Retrieve a paginated list of users.
 Create a new user.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe"
@@ -111,9 +118,11 @@ Create a new user.
 ```
 
 **Validation:**
+
 - `name` (required): Must be at least 1 character, trimmed
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -126,6 +135,7 @@ Create a new user.
 ```
 
 **Error Responses:**
+
 - `400`: "name required"
 
 ---
@@ -140,6 +150,7 @@ Delete a user by ID.
 | id | string | User UUID |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -157,6 +168,7 @@ Delete a user by ID.
 Bulk delete users.
 
 **Request Body:**
+
 ```json
 {
   "ids": ["uuid1", "uuid2", "uuid3"]
@@ -164,9 +176,11 @@ Bulk delete users.
 ```
 
 **Validation:**
+
 - `ids` (required): Array of user UUIDs, must not be empty
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -178,6 +192,7 @@ Bulk delete users.
 ```
 
 **Error Responses:**
+
 - `400`: "ids required"
 
 ---
@@ -195,13 +210,12 @@ Retrieve a paginated list of chat boards.
 | limit | number? | Items per page |
 
 **Response:**
+
 ```json
 {
   "success": true,
   "data": {
-    "items": [
-      { "id": "uuid", "title": "General Chat", "messages": [] }
-    ],
+    "items": [{ "id": "uuid", "title": "General Chat", "messages": [] }],
     "nextCursor": "abc123",
     "hasMore": false
   }
@@ -215,6 +229,7 @@ Retrieve a paginated list of chat boards.
 Create a new chat board.
 
 **Request Body:**
+
 ```json
 {
   "title": "General Chat"
@@ -222,9 +237,11 @@ Create a new chat board.
 ```
 
 **Validation:**
+
 - `title` (required): Must be at least 1 character, trimmed
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -236,6 +253,7 @@ Create a new chat board.
 ```
 
 **Error Responses:**
+
 - `400`: "title required"
 
 ---
@@ -250,6 +268,7 @@ Delete a chat board by ID.
 | id | string | Chat UUID |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -267,6 +286,7 @@ Delete a chat board by ID.
 Bulk delete chat boards.
 
 **Request Body:**
+
 ```json
 {
   "ids": ["uuid1", "uuid2", "uuid3"]
@@ -274,9 +294,11 @@ Bulk delete chat boards.
 ```
 
 **Validation:**
+
 - `ids` (required): Array of chat UUIDs, must not be empty
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -288,6 +310,7 @@ Bulk delete chat boards.
 ```
 
 **Error Responses:**
+
 - `400`: "ids required"
 
 ---
@@ -304,6 +327,7 @@ Retrieve all messages from a chat board.
 | chatId | string | Chat UUID |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -319,6 +343,7 @@ Retrieve all messages from a chat board.
 ```
 
 **Error Responses:**
+
 - `404`: "chat not found"
 
 ---
@@ -333,6 +358,7 @@ Send a message to a chat board.
 | chatId | string | Chat UUID |
 
 **Request Body:**
+
 ```json
 {
   "userId": "user-uuid",
@@ -341,10 +367,12 @@ Send a message to a chat board.
 ```
 
 **Validation:**
+
 - `userId` (required): Must be a non-empty string
 - `text` (required): Must be at least 1 character, trimmed
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -358,6 +386,7 @@ Send a message to a chat board.
 ```
 
 **Error Responses:**
+
 - `400`: "userId and text required"
 - `404`: "chat not found"
 
@@ -372,6 +401,7 @@ Retrieve a list of news articles.
 **Query Parameters:** None required
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -405,6 +435,7 @@ Retrieve a single news article by ID.
 | id | string | Article UUID |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -421,6 +452,7 @@ Retrieve a single news article by ID.
 ```
 
 **Error Responses:**
+
 - `404`: "Article not found"
 
 ---
@@ -432,6 +464,7 @@ Retrieve a single news article by ID.
 Submit a contact form.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -448,6 +481,7 @@ Submit a contact form.
 | message | string | Required, minimum 10 characters |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -458,6 +492,7 @@ Submit a contact form.
 ```
 
 **Error Responses:**
+
 - `400`: "Nama harus diisi, minimal 2 karakter." (Name required, min 2 chars)
 - `400`: "Format email tidak valid." (Invalid email format)
 - `400`: "Pesan harus diisi, minimal 10 karakter." (Message required, min 10 chars)
@@ -466,12 +501,14 @@ Submit a contact form.
 
 ## Error Codes
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | Success |
-| 400 | Bad Request - Validation failed |
-| 404 | Not Found - Resource doesn't exist |
-| 500 | Server Error |
+| Status Code | Description                                            |
+| ----------- | ------------------------------------------------------ |
+| 200         | Success                                                |
+| 400         | Bad Request - Validation failed                        |
+| 401         | Unauthorized - Invalid or missing authentication token |
+| 404         | Not Found - Resource doesn't exist                     |
+| 429         | Too Many Requests - Rate limit exceeded                |
+| 500         | Server Error                                           |
 
 ---
 
@@ -481,3 +518,236 @@ Submit a contact form.
 - UUIDs are used for all entity identifiers
 - The backend uses Cloudflare Durable Objects for data persistence
 - API responses are typed with TypeScript for consistency
+
+---
+
+## 7. Health Check
+
+#### GET /api/health
+
+Check API health status.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "status": "healthy",
+    "timestamp": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+---
+
+## 8. Client Error Reporting
+
+#### POST /api/client-errors
+
+Report client-side errors from the frontend application.
+
+**Request Body:**
+
+```json
+{
+  "message": "Error message",
+  "url": "https://example.com/page",
+  "userAgent": "Mozilla/5.0...",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "stack": "Error stack trace (optional)",
+  "componentStack": "React component stack (optional)",
+  "errorBoundary": true,
+  "errorBoundaryProps": {},
+  "source": "javascript-error",
+  "lineno": 123,
+  "colno": 45
+}
+```
+
+**Validation:**
+
+- `message` (required): Error message string
+
+**Response:**
+
+```json
+{
+  "success": true
+}
+```
+
+**Error Responses:**
+
+- `400`: "Missing required fields"
+
+---
+
+## 9. Authentication
+
+### 9.1 Register
+
+#### POST /api/auth/register
+
+Register a new user account.
+
+**Request Body:**
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+```
+
+**Validation:**
+| Field | Type | Rules |
+|-------|------|-------|
+| name | string | Required, minimum 2 characters |
+| email | string | Required, valid email format |
+| password | string | Required, minimum 6 characters |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "id": "user-uuid",
+      "name": "John Doe",
+      "role": "user"
+    }
+  }
+}
+```
+
+**Error Responses:**
+
+- `400`: Validation errors (e.g., "name must be at least 2 characters", "invalid email format", "password must be at least 6 characters")
+
+**Notes:**
+
+- Token expires after 24 hours
+- Default role is "user"
+
+---
+
+### 9.2 Login
+
+#### POST /api/auth/login
+
+Login with existing credentials.
+
+**Request Body:**
+
+```json
+{
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+```
+
+**Validation:**
+| Field | Type | Rules |
+|-------|------|-------|
+| email | string | Required, valid email format |
+| password | string | Required |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "id": "user-uuid",
+      "name": "John Doe",
+      "role": "user"
+    }
+  }
+}
+```
+
+**Error Responses:**
+
+- `400`: "Email atau password salah" (Invalid email or password)
+
+**Notes:**
+
+- Token expires after 24 hours
+
+---
+
+### 9.3 Get Current User
+
+#### GET /api/auth/me
+
+Get the currently authenticated user profile.
+
+**Headers:**
+| Header | Value |
+|--------|-------|
+| Authorization | Bearer {token} |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sub": "user-uuid",
+    "name": "John Doe",
+    "role": "user",
+    "iat": 1704067200,
+    "exp": 1704153600
+  }
+}
+```
+
+**Error Responses:**
+
+- `401`: "Unauthorized" (Invalid or missing token)
+
+---
+
+## 10. Newsletter
+
+#### POST /api/newsletter
+
+Subscribe to the newsletter.
+
+**Request Body:**
+
+```json
+{
+  "email": "subscriber@example.com"
+}
+```
+
+**Validation:**
+| Field | Type | Rules |
+|-------|------|-------|
+| email | string | Required, valid email format |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Terima kasih telah berlangganan!"
+  }
+}
+```
+
+**Error Responses:**
+
+- `400`: Validation errors
+
+**Notes:**
+
+- This endpoint is for demo purposes. In production, it would store to a database or send to an email service.
