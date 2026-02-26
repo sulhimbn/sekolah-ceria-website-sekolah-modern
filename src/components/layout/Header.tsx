@@ -42,6 +42,13 @@ const NavItems = React.memo(({ className, onNavigate }: NavItemsProps) => (
 
 NavItems.displayName = 'NavItems';
 
+// Reusable trigger button styles - avoids nested button issue with SheetTrigger + Button
+const triggerButtonStyles = cn(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors',
+  'hover:bg-accent hover:text-accent-foreground',
+  'h-9 w-9'
+);
+
 export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -62,11 +69,9 @@ export const Header: React.FC = () => {
           </nav>
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
+              <SheetTrigger className={triggerButtonStyles}>
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:max-w-xs">
                 <div className="flex justify-between items-center p-4 border-b">

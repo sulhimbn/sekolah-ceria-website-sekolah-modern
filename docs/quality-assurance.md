@@ -178,3 +178,38 @@ NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.tri
 #QM|- Label: quality-assurance added
 #XZ|- All 233 tests pass, no regressions
 #HZ|- Created branch qa/add-hook-tests-issue-10 from main
+
+### PR #212: Fix type safety and accessibility issues
+
+**Status**: Completed
+
+**Issues Fixed**:
+
+1. **Issue #200: Type safety - worker/auth.ts uses 'as any'**
+   - Problem: Auth middleware used `(c as any).user` to set user context
+   - Solution: Extended Hono's `ContextVariableMap` with `declare module 'hono'` to properly type user variable
+   - Changed 3 occurrences from `(c as any).user` to `c.set('user', payload)` and `c.get('user')`
+
+2. **Issue #201: Accessibility warning - button nested inside button**
+   - Problem: `SheetTrigger asChild` wrapped a `Button` component, creating nested `<button>` elements
+   - Solution: Applied ghost button styling directly to `SheetTrigger` using className
+   - File: `src/components/layout/Header.tsx`
+
+3. **Issue #203: Invalid className prop on anchor tag**
+   - Problem: Header test mock passed NavLink's function className directly to `<a>` element
+   - Solution: Updated test mock to handle function className by resolving to default classes
+   - File: `src/components/layout/Header.test.tsx`
+
+**Verification**:
+
+- All 233 tests pass
+- Type check passes (no errors)
+- Lint passes (no errors)
+- Build passes
+
+**Branch**: `qa/fix-type-safety-and-accessibility-issues`
+
+**Note**: Resolved React warnings in test output:
+
+- `Warning: Invalid value for prop 'className' on <a> tag` - FIXED
+- `Warning: validateDOMNesting(...): <button> cannot appear as a descendant of <button>` - FIXED

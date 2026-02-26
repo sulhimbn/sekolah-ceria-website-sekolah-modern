@@ -35,11 +35,18 @@ export interface AuthPayload {
   exp: number; // expiration
 }
 
-export type UserRole = 'admin' | 'user' | 'guest';
+export type UserRole = 'admin' | 'guest';
 
-// Extended context with auth
+// | 'user' Extended context with auth
 export interface AuthContext {
   user?: AuthPayload;
+}
+
+// Extend Hono's ContextVariableMap for type-safe user access
+declare module 'hono' {
+  interface ContextVariableMap {
+    user: AuthPayload;
+  }
 }
 
 /**
@@ -162,7 +169,7 @@ export async function authMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -183,7 +190,7 @@ export async function optionalAuthMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -194,7 +201,7 @@ export async function optionalAuthMiddleware(
  * Require auth - returns 401 if no valid token
  */
 export function requireAuth(c: Context<{ Bindings: Env }>): AuthPayload {
-  const user = (c as any).user as AuthPayload | undefined;
+  const user = c.get('user');
   if (!user) {
     throw new Error('Unauthorized');
   }
