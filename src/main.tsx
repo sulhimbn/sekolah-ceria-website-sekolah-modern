@@ -3,9 +3,11 @@ import '@/lib/errorReporter';
 import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import { PageLoader } from '@/components/PageLoader';
+import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import '@/index.css';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -17,6 +19,18 @@ const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 const ServerErrorPage = lazy(() => import('@/pages/ServerErrorPage'));
+
+// Create QueryClient with config from feature flags
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: FEATURE_FLAGS.TANSTACK_QUERY_STALE_TIME,
+      gcTime: FEATURE_FLAGS.TANSTACK_QUERY_CACHE_TIME,
+      retry: 3,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -113,7 +127,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </ErrorBoundary>
   </StrictMode>
 );
