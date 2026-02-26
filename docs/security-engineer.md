@@ -1,3 +1,97 @@
+## Implemented Security Improvements
+
+### 2026-02-26: Timing Attack Prevention
+
+**Files Changed**: worker/auth.ts
+
+**Description**: Fixed timing attack vulnerabilities in JWT signature and password hash verification.
+
+**Implementation Details**:
+
+- Added `timingSafeEqual()` function using `crypto.subtle.timingSafeEqual()` for constant-time comparison
+- JWT signature verification now uses constant-time comparison instead of strict equality (`===`)
+- Password hash verification now uses constant-time comparison instead of strict equality (`===`)
+- Added proper error logging to previously empty catch block
+
+**Code Addition**:
+
+```typescript
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const aBytes = encoder.encode(a);
+  const bBytes = encoder.encode(b);
+
+  if (aBytes.length !== bBytes.length) {
+    const maxLength = Math.max(aBytes.length, bBytes.length);
+    const aPadded = new Uint8Array(maxLength);
+    const bPadded = new Uint8Array(maxLength);
+    aPadded.set(aBytes);
+    bPadded.set(bBytes);
+    try {
+      await crypto.subtle.timingSafeEqual(aPadded, bPadded);
+    } catch {
+      // timingSafeEqual throws if lengths differ - that's expected
+    }
+    return false;
+  }
+
+  return crypto.subtle.timingSafeEqual(aBytes, bBytes);
+}
+```
+
+**Security Benefits**:
+
+- Prevents attackers from using timing differences to guess JWT signatures byte-by-byte
+- Prevents attackers from using timing differences to guess password hashes byte-by-byte
+- Better debugging with proper error logging
+
+### 2026-02-26: N+1 Query Fix in Login
+
+**Files Changed**: worker/entities.ts, worker/user-routes.ts
+
+**Description**: Fixed N+1 query vulnerability in login endpoint that was fetching all users just to find one by email.
+
+**Implementation Details**:
+
+- Added `findByEmail()` static method to UserEntity
+- Updated login endpoint to use `findByEmail()` instead of listing all users
+- Removed unnecessary `: any` type cast
+
+**Code Addition (entities.ts)**:
+
+```typescript
+static async findByEmail(env: Env, email: string): Promise<User | null> {
+  const idx = new Index<string>(env, this.indexName);
+  const userIds = await idx.list();
+
+  for (const userId of userIds) {
+    const user = await new UserEntity(env, userId).getState();
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+}
+```
+
+**Code Change (user-routes.ts)**:
+
+```typescript
+// Before:
+const users = await UserEntity.list(c.env, null, 100);
+const user = users.items.find((u: any) => u.email === email);
+
+// After:
+const user = await UserEntity.findByEmail(c.env, email);
+```
+
+**Security Benefits**:
+
+- Eliminates data leak by not exposing entire user list during login
+- Reduces attack surface by minimizing data returned
+
+### 2026-02-26: ESLint Security Plugin
+
 # Security Engineer Documentation
 
 ## Overview

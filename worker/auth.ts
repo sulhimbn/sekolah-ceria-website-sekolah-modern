@@ -5,6 +5,35 @@
 import { Context, Next } from 'hono';
 import type { Env } from './core-utils';
 
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * Uses Web Crypto API for secure comparison
+ */
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const aBytes = encoder.encode(a);
+  const bBytes = encoder.encode(b);
+
+  // If lengths differ, still do comparison to maintain constant time
+  if (aBytes.length !== bBytes.length) {
+    // Pad the shorter one with zeros for constant-time comparison
+    const maxLength = Math.max(aBytes.length, bBytes.length);
+    const aPadded = new Uint8Array(maxLength);
+    const bPadded = new Uint8Array(maxLength);
+    aPadded.set(aBytes);
+    bPadded.set(bBytes);
+    // Compare padded arrays (will fail but we do it for constant time)
+    try {
+      await crypto.subtle.timingSafeEqual(aPadded, bPadded);
+    } catch {
+      // timingSafeEqual throws if lengths differ - that's expected
+    }
+    return false; // Lengths differ means strings are different
+  }
+
+  return crypto.subtle.timingSafeEqual(aBytes, bBytes);
+}
+
 // JWT payload interface
 export interface AuthPayload {
   sub: string; // user id
@@ -90,7 +119,9 @@ async function verifyToken(
       String.fromCharCode(...new Uint8Array(signature))
     );
 
-    if (signatureB64 !== expectedSignatureB64) return null;
+    // Use constant-time comparison to prevent timing attacks
+    const isValid = await timingSafeEqual(signatureB64, expectedSignatureB64);
+    if (!isValid) return null;
 
     const payload = JSON.parse(atob(payloadB64)) as AuthPayload;
 
@@ -99,7 +130,12 @@ async function verifyToken(
     if (payload.exp < now) return null;
 
     return payload;
-  } catch {
+  } catch (error) {
+    // Log error for debugging but don't expose details to client
+    console.error(
+      '[auth] Token verification failed:',
+      error instanceof Error ? error.message : 'Unknown error'
+    );
     return null;
   }
 }
@@ -242,5 +278,6 @@ export async function verifyPassword(
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hash === hashHex;
+  // Use constant-time comparison to prevent timing attacks
+  return await timingSafeEqual(hash, hashHex);
 }
