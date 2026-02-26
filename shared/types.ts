@@ -9,7 +9,7 @@ export interface User {
   name: string;
   email?: string;
   password?: string;
-  }
+}
 
 export interface Chat {
   id: string;
@@ -36,4 +36,15 @@ export interface ContactFormPayload {
   name: string;
   email: string;
   message: string;
+}
+
+// Tipe untuk data formulir kontak dengan timestamp
+export interface ContactFormData extends ContactFormPayload {
+  timestamp?: number;
+}
+
+// Tipe untuk respons submission formulir kontak
+export interface ContactResponse {
+  message: string;
+  success: boolean;
 }

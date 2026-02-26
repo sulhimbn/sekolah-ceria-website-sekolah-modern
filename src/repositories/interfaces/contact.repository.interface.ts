@@ -1,13 +1,13 @@
-import type { ContactFormPayload } from '@shared/types';
+import type {
+  ContactFormPayload,
+  ContactFormData,
+  ContactResponse,
+} from '@shared/types';
 
-export interface ContactFormData extends ContactFormPayload {
-  timestamp?: number;
-}
-
-export interface ContactResponse {
-  message: string;
-  success: boolean;
-}
+/**
+ * Repository interface for contact form submissions
+ * Abstracts data source (API, email service, etc.)
+ */
 
 /**
  * Repository interface for contact form submissions
