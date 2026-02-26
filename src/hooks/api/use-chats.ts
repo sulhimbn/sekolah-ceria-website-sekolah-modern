@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { chatService } from '@/services';
 import { errorReporter } from '@/lib/errorReporter';
+import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import type { Chat } from '@shared/types';
 
 interface UseChatsReturn {
@@ -12,69 +14,74 @@ interface UseChatsReturn {
   isCreating: boolean;
 }
 
+const CHATS_QUERY_KEY = ['chats', 'list'];
+
+async function fetchChats(): Promise<Chat[]> {
+  return chatService.listChats();
+}
+
 export function useChats(): UseChatsReturn {
-  const [chats, setChats] = useState<Chat[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const fetchChats = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await chatService.listChats();
-      setChats(data);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat data chat.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const {
+    data: chats = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: CHATS_QUERY_KEY,
+    queryFn: fetchChats,
+    staleTime: FEATURE_FLAGS.TANSTACK_QUERY_STALE_TIME,
+    gcTime: FEATURE_FLAGS.TANSTACK_QUERY_CACHE_TIME,
+    retry: 3,
+    refetchOnWindowFocus: false,
+  });
+
+  const handleError = useCallback((err: unknown) => {
+    const errorMessage =
+      err instanceof Error ? err.message : 'Gagal memuat data chat.';
+    errorReporter.report({
+      message: errorMessage,
+      stack: err instanceof Error ? err.stack : undefined,
+      url: typeof window !== 'undefined' ? window.location.href : '',
+      timestamp: new Date().toISOString(),
+      level: 'error',
+      category: 'network',
+    });
+    return errorMessage;
   }, []);
 
-  const createChat = useCallback(async (title: string): Promise<Chat | null> => {
-    if (!title.trim()) return null;
-    
-    try {
-      setIsCreating(true);
-      const newChat = await chatService.createChat(title.trim());
-      setChats(prev => [...prev, newChat]);
-      return newChat;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal membuat chat.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
-      return null;
-    } finally {
-      setIsCreating(false);
-    }
-  }, []);
+  const createChatMutation = useMutation({
+    mutationFn: async (title: string) => {
+      if (!title.trim()) return null;
+      return chatService.createChat(title.trim());
+    },
+    onSuccess: newChat => {
+      if (newChat) {
+        queryClient.setQueryData<Chat[]>(CHATS_QUERY_KEY, (old = []) => [
+          ...old,
+          newChat,
+        ]);
+      }
+    },
+    onError: err => {
+      handleError(err);
+    },
+  });
 
-  useEffect(() => {
-    fetchChats();
-  }, [fetchChats]);
+  const createChat = useCallback(
+    async (title: string): Promise<Chat | null> => {
+      return createChatMutation.mutateAsync(title);
+    },
+    [createChatMutation]
+  );
 
   return {
     chats,
     isLoading,
-    error,
-    refetch: fetchChats,
+    error: error ? handleError(error) : null,
+    refetch,
     createChat,
-    isCreating,
+    isCreating: createChatMutation.isPending,
   };
 }
