@@ -10,6 +10,7 @@ const resources = {
   en: { translation: en },
 };
 
+// Initialize i18n with non-blocking initImmediate
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -32,6 +33,9 @@ i18n
     react: {
       useSuspense: false,
     },
+
+    // Non-blocking initialization - doesn't block render
+    initImmediate: true,
   });
 
 export default i18n;

@@ -17,6 +17,7 @@ const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 const ServerErrorPage = lazy(() => import('@/pages/ServerErrorPage'));
+const DemoPage = lazy(() => import('@/pages/DemoPage'));
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,16 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<PageLoader />}>
         <ContactPage />
+      </Suspense>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+  // Demo page with heavy components (recharts)
+  {
+    path: '/demo',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <DemoPage />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
