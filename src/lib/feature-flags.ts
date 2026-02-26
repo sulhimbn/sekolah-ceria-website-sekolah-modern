@@ -22,6 +22,10 @@ export interface FeatureFlags {
   TANSTACK_QUERY_STALE_TIME: number;
   /** Show estimated reading time on article cards and detail pages */
   FEATURE_READING_TIME: boolean;
+  /** Show related articles on news detail pages */
+  FEATURE_RELATED_ARTICLES: boolean;
+  /** Maximum number of related articles to display */
+  RELATED_ARTICLES_COUNT: number;
 }
 
 export const FEATURE_FLAGS: FeatureFlags = {
@@ -32,6 +36,8 @@ export const FEATURE_FLAGS: FeatureFlags = {
   TANSTACK_QUERY_CACHE_TIME: 5 * 60 * 1000,
   TANSTACK_QUERY_STALE_TIME: 60 * 1000,
   FEATURE_READING_TIME: true,
+  FEATURE_RELATED_ARTICLES: true,
+  RELATED_ARTICLES_COUNT: 3,
 };
 
 /**
