@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { Skeleton } from '@/components/ui/skeleton';
+import { NewsDetailSkeleton } from '@/components/NewsDetailSkeleton';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, Calendar, User, ArrowLeft } from 'lucide-react';
 import { useNewsArticle } from '@/hooks/api';
@@ -18,19 +18,7 @@ const NewsDetailPage: React.FC = () => {
     if (isLoading) {
       return (
         <div className="max-w-4xl mx-auto">
-          <Skeleton className="h-12 w-3/4 mb-6" />
-          <div className="flex items-center space-x-6 mb-8">
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className="h-6 w-48" />
-          </div>
-          <Skeleton className="aspect-video w-full rounded-lg mb-8" />
-          <div className="space-y-4">
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-5/6" />
-            <Skeleton className="h-6 w-full mt-4" />
-            <Skeleton className="h-6 w-2/3" />
-          </div>
+          <NewsDetailSkeleton />
         </div>
       );
     }
