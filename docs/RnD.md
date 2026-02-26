@@ -30,7 +30,15 @@ This document serves as the long-term memory for the R&D (Research & Development
 | ----- | -------------------------------------------- | ---------- | -------- |
 PK|| ----- | -------------------------------------------- | ---------- | -------- |
 PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
-
+#QY|
+#JT|- **#172** (2026-02-26): Update wrangler compatibility_date
+#KM|  - Updated compatibility_date from 2025-04-24 to 2026-02-26
+#HV|  - Enables latest Cloudflare Workers runtime features
+#JB|  - PR #188 created with RnD label
+#SY|
+#JT|- **#170** (2026-02-26): ESLint packages in dependencies - VERIFIED RESOLVED
+#JB|  - Confirmed ESLint packages are already in devDependencies (lines 86-104)
+#JK|  - Issue closed as resolved - no action needed
 - **#140** (2026-02-26): Fix missing React imports in use-news.ts
   - Added missing React imports (useState, useEffect, useMemo, useCallback)
   - Fixes P0 runtime crash when visiting news pages
