@@ -94,7 +94,7 @@ const HomePage: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-800">
             Belum Ada Berita
           </h3>
-          <p className="text-gray-500">
+          <p className="text-muted-foreground">
             Saat ini belum ada berita atau acara yang dipublikasikan. Silakan
             cek kembali nanti.
           </p>
