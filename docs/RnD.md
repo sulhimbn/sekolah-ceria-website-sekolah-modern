@@ -20,6 +20,13 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 ## Active Improvements
 
+| Issue | Title | Status | Priority |
+| ----- | -------------------------------------------- | ---------- | -------- |
+| ----- | -------------------------------------------- | ---------- | -------- |
+| #166 | Timing attack vulnerabilities in JWT and password verification | PR #180 | P0 |
+| #140 | Fix missing React imports in use-news.ts | PR #145 | P0 |
+| #94 | Fix missing npm dependencies for UI components | PR #107 | Low |
+
 | Issue | Title                                        | Status     | Priority |
 | ----- | -------------------------------------------- | ---------- | -------- |
 | ----- | -------------------------------------------- | ---------- | -------- |
@@ -30,6 +37,15 @@ This document serves as the long-term memory for the R&D (Research & Development
 | ----- | -------------------------------------------- | ---------- | -------- |
 PK|| ----- | -------------------------------------------- | ---------- | -------- |
 PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+
+JT|- **#166** (2026-02-26): Fix timing attack vulnerabilities in JWT and password verification
+KT|  - Added timingSafeEqual() helper using crypto.subtle.timingSafeEqual()
+KZ|  - Fixed JWT signature comparison to use constant-time comparison
+TW|  - Fixed password hash comparison to use constant-time comparison
+SJ|  - Added error logging to previously empty catch block
+MS|  - Type-check passes
+SZ|  - PR #180 created with RnD label
+
 
 - **#140** (2026-02-26): Fix missing React imports in use-news.ts
   - Added missing React imports (useState, useEffect, useMemo, useCallback)
