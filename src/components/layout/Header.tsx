@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { BookOpen, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { BookOpen, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
@@ -69,9 +68,12 @@ export const Header: React.FC = () => {
           </nav>
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger className={triggerButtonStyles}>
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
+              <SheetTrigger asChild>
+                <span className="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Open menu</span>
+                </span>
+              </SheetTrigger>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:max-w-xs">
                 <div className="flex justify-between items-center p-4 border-b">
@@ -85,14 +87,6 @@ export const Header: React.FC = () => {
                       Sekolah Ceria
                     </span>
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <X className="h-6 w-6" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
                 </div>
                 <nav className="flex flex-col space-y-6 p-4">
                   <NavItems className="text-xl" onNavigate={handleNavigate} />
