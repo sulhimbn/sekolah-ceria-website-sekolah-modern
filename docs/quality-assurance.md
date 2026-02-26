@@ -105,3 +105,9 @@ This document serves as the long-time memory for the quality-assurance specialis
 - Follow existing test patterns in the codebase
 - Test both valid and invalid inputs for validation schemas
 - Fixed validation bugs discovered through testing
+
+### PR Workflow Notes
+
+- **2026-02-26**: Fixed PR #133 which was out of date with main and contained unrelated commits. Created new PR #150 with clean, atomic changes rebased on current main.
+- Always verify PR branches are up to date with main before merging
+- Cherry-pick only relevant commits when recreating PRs
