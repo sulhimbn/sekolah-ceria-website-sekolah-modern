@@ -36,8 +36,25 @@
 - Never skip verification
 
 ---
+
 ## Past Work
-#BH|
+
+### 2026-02-26: Add Missing API Endpoints (PR #182)
+
+- Updated `docs/api.md` with 6 previously undocumented endpoints:
+  - `/api/health` (GET) - Health check endpoint
+  - `/api/client-errors` (POST) - Client-side error reporting
+  - `/api/auth/register` (POST) - User registration
+  - `/api/auth/login` (POST) - User login
+  - `/api/auth/me` (GET) - Get current authenticated user
+  - `/api/newsletter` (POST) - Newsletter subscription
+- Added 401 (Unauthorized) and 429 (Too Many Requests) to error codes table
+- Addresses pending task from `docs/task.md`: "Document API contracts"
+- Verified: Build passes, Lint passes, Zero warnings
+- Created PR #182 with technical-writer label
+
+### 2026-02-26: README.md Documentation Enhancement
+
 #NK|### 2026-02-26: README.md Documentation Enhancement
 #WY|
 #KP|- Enhanced `README.md` with missing developer workflow documentation
@@ -49,6 +66,7 @@
 #KV|- Proactive scan found documentation gaps in developer workflow
 #NM|
 #NX|### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
+
 ## Past Work
 
 ### 2026-02-25: Update Blueprint to Actual Codebase Structure v2 (PR #109)
@@ -78,7 +96,6 @@
 - Removed duplicate content and cleaned up formatting
 - Linked to Issue #63
 - Created PR #84 with technical-writer label
-
 
 ### 2026-02-25: Technical Writer Memory Cleanup (PR #52)
 
