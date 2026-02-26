@@ -42,6 +42,12 @@ export interface AuthContext {
   user?: AuthPayload;
 }
 
+// App context type combining Bindings and Variables
+export type AppContext = {
+  Bindings: Env;
+  Variables: AuthContext;
+};
+
 /**
  * Create a JWT-like token using Web Crypto API
  * Uses HS256 algorithm
@@ -151,10 +157,7 @@ function getJWTSecret(c: Context<{ Bindings: Env }>): string {
 /**
  * Auth middleware - parses Authorization header and attaches user to context
  */
-export async function authMiddleware(
-  c: Context<{ Bindings: Env }>,
-  next: Next
-) {
+export async function authMiddleware(c: Context<AppContext>, next: Next) {
   const authHeader = c.req.header('Authorization');
   const token = authHeader?.replace(/^Bearer\s+/i, '');
 
@@ -162,7 +165,7 @@ export async function authMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -173,7 +176,7 @@ export async function authMiddleware(
  * Optional auth - attaches user if token present but doesn't require it
  */
 export async function optionalAuthMiddleware(
-  c: Context<{ Bindings: Env }>,
+  c: Context<AppContext>,
   next: Next
 ) {
   const authHeader = c.req.header('Authorization');
@@ -183,7 +186,7 @@ export async function optionalAuthMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -193,8 +196,8 @@ export async function optionalAuthMiddleware(
 /**
  * Require auth - returns 401 if no valid token
  */
-export function requireAuth(c: Context<{ Bindings: Env }>): AuthPayload {
-  const user = (c as any).user as AuthPayload | undefined;
+export function requireAuth(c: Context<AppContext>): AuthPayload {
+  const user = c.get('user');
   if (!user) {
     throw new Error('Unauthorized');
   }
@@ -205,7 +208,7 @@ export function requireAuth(c: Context<{ Bindings: Env }>): AuthPayload {
  * Require role - returns 403 if user doesn't have required role
  */
 export function requireRole(
-  c: Context<{ Bindings: Env }>,
+  c: Context<AppContext>,
   requiredRole: UserRole
 ): AuthPayload {
   const user = requireAuth(c);
