@@ -22,10 +22,22 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 | Issue | Title                                        | Status     | Priority |
 | ----- | -------------------------------------------- | ---------- | -------- |
+| ----- | -------------------------------------------- | ---------- | -------- |
+| #140  | Fix missing React imports in use-news.ts    | PR #145    | P0       |
+| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+
+| Issue | Title                                        | Status     | Priority |
+| ----- | -------------------------------------------- | ---------- | -------- |
 PK|| ----- | -------------------------------------------- | ---------- | -------- |
 PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
 
-## Past Work
+- **#140** (2026-02-26): Fix missing React imports in use-news.ts
+  - Added missing React imports (useState, useEffect, useMemo, useCallback)
+  - Fixes P0 runtime crash when visiting news pages
+  - Type-check and build pass (812KB bundle)
+  - PR #145 created with RnD label
+
+- **#88** (2026-02-25): Fix accessibility - Remove placeholder links
 
 - **#88** (2026-02-25): Fix accessibility - Remove placeholder links
   - Removed incorrect navigation items from app-sidebar
