@@ -17,12 +17,23 @@ vi.mock('react-router-dom', () => ({
   NavLink: ({
     to,
     children,
+    className,
     ...props
-  }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { to: string }) => (
-    <a href={to} {...props}>
-      {children}
-    </a>
-  ),
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    to: string;
+    className?: string | ((props: { isActive: boolean }) => string);
+  }) => {
+    // Handle function className - use default classes when function is provided
+    const resolvedClassName =
+      typeof className === 'function'
+        ? 'text-lg font-medium transition-colors hover:text-school-blue text-muted-foreground'
+        : className;
+    return (
+      <a href={to} className={resolvedClassName} {...props}>
+        {children}
+      </a>
+    );
+  },
 }));
 
 // Mock lucide-react icons
