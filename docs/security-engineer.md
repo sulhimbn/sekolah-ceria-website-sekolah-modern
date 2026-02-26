@@ -170,3 +170,34 @@ npm run test
 
 - .env.example properly documents required variables
 - No hardcoded secrets in source code
+
+## Security Issues Verification
+
+### 2026-02-26: Resolved Security Issues
+
+All three security issues have been verified as FIXED:
+
+| Issue                                                                 | Status   | Verification                                                                                                                      |
+| --------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| #166 - Timing attack vulnerabilities in JWT and password verification | ✅ FIXED | `worker/auth.ts` uses `timingSafeEqual()` at lines 114-117 (JWT) and line 275 (password). Error logging present at lines 128-132. |
+| #168 - N+1 query in login endpoint                                    | ✅ FIXED | `worker/user-routes.ts` line 79 uses `UserEntity.findByEmail()` instead of listing all users.                                     |
+| #175 - Tabnabbing vulnerability in Footer.tsx                         | ✅ FIXED | All external links in `src/components/layout/Footer.tsx` (lines 73-100) have `rel="noopener noreferrer"`.                         |
+
+### Proactive Security Scan Results (2026-02-26)
+
+| Check                    | Status  | Notes                                          |
+| ------------------------ | ------- | ---------------------------------------------- |
+| Timing attack prevention | ✅ PASS | Uses crypto.subtle.timingSafeEqual()           |
+| N+1 query prevention     | ✅ PASS | Uses findByEmail() method                      |
+| Tabnabbing prevention    | ✅ PASS | All window.open have rel="noopener noreferrer" |
+| XSS prevention           | ✅ PASS | No dangerouslySetInnerHTML usage               |
+| eval() usage             | ✅ PASS | No eval() found in source                      |
+| Security headers         | ✅ PASS | All headers configured in worker/index.ts      |
+| JWT secret validation    | ✅ PASS | Throws error if not configured                 |
+| Input validation         | ✅ PASS | Zod schemas in place                           |
+
+### Known Limitations
+
+1. **CSP Relaxations**: The CSP includes `'unsafe-inline'` and `'unsafe-eval'` which may be needed for React development. Consider using nonces for production hardening.
+
+2. **Rate Limiting**: Current in-memory rate limiting is per-worker. For production, recommend Cloudflare Rate Limiting.
