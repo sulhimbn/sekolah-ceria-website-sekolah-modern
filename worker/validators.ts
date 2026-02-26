@@ -85,7 +85,6 @@ export const registerSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
-export type RegisterInput = z.infer<typeof registerSchema>;
 
 // Newsletter subscription validation
 export const newsletterSchema = z.object({
