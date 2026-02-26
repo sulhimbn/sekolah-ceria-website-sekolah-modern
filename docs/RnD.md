@@ -20,16 +20,21 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 ## Active Improvements
 
-| Issue | Title                                        | Status     | Priority |
-| ----- | -------------------------------------------- | ---------- | -------- |
-| ----- | -------------------------------------------- | ---------- | -------- |
-| #140  | Fix missing React imports in use-news.ts    | PR #145    | P0       |
-| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+| Issue | Title                                                              | Status  | Priority |
+| ----- | ------------------------------------------------------------------ | ------- | -------- |
+| #121  | Code duplication in API hooks - create generic useApiResource hook | PR #160 | P1       |
+| #140  | Fix missing React imports in use-news.ts                           | PR #145 | P0       |
+| #94   | Fix missing npm dependencies for UI components                     | PR #107 | Low      |
 
-| Issue | Title                                        | Status     | Priority |
-| ----- | -------------------------------------------- | ---------- | -------- |
-PK|| ----- | -------------------------------------------- | ---------- | -------- |
-PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low      |
+## Completed Work
+
+- **#121** (2026-02-26): Create generic useApiResource hook
+  - Created useApiResource<T> for data fetching with built-in loading, error handling, and error reporting
+  - Created useApiResourceMutation<TInput, TOutput> for mutations
+  - Refactored useNews, useChats, useUsers, useChatMessages to use generic hooks
+  - Reduced ~90% identical boilerplate code across 4 API hooks
+  - Build passes (813.7KB), all 191 tests pass
+  - PR #160 created with RnD label
 
 - **#140** (2026-02-26): Fix missing React imports in use-news.ts
   - Added missing React imports (useState, useEffect, useMemo, useCallback)
@@ -38,18 +43,16 @@ PK|| #94   | Fix missing npm dependencies for UI components | PR #107    | Low  
   - PR #145 created with RnD label
 
 - **#88** (2026-02-25): Fix accessibility - Remove placeholder links
-
-- **#88** (2026-02-25): Fix accessibility - Remove placeholder links
   - Removed incorrect navigation items from app-sidebar
   - Links had mismatched labels and destinations (e.g., "Projects" pointed to /admissions)
   - Removed "Quick Links" section with placeholder links
   - Improves accessibility by removing misleading navigation
-TX|
-KN|- **#94** (2026-02-25): Fix missing npm dependencies for UI components
-HT|  - Installed 3 missing packages: embla-carousel-react, input-otp, react-resizable-panels
-MZ|  - Resolved lint errors for carousel.tsx, input-otp.tsx, resizable.tsx
-MW|  - Components now have their dependencies available for future use
-ZK|  - PR #107 created with RnD label
+
+- **#94** (2026-02-25): Fix missing npm dependencies for UI components
+  - Installed 3 missing packages: embla-carousel-react, input-otp, react-resizable-panels
+  - Resolved lint errors for carousel.tsx, input-otp.tsx, resizable.tsx
+  - Components now have their dependencies available for future use
+  - PR #107 created with RnD label
 
 - **#67** (2026-02-25): Bundle Size Optimization
   - Removed 7 unused dependencies (@dnd-kit/core, @dnd-kit/sortable, react-flow, react-select, react-swipeable, react-use, tw-animate-css)
