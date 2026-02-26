@@ -85,3 +85,13 @@ export const registerSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type RegisterInput = z.infer<typeof registerSchema>;
+
+// Newsletter subscription validation
+export const newsletterSchema = z.object({
+  email: z.string()
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format email tidak valid.")
+    .trim(),
+});
+
+export type NewsletterInput = z.infer<typeof newsletterSchema>;
