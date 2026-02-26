@@ -8,17 +8,29 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Phone, Mail, MapPin, Loader2 } from 'lucide-react';
 import { useContactForm } from '@/hooks/api';
 import type { ContactFormPayload } from '@shared/types';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
+
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: 'Nama harus diisi, minimal 2 karakter.' }),
   email: z.string().email({ message: 'Format email tidak valid.' }),
-  message: z.string().min(10, { message: 'Pesan harus diisi, minimal 10 karakter.' }),
+  message: z
+    .string()
+    .min(10, { message: 'Pesan harus diisi, minimal 10 karakter.' }),
 });
+
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 const ContactPage: React.FC = () => {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -28,20 +40,25 @@ const ContactPage: React.FC = () => {
       message: '',
     },
   });
+
   const { isSubmitting, submitContactForm } = useContactForm();
+
   const onSubmit = async (data: ContactFormValues) => {
     try {
       await submitContactForm(data);
       toast.success('Pesan Terkirim!', {
-        description: 'Terima kasih telah menghubungi kami. Kami akan segera merespons pesan Anda.',
+        description:
+          'Terima kasih telah menghubungi kami. Kami akan segera merespons pesan Anda.',
       });
       form.reset();
     } catch (error) {
       toast.error('Gagal Mengirim Pesan', {
-        description: error instanceof Error ? error.message : 'Silakan coba lagi nanti.',
+        description:
+          error instanceof Error ? error.message : 'Silakan coba lagi nanti.',
       });
     }
   };
+
   return (
     <MainLayout>
       <div className="bg-white">
@@ -60,10 +77,12 @@ const ContactPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-4 text-xl text-muted-foreground max-w-3xl mx-auto"
           >
-            Kami senang mendengar dari Anda. Jangan ragu untuk menghubungi kami melalui informasi di bawah ini.
+            Kami senang mendengar dari Anda. Jangan ragu untuk menghubungi kami
+            melalui informasi di bawah ini.
           </motion.p>
         </div>
       </div>
+
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12">
@@ -75,27 +94,43 @@ const ContactPage: React.FC = () => {
               className="space-y-8"
             >
               <div>
-                <h2 className="text-3xl font-bold font-display text-gray-900">Informasi Kontak</h2>
+                <h2 className="text-3xl font-bold font-display text-gray-900">
+                  Informasi Kontak
+                </h2>
                 <div className="mt-6 space-y-4 text-lg text-muted-foreground">
-                  <p className="flex items-center"><MapPin className="h-6 w-6 mr-3 text-school-blue" /> Jl. Pendidikan No. 123, Jakarta, Indonesia</p>
-                  <p className="flex items-center"><Mail className="h-6 w-6 mr-3 text-school-blue" /> info@sekolahceria.sch.id</p>
-                  <p className="flex items-center"><Phone className="h-6 w-6 mr-3 text-school-blue" /> (021) 123-4567</p>
+                  <p className="flex items-center">
+                    <MapPin className="h-6 w-6 mr-3 text-school-blue" /> Jl.
+                    Pendidikan No. 123, Jakarta, Indonesia
+                  </p>
+                  <p className="flex items-center">
+                    <Mail className="h-6 w-6 mr-3 text-school-blue" />{' '}
+                    info@sekolahceria.sch.id
+                  </p>
+                  <p className="flex items-center">
+                    <Phone className="h-6 w-6 mr-3 text-school-blue" /> (021)
+                    123-4567
+                  </p>
                 </div>
               </div>
+
               <div>
-                <h3 className="text-2xl font-bold font-display text-gray-900">Jam Operasional</h3>
+                <h3 className="text-2xl font-bold font-display text-gray-900">
+                  Jam Operasional
+                </h3>
                 <div className="mt-4 text-lg text-muted-foreground">
                   <p>Senin - Jumat: 07:00 - 16:00 WIB</p>
                   <p>Sabtu - Minggu: Tutup</p>
                 </div>
               </div>
-              <div className="aspect-video bg-gray-200 rounded-lg">
-                {/* Placeholder for map */}
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-gray-500">[Peta Lokasi Interaktif]</p>
-                </div>
+
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <PlaceholderImage
+                  variant="location"
+                  className="w-full h-full"
+                />
               </div>
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -103,35 +138,54 @@ const ContactPage: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <div className="bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold font-display text-gray-900 mb-6">Kirim Pesan</h2>
+                <h2 className="text-3xl font-bold font-display text-gray-900 mb-6">
+                  Kirim Pesan
+                </h2>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
+                  >
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-lg">Nama Lengkap</FormLabel>
+                          <FormLabel className="text-lg">
+                            Nama Lengkap
+                          </FormLabel>
                           <FormControl>
-                            <Input placeholder="John Doe" {...field} className="text-lg p-4" />
+                            <Input
+                              placeholder="John Doe"
+                              {...field}
+                              className="text-lg p-4"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-lg">Alamat Email</FormLabel>
+                          <FormLabel className="text-lg">
+                            Alamat Email
+                          </FormLabel>
                           <FormControl>
-                            <Input placeholder="john.doe@example.com" {...field} className="text-lg p-4" />
+                            <Input
+                              placeholder="john.doe@example.com"
+                              {...field}
+                              className="text-lg p-4"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
                       name="message"
@@ -139,13 +193,24 @@ const ContactPage: React.FC = () => {
                         <FormItem>
                           <FormLabel className="text-lg">Pesan Anda</FormLabel>
                           <FormControl>
-                            <Textarea placeholder="Tuliskan pesan Anda di sini..." rows={5} {...field} className="text-lg p-4" />
+                            <Textarea
+                              placeholder="Tuliskan pesan Anda di sini..."
+                              rows={5}
+                              {...field}
+                              className="text-lg p-4"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" size="lg" className="w-full bg-school-blue hover:bg-school-blue/90 text-lg py-6" disabled={isSubmitting}>
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full bg-school-blue hover:bg-school-blue/90 text-lg py-6"
+                      disabled={isSubmitting}
+                    >
                       {isSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -165,4 +230,5 @@ const ContactPage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default ContactPage;
