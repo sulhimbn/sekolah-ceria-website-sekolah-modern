@@ -5,11 +5,12 @@
 import type { ApiResponse } from "@shared/types";
 import { DurableObject } from "cloudflare:workers";
 import type { Context } from "hono";
+import type { AuthContext } from "./auth";
 
 export interface Env {
   GlobalDurableObject: DurableObjectNamespace<GlobalDurableObject>;
   JWT_SECRET?: string;
-}
+} & AuthContext;
 
 type Doc<T> = { v: number; data: T };
 
@@ -83,13 +84,13 @@ export class GlobalDurableObject extends DurableObject<Env, unknown> {
   }  
 
   async indexDrop(_rootKey: string): Promise<void> { await this.ctx.storage.deleteAll(); }
-}
+} & AuthContext;
 
 export interface EntityStatics<S, T extends Entity<S>> {
   new (env: Env, id: string): T; // inherited default ctor
   readonly entityName: string;
   readonly initialState: S;
-}
+} & AuthContext;
 
 /**
  * Base class for entities - extend this class to create new entities
@@ -195,7 +196,7 @@ export abstract class Entity<State> {
     }
     return ok;
   }
-}
+} & AuthContext;
 
 // Minimal prefix-based index held in its own DO instance.
 export class Index<T extends string> extends Entity<unknown> {
@@ -236,7 +237,7 @@ export class Index<T extends string> extends Entity<unknown> {
     const { keys } = await this.stub.listPrefix('i:');
     return keys.map(k => k.slice(2) as T);
   }
-}
+} & AuthContext;
 
 type IS<T> = T extends new (env: Env, id: string) => IndexedEntity<infer S> ? S : never;
 type HS<TCtor> = TCtor & { indexName: string; keyOf(state: IS<TCtor>): string; seedData?: ReadonlyArray<IS<TCtor>> };
@@ -312,7 +313,7 @@ export abstract class IndexedEntity<S extends { id: string }> extends Entity<S> 
     }
     return s;
   }
-}
+} & AuthContext;
 
 // API HELPERS
 

@@ -49,7 +49,7 @@ function parseLimit(lq: string | null): number | undefined {
   return Math.min(parsed, MAX_LIMIT);
 }
 
-export function userRoutes(app: Hono<{ Bindings: Env }>) {
+export function userRoutes(app: Hono<{ Bindings: Env; Variables: AuthContext }>) {
   // AUTH - Public routes
   app.post('/api/auth/register', async c => {
     const body = await c.req.json();

@@ -138,7 +138,7 @@ async function verifyToken(
  * Get JWT secret from environment
  * Throws error if not configured (security best practice)
  */
-function getJWTSecret(c: Context<{ Bindings: Env }>): string {
+function getJWTSecret(c: Context<{ Bindings: Env; Variables: AuthContext }>): string {
   const secret = c.env.JWT_SECRET;
   if (!secret) {
     throw new Error(
@@ -152,7 +152,7 @@ function getJWTSecret(c: Context<{ Bindings: Env }>): string {
  * Auth middleware - parses Authorization header and attaches user to context
  */
 export async function authMiddleware(
-  c: Context<{ Bindings: Env }>,
+  c: Context<{ Bindings: Env; Variables: AuthContext }>,
   next: Next
 ) {
   const authHeader = c.req.header('Authorization');
@@ -162,7 +162,7 @@ export async function authMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -173,7 +173,7 @@ export async function authMiddleware(
  * Optional auth - attaches user if token present but doesn't require it
  */
 export async function optionalAuthMiddleware(
-  c: Context<{ Bindings: Env }>,
+  c: Context<{ Bindings: Env; Variables: AuthContext }>,
   next: Next
 ) {
   const authHeader = c.req.header('Authorization');
@@ -183,7 +183,7 @@ export async function optionalAuthMiddleware(
     const secret = getJWTSecret(c);
     const payload = await verifyToken(token, secret);
     if (payload) {
-      (c as any).user = payload;
+      c.set('user', payload);
     }
   }
 
@@ -193,8 +193,8 @@ export async function optionalAuthMiddleware(
 /**
  * Require auth - returns 401 if no valid token
  */
-export function requireAuth(c: Context<{ Bindings: Env }>): AuthPayload {
-  const user = (c as any).user as AuthPayload | undefined;
+export function requireAuth(c: Context<{ Bindings: Env; Variables: AuthContext }>): AuthPayload {
+  const user = c.get('user');
   if (!user) {
     throw new Error('Unauthorized');
   }
@@ -205,7 +205,7 @@ export function requireAuth(c: Context<{ Bindings: Env }>): AuthPayload {
  * Require role - returns 403 if user doesn't have required role
  */
 export function requireRole(
-  c: Context<{ Bindings: Env }>,
+  c: Context<{ Bindings: Env; Variables: AuthContext }>,
   requiredRole: UserRole
 ): AuthPayload {
   const user = requireAuth(c);
@@ -226,7 +226,7 @@ export function requireRole(
  * Generate login response with token
  */
 export async function generateAuthResponse(
-  c: Context<{ Bindings: Env }>,
+  c: Context<{ Bindings: Env; Variables: AuthContext }>,
   userId: string,
   name: string,
   role: UserRole = 'user'
