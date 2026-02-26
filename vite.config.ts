@@ -1,10 +1,10 @@
-import { defineConfig, loadEnv } from "vite";
-import path from "path";
-import react from "@vitejs/plugin-react";
-import { exec } from "node:child_process";
-import pino from "pino";
-import { cloudflare } from "@cloudflare/vite-plugin";
-import { VitePWA } from "vite-plugin-pwa";
+import { defineConfig, loadEnv } from 'vite';
+import path from 'path';
+import react from '@vitejs/plugin-react';
+import { exec } from 'node:child_process';
+import pino from 'pino';
+import { cloudflare } from '@cloudflare/vite-plugin';
+import { VitePWA } from 'vite-plugin-pwa';
 
 const logger = pino();
 
@@ -12,17 +12,17 @@ const stripAnsi = (str: string) =>
   str.replace(
     // eslint-disable-next-line no-control-regex -- Allow ANSI escape stripping
     /[\u001b\u009b][\d()#;?]*[\dA-Orzfxnq=><]/g,
-    ""
+    ''
   );
 
 const LOG_MESSAGE_BOUNDARY = /\n(?=\[[A-Z][^\]]*\])/g;
 
-const emitLog = (level: "info" | "warn" | "error", rawMessage: string) => {
-  const cleaned = stripAnsi(rawMessage).replace(/\r\n/g, "\n");
+const emitLog = (level: 'info' | 'warn' | 'error', rawMessage: string) => {
+  const cleaned = stripAnsi(rawMessage).replace(/\r\n/g, '\n');
   const parts = cleaned
     .split(LOG_MESSAGE_BOUNDARY)
-    .map((part) => part.trimEnd())
-    .filter((part) => part.trim().length > 0);
+    .map(part => part.trimEnd())
+    .filter(part => part.trim().length > 0);
 
   if (parts.length === 0) {
     logger[level](cleaned.trimEnd());
@@ -36,12 +36,12 @@ const emitLog = (level: "info" | "warn" | "error", rawMessage: string) => {
 
 // 3. Create the custom logger for Vite
 const customLogger = {
-  warnOnce: (msg: string) => emitLog("warn", msg),
+  warnOnce: (msg: string) => emitLog('warn', msg),
 
   // Use Pino's methods, passing the cleaned message
-  info: (msg: string) => emitLog("info", msg),
-  warn: (msg: string) => emitLog("warn", msg),
-  error: (msg: string) => emitLog("error", msg),
+  info: (msg: string) => emitLog('info', msg),
+  warn: (msg: string) => emitLog('warn', msg),
+  error: (msg: string) => emitLog('error', msg),
   hasErrorLogged: () => false,
 
   // Keep these as-is
@@ -52,16 +52,16 @@ const customLogger = {
 function watchDependenciesPlugin() {
   return {
     // Plugin to clear caches when dependencies change
-    name: "watch-dependencies",
+    name: 'watch-dependencies',
     configureServer(server: any) {
       const filesToWatch = [
-        path.resolve("package.json"),
-        path.resolve("bun.lock"),
+        path.resolve('package.json'),
+        path.resolve('bun.lock'),
       ];
 
       server.watcher.add(filesToWatch);
 
-      server.watcher.on("change", (filePath: string) => {
+      server.watcher.on('change', (filePath: string) => {
         if (filesToWatch.includes(filePath)) {
           console.log(
             `\n📦 Dependency file changed: ${path.basename(
@@ -71,13 +71,13 @@ function watchDependenciesPlugin() {
 
           // Run the cache-clearing command
           exec(
-            "rm -f .eslintcache tsconfig.tsbuildinfo",
+            'rm -f .eslintcache tsconfig.tsbuildinfo',
             (err, stdout, stderr) => {
               if (err) {
-                console.error("Failed to clear caches:", stderr);
+                console.error('Failed to clear caches:', stderr);
                 return;
               }
-              console.log("✅ Caches cleared successfully.\n");
+              console.log('✅ Caches cleared successfully.\n');
             }
           );
         }
@@ -100,7 +100,8 @@ export default ({ mode }: { mode: string }) => {
         manifest: {
           name: 'Sekolah Ceria - Website Sekolah Modern',
           short_name: 'SekolahCeria',
-          description: 'Website sekolah modern dengan desain ilustratif dan portal berita dinamis',
+          description:
+            'Website sekolah modern dengan desain ilustratif dan portal berita dinamis',
           theme_color: '#4A90E2',
           background_color: '#F8F9FA',
           display: 'standalone',
@@ -111,20 +112,20 @@ export default ({ mode }: { mode: string }) => {
             {
               src: 'pwa-192x192.png',
               sizes: '192x192',
-              type: 'image/png'
-            },
-            {
-              src: 'pwa-512x512.png',
-              sizes: '512x512',
-              type: 'image/png'
+              type: 'image/png',
             },
             {
               src: 'pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
-              purpose: 'any maskable'
-            }
-          ]
+            },
+            {
+              src: 'pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable',
+            },
+          ],
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
@@ -136,10 +137,10 @@ export default ({ mode }: { mode: string }) => {
                 cacheName: 'api-cache',
                 expiration: {
                   maxEntries: 50,
-                  maxAgeSeconds: 60 * 60 * 24 // 24 hours
+                  maxAgeSeconds: 60 * 60 * 24, // 24 hours
                 },
-                networkTimeoutSeconds: 10
-              }
+                networkTimeoutSeconds: 10,
+              },
             },
             {
               urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
@@ -148,9 +149,9 @@ export default ({ mode }: { mode: string }) => {
                 cacheName: 'image-cache',
                 expiration: {
                   maxEntries: 100,
-                  maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
-                }
-              }
+                  maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+                },
+              },
             },
             {
               urlPattern: /\.(?:js|css)$/i,
@@ -159,14 +160,14 @@ export default ({ mode }: { mode: string }) => {
                 cacheName: 'static-resources-cache',
                 expiration: {
                   maxEntries: 50,
-                  maxAgeSeconds: 60 * 60 * 24 // 24 hours
-                }
-              }
-            }
-          ]
+                  maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                },
+              },
+            },
+          ],
         },
-        offlinePage: 'offline.html'
-      })
+        offlinePage: 'offline.html',
+      }),
     ],
     build: {
       minify: true,
@@ -174,25 +175,25 @@ export default ({ mode }: { mode: string }) => {
       rollupOptions: {
         output: {
           sourcemapExcludeSources: false,
-          manualChunks: {
-            'react-vendor': ['react', 'react-dom'],
-            'router': ['react-router-dom'],
-            'ui-vendor': [
-              '@radix-ui/react-accordion',
-              '@radix-ui/react-avatar',
-              '@radix-ui/react-dialog',
-              '@radix-ui/react-label',
-              '@radix-ui/react-popover',
-              '@radix-ui/react-separator',
-              '@radix-ui/react-slot',
-              '@radix-ui/react-toggle',
-              '@radix-ui/react-toggle-group',
-              '@radix-ui/react-tooltip',
-            ],
-            'animation': ['framer-motion'],
-            'charts': ['recharts'],
-            'forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
-            'query': ['@tanstack/react-query'],
+          // Use function-based API for better async chunk handling with React.lazy
+          // Object-based manualChunks doesn't work correctly with Vite 6 + React.lazy
+          manualChunks: id => {
+            if (!id || id.includes('node_modules')) {
+              // Group node_modules by library
+              if (id?.includes('react-router-dom')) return 'router';
+              if (id?.includes('framer-motion')) return 'animation';
+              if (id?.includes('recharts')) return 'charts';
+              if (
+                id?.includes('react-hook-form') ||
+                id?.includes('@hookform') ||
+                id?.includes('/zod')
+              )
+                return 'forms';
+              if (id?.includes('@radix-ui')) return 'ui-vendor';
+              if (id?.includes('@tanstack/react-query')) return 'query';
+              if (id?.includes('react-dom') || id?.includes('/react/'))
+                return 'react-vendor';
+            }
           },
         },
       },
@@ -214,22 +215,22 @@ export default ({ mode }: { mode: string }) => {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
-        "@shared": path.resolve(__dirname, "./shared"),
+        '@': path.resolve(__dirname, './src'),
+        '@shared': path.resolve(__dirname, './shared'),
       },
     },
     optimizeDeps: {
       // This is still crucial for reducing the time from when `bun run dev`
       // is executed to when the server is actually ready.
-      include: ["react", "react-dom", "react-router-dom"],
-      exclude: ["agents"], // Exclude agents package from pre-bundling due to Node.js dependencies
+      include: ['react', 'react-dom', 'react-router-dom'],
+      exclude: ['agents'], // Exclude agents package from pre-bundling due to Node.js dependencies
       force: true,
     },
     define: {
       // Define Node.js globals for the agents package
-      global: "globalThis",
+      global: 'globalThis',
     },
     // Clear cache more aggressively
-    cacheDir: "node_modules/.vite",
+    cacheDir: 'node_modules/.vite',
   });
 };
