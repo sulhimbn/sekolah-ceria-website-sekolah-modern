@@ -10,6 +10,7 @@ import {
   deleteManySchema,
   loginSchema,
   registerSchema,
+  newsletterSchema,
 } from './validators';
 import {
   authMiddleware,
@@ -234,3 +235,21 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     });
   });
 }
+
+  // NEWSLETTER SUBSCRIPTION
+  app.post('/api/newsletter', async c => {
+    const body = await c.req.json();
+    const result = newsletterSchema.safeParse(body);
+
+    if (!result.success) {
+      return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
+    }
+
+    const { email } = result.data;
+
+    // For demo purposes, just return success
+    // In production, this would store to a database or send to email service
+    console.log(`[NEWSLETTER] New subscription: ${email}`);
+
+    return ok(c, { message: 'Terima kasih telah berlangganan!' });
+  });

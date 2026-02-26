@@ -23,16 +23,22 @@ export const Footer: React.FC = () => {
     setIsLoading(true);
     setMessage(null);
 
-    // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-      // Simple email validation
-      if (!email || !email.includes('@')) {
-        throw new Error('Email tidak valid');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Gagal berlangganan');
       }
 
-      setMessage({ type: 'success', text: 'Terima kasih telah berlangganan!' });
+      setMessage({ type: 'success', text: data.message || 'Terima kasih telah berlangganan!' });
       setEmail('');
     } catch (err) {
       setMessage({
