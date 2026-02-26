@@ -15,6 +15,7 @@ import {
   authMiddleware,
   generateAuthResponse,
   requireAuth,
+  requireRole,
   type UserRole,
   hashPassword,
   verifyPassword,
@@ -183,15 +184,17 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, { message: 'Pesan Anda telah berhasil dikirim!' });
   });
 
-  // DELETE: Users
-  app.delete('/api/users/:id', async c =>
-    ok(c, {
+  // DELETE: Users (admin only)
+  app.delete('/api/users/:id', async c => {
+    requireRole(c, 'admin');
+    return ok(c, {
       id: c.req.param('id'),
       deleted: await UserEntity.delete(c.env, c.req.param('id')),
-    })
-  );
+    });
+  });
 
   app.post('/api/users/deleteMany', async c => {
+    requireRole(c, 'admin');
     const body = await c.req.json();
     const result = deleteManySchema.safeParse(body);
 
@@ -206,15 +209,17 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     });
   });
 
-  // DELETE: Chats
-  app.delete('/api/chats/:id', async c =>
-    ok(c, {
+  // DELETE: Chats (admin only)
+  app.delete('/api/chats/:id', async c => {
+    requireRole(c, 'admin');
+    return ok(c, {
       id: c.req.param('id'),
       deleted: await ChatBoardEntity.delete(c.env, c.req.param('id')),
-    })
-  );
+    });
+  });
 
   app.post('/api/chats/deleteMany', async c => {
+    requireRole(c, 'admin');
     const body = await c.req.json();
     const result = deleteManySchema.safeParse(body);
 
