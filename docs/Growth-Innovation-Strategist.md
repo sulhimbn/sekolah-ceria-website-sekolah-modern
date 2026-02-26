@@ -372,16 +372,19 @@ MT|- Test thoroughly before submitting PR
 3. Created PR #183 with documentation
 
 **What's Needed to Complete**:
+
 - Grant workflow permissions to the GitHub App, OR
 - Manually copy the workflow from docs to `.github/workflows/ci.yml`
 
 **Benefits**:
+
 - Prevents bad code from reaching main
 - Fast feedback loop (< 5 min)
 - Required status check for PRs
 - 10x leverage improvement for codebase quality
 
 **Acceptance Criteria**:
+
 - [ ] CI workflow added (blocked by permissions)
 - [ ] Runs lint, type-check, build, test
 - [ ] Required status check for PRs
@@ -398,3 +401,54 @@ MT|- Test thoroughly before submitting PR
 - Keep changes small and atomic
 - Test thoroughly before submitting PR
 
+---
+
+## Implemented Features
+
+### Reading Time Estimation for Articles (PR #197)
+
+**Status**: Implemented ✅
+
+**Changes Made**:
+
+1. Added feature flag in `src/lib/feature-flags.ts`:
+   - `FEATURE_READING_TIME`: Enable/disable reading time display
+   - Enabled by default for gradual rollout
+
+2. Added utility function in `src/lib/utils.ts`:
+   - `calculateReadingTime(text)`: Calculates reading time based on 200 words per minute
+   - Returns formatted string like "3 min read"
+   - Handles empty text gracefully
+
+3. Updated `NewsPage` in `src/pages/NewsPage.tsx`:
+   - Displays reading time on article cards
+   - Shows clock icon with estimated read time
+
+4. Updated `NewsDetailPage` in `src/pages/NewsDetailPage.tsx`:
+   - Displays reading time in article metadata section
+   - Shows between author and share buttons
+
+**Benefits**:
+
+- Users can gauge article length before committing to read
+- Helps readers prioritize which articles to read first
+- Improves user experience and engagement
+- Feature flag for gradual rollout and testing
+- Small atomic change with no breaking changes
+
+**Acceptance Criteria Met**:
+
+- [x] Reading time displays on news listing page
+- [x] Reading time displays on news detail page
+- [x] Feature flag for gradual rollout
+- [x] Build passes (851KB within 860KB limit)
+- [x] Lint passes with zero warnings
+- [x] All 214 tests pass
+- [x] PR #197 created with Growth-Innovation-Strategist label
+
+## Notes
+
+- Always maintain backward compatibility
+- Use feature flags for gradual rollout
+- Keep changes small and atomic
+- Test thoroughly before submitting PR

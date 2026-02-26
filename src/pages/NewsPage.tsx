@@ -5,15 +5,20 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NewsCardSkeleton } from '@/components/NewsCardSkeleton';
-import { ArrowRight, AlertCircle, Inbox } from 'lucide-react';
+import { ArrowRight, AlertCircle, Inbox, Clock } from 'lucide-react';
 import { useNews } from '@/hooks/api';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
+import { calculateReadingTime } from '@/lib/utils';
+import { FEATURE_FLAGS } from '@/lib/feature-flags';
+
 const NewsPage: React.FC = () => {
   const { articles, isLoading, error } = useNews();
+
   const renderContent = () => {
     if (isLoading) {
       return <NewsCardSkeleton count={6} />;
     }
+
     if (error) {
       return (
         <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center bg-red-50 border border-red-200 rounded-lg p-8">
@@ -25,6 +30,7 @@ const NewsPage: React.FC = () => {
         </div>
       );
     }
+
     if (articles.length === 0) {
       return (
         <div className="md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center bg-muted border rounded-lg p-8">
@@ -39,6 +45,7 @@ const NewsPage: React.FC = () => {
         </div>
       );
     }
+
     return articles.map((article, index) => (
       <motion.div
         key={article.id}
@@ -58,6 +65,13 @@ const NewsPage: React.FC = () => {
           <CardContent className="p-6 flex-grow flex flex-col">
             <p className="text-sm text-muted-foreground mb-2">
               {article.date} • {article.author}
+              {FEATURE_FLAGS.FEATURE_READING_TIME && (
+                <span className="ml-2">
+                  {' '}
+                  • <Clock className="inline h-3 w-3 mr-1" />
+                  {calculateReadingTime(article.excerpt)}
+                </span>
+              )}
             </p>
             <h3 className="text-xl font-semibold font-display mb-2 flex-grow">
               {article.title}
@@ -74,6 +88,7 @@ const NewsPage: React.FC = () => {
       </motion.div>
     ));
   };
+
   return (
     <MainLayout>
       <div className="bg-white">
@@ -107,4 +122,5 @@ const NewsPage: React.FC = () => {
     </MainLayout>
   );
 };
+
 export default NewsPage;
