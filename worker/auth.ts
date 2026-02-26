@@ -106,9 +106,16 @@ async function verifyToken(
 
 /**
  * Get JWT secret from environment
+ * Throws error if not configured (security best practice)
  */
 function getJWTSecret(c: Context<{ Bindings: Env }>): string {
-  return c.env.JWT_SECRET || 'development-secret-change-in-production';
+  const secret = c.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error(
+      'JWT_SECRET environment variable is not configured. Please set JWT_SECRET in your environment.'
+    );
+  }
+  return secret;
 }
 
 /**
@@ -218,14 +225,16 @@ export async function hashPassword(password: string): Promise<string> {
 
 /**
  * Verify password against stored hash
+ * Rejects users without proper password hash (security best practice)
  */
 export async function verifyPassword(
   password: string,
   storedHash: string
 ): Promise<boolean> {
+  // Reject users without proper password hash (security best practice)
+  // Demo users must set a proper password, not rely on weak fallback
   if (!storedHash || !storedHash.includes(':')) {
-    // For demo users without password, accept any password
-    return password.length >= 6;
+    return false;
   }
   const [salt, hash] = storedHash.split(':');
   const encoder = new TextEncoder();
