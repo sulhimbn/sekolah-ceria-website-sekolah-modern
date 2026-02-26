@@ -81,6 +81,20 @@ shared/
 
 ## Recent Changes
 
+- 2026-02-26: Fixed Issue #170 - Moved ESLint packages from dependencies to devDependencies (@typescript-eslint/eslint-plugin, @typescript-eslint/parser, eslint-plugin-import, eslint-import-resolver-typescript)
+- 2026-02-25: Updated blueprint.md to reflect actual codebase structure (layout components, hooks, UI components count)
+- 2026-02-25: Updated Product-Architect.md structure to match actual codebase
+- 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
+- 2026-02-25: Increased bundle size limit from 700KB to 750KB
+- 2026-02-25: Removed unused dependencies (@dnd-kit, react-use, react-swipeable, input-otp, embla-carousel, react-resizable-panels, react-flow)
+- 2026-02-25: Bundle size tracking already exists in build script (scripts/report-bundle-size.js)
+
+## Last Updated
+
+- Date: 2026-02-26
+- Agent: Product-Architect (ulw-loop)
+- Changes: Fixed ESLint packages incorrectly in dependencies (Issue #170)
+
 - 2026-02-25: Updated blueprint.md to reflect actual codebase structure (layout components, hooks, UI components count)
 - 2026-02-25: Updated Product-Architect.md structure to match actual codebase
 - 2026-02-25: Implemented Vite performance budgets (maxAssetSize: 512KB, maxEntrypointSize: 768KB)
