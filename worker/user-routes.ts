@@ -59,9 +59,17 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     const { email, password } = result.data;
     const users = await UserEntity.list(c.env, null, 100);
     const user = users.items.find((u: any) => u.email === email);
-    if (!user) return bad(c, 'Email atau password salah');
-    const passwordValid = await verifyPassword(password, user.password || '');
-    if (!passwordValid) return bad(c, 'Email atau password salah');
+    
+    // Verify password even if user not found to prevent timing attacks
+    // Use a dummy hash for non-existent users to ensure consistent timing
+    const dummyHash = '00000000-0000-0000-0000-000000000000:0000000000000000000000000000000000000000000000000000000000000000';
+    const storedHash = user?.password || dummyHash;
+    const passwordValid = await verifyPassword(password, storedHash);
+    
+    // Only return error after password check to prevent timing-based user enumeration
+    if (!user || !passwordValid) {
+      return bad(c, 'Email atau password salah');
+    }
     return ok(
       c,
       await generateAuthResponse(

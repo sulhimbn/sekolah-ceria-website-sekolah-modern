@@ -2,6 +2,23 @@
 
 ## Session Summary
 
+### 2026-02-26
+
+**Completed Tasks:**
+
+1. **Fixed timing vulnerability in login endpoint**
+   - Root cause: Login returned error immediately if user not found, before password verification
+   - Fix: Always verify password (using dummy hash for non-existent users) to ensure consistent timing
+   - Prevents timing-based user enumeration attacks
+   - Files changed:
+     - `worker/user-routes.ts`
+   - Tests: 164 passed ✅
+   - Type-check: Passed ✅
+
+### 2026-02-25
+
+## Session Summary
+
 ### 2026-02-25
 
 **Completed Tasks:**
