@@ -14,7 +14,7 @@ import {
 export class UserEntity extends IndexedEntity<User> {
   static readonly entityName = 'user';
   static readonly indexName = 'users';
-  static readonly initialState: User = { id: '', name: '' };
+  static readonly initialState: User = { id: '', name: '', email: '' };
   static seedData = MOCK_USERS;
 
   /**
@@ -23,13 +23,12 @@ export class UserEntity extends IndexedEntity<User> {
    */
   static async findByEmail(env: Env, email: string): Promise<User | null> {
     // First check seed data (most common case for demo)
-    const seededUser = this.seedData?.find(u => (u as any).email === email);
+    const seededUser = this.seedData?.find(u => u.email === email);
     if (seededUser) {
-      return seededUser as User;
+      return seededUser;
     }
     // Then search through existing users in database
-    const { items } = await this.list(env, null, 100);
-    return items.find(u => (u as any).email === email) ?? null;
+    return items.find(u => u.email === email) ?? null;
   }
 }
 
