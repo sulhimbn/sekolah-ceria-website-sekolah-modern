@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
  * Loading fallback component for lazy-loaded pages
  * Displays skeleton placeholders while page chunks load
  */
-export function PageLoader() {
+export const PageLoader = React.memo(function PageLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-4">
@@ -15,4 +15,4 @@ export function PageLoader() {
       </div>
     </div>
   );
-}
+});
