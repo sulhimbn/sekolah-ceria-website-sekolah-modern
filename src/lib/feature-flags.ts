@@ -20,6 +20,8 @@ export interface FeatureFlags {
   TANSTACK_QUERY_CACHE_TIME: number;
   /** Stale time in milliseconds (default: 1 minute) */
   TANSTACK_QUERY_STALE_TIME: number;
+  /** Show estimated reading time on article cards and detail pages */
+  FEATURE_READING_TIME: boolean;
 }
 
 export const FEATURE_FLAGS: FeatureFlags = {
@@ -29,6 +31,7 @@ export const FEATURE_FLAGS: FeatureFlags = {
   FEATURE_TANSTACK_QUERY: true,
   TANSTACK_QUERY_CACHE_TIME: 5 * 60 * 1000,
   TANSTACK_QUERY_STALE_TIME: 60 * 1000,
+  FEATURE_READING_TIME: true,
 };
 
 /**

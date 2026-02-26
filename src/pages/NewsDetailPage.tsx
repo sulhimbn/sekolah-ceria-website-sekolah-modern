@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { NewsDetailSkeleton } from '@/components/NewsDetailSkeleton';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, Calendar, User, ArrowLeft } from 'lucide-react';
+import { AlertCircle, Calendar, User, ArrowLeft, Clock } from 'lucide-react';
 import { useNewsArticle } from '@/hooks/api';
 import type { NewsArticle } from '@shared/types';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { ShareButtons } from '@/components/ShareButtons';
+import { calculateReadingTime } from '@/lib/utils';
+import { FEATURE_FLAGS } from '@/lib/feature-flags';
 
 const NewsDetailPage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
@@ -61,6 +63,12 @@ const NewsDetailPage: React.FC = () => {
             <User className="h-5 w-5 mr-2" />
             <span>{article.author}</span>
           </div>
+          {FEATURE_FLAGS.FEATURE_READING_TIME && (
+            <div className="flex items-center">
+              <Clock className="h-5 w-5 mr-2" />
+              <span>{calculateReadingTime(article.excerpt)}</span>
+            </div>
+          )}
           <div className="ml-auto">
             <ShareButtons title={article.title} description={article.excerpt} />
           </div>
