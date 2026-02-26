@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { userService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { useApiResource, useApiResourceMutation } from './use-api-resource';
 import type { User } from '@shared/types';
 
 interface UseUsersReturn {
@@ -14,66 +14,35 @@ interface UseUsersReturn {
 
 export function useUsers(): UseUsersReturn {
   const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchUsers = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await userService.listUsers();
-      setUsers(data);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat data pengguna.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const { isLoading, error, refetch } = useApiResource<User[]>(
+    () => userService.listUsers(),
+    'Gagal memuat data pengguna.'
+  );
 
-  const createUser = useCallback(async (name: string): Promise<User | null> => {
-    if (!name.trim()) return null;
-    
-    try {
-      setIsCreating(true);
-      const newUser = await userService.createUser(name.trim());
-      setUsers(prev => [...prev, newUser]);
+  const { mutate: createUserMutate, isSubmitting: isCreating } =
+    useApiResourceMutation<string, User>(
+      (name: string) => userService.createUser(name.trim()),
+      'Gagal membuat pengguna.'
+    );
+
+  const createUser = useCallback(
+    async (name: string): Promise<User | null> => {
+      if (!name.trim()) return null;
+      const newUser = await createUserMutate(name);
+      if (newUser) {
+        setUsers(prev => [...prev, newUser]);
+      }
       return newUser;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal membuat pengguna.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
-      return null;
-    } finally {
-      setIsCreating(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    },
+    [createUserMutate]
+  );
 
   return {
-    users,
+    users: users || [],
     isLoading,
     error,
-    refetch: fetchUsers,
+    refetch,
     createUser,
     isCreating,
   };

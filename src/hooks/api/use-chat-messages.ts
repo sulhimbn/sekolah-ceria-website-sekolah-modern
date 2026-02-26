@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { chatService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { useApiResourceMutation } from './use-api-resource';
 import type { ChatMessage } from '@shared/types';
 
 interface UseChatMessagesReturn {
@@ -8,69 +8,61 @@ interface UseChatMessagesReturn {
   isLoading: boolean;
   error: string | null;
   loadMessages: (chatId: string) => Promise<void>;
-  sendMessage: (chatId: string, userId: string, text: string) => Promise<ChatMessage | null>;
+  sendMessage: (
+    chatId: string,
+    userId: string,
+    text: string
+  ) => Promise<ChatMessage | null>;
   isSending: boolean;
 }
 
 export function useChatMessages(): UseChatMessagesReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadMessages = useCallback(async (chatId: string) => {
     if (!chatId) return;
-    
+
+    setIsLoading(true);
+    setError(null);
     try {
-      setIsLoading(true);
-      setError(null);
       const data = await chatService.getMessages(chatId);
       setMessages(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal memuat pesan.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal memuat pesan.';
       setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'network',
-      });
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const sendMessage = useCallback(async (
-    chatId: string,
-    userId: string,
-    text: string
-  ): Promise<ChatMessage | null> => {
-    if (!chatId || !userId || !text.trim()) return null;
-    
-    try {
-      setIsSending(true);
-      setError(null);
-      const newMessage = await chatService.sendMessage(chatId, userId, text.trim());
-      setMessages(prev => [...prev, newMessage]);
-      return newMessage;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal mengirim pesan.';
-      setError(errorMessage);
-      errorReporter.report({
-        message: errorMessage,
-        stack: err instanceof Error ? err.stack : undefined,
-        url: typeof window !== 'undefined' ? window.location.href : '',
-        timestamp: new Date().toISOString(),
-        level: 'error',
-        category: 'user',
-      });
-      return null;
-    } finally {
-      setIsSending(false);
-    }
-  }, []);
+  const { mutate: sendMessageMutate, isSubmitting: isSending } =
+    useApiResourceMutation<
+      { chatId: string; userId: string; text: string },
+      ChatMessage
+    >(
+      ({ chatId, userId, text }) =>
+        chatService.sendMessage(chatId, userId, text.trim()),
+      'Gagal mengirim pesan.',
+      {},
+      newMessage => {
+        setMessages(prev => [...prev, newMessage]);
+      }
+    );
+
+  const sendMessage = useCallback(
+    async (
+      chatId: string,
+      userId: string,
+      text: string
+    ): Promise<ChatMessage | null> => {
+      if (!chatId || !userId || !text.trim()) return null;
+      return sendMessageMutate({ chatId, userId, text });
+    },
+    [sendMessageMutate]
+  );
 
   return {
     messages,
