@@ -31,8 +31,15 @@ This document serves as the long-time memory for the quality-assurance specialis
 #### Worker Tests (Added)
 
 - `worker/validators.test.ts` - 27 tests
+- `worker/entities.test.ts` - 26 tests
+
+- `worker/validators.test.ts` - 27 tests
 
 ### Total Test Count
+
+- **Before**: 191 tests (12 test files)
+- **After**: 214 tests (13 test files)
+- **New Tests**: 23 worker entity tests added
 
 - **Before**: 164 tests (11 test files)
 - **After**: 191 tests (12 test files)
@@ -61,7 +68,21 @@ This document serves as the long-time memory for the quality-assurance specialis
    - loginSchema: 3 tests (valid input, invalid email, short password)
    - registerSchema: 5 tests (valid input, short name, invalid email, short password, whitespace trimming)
 
-**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.trim()` was applied AFTER `.regex()` for email fields, causing validation to fail on whitespace-padded inputs. Fixed by reordering to apply `.trim()` before `.regex()`.
+NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.trim()` was applied AFTER `.regex()` for email fields, causing validation to fail on whitespace-padded inputs. Fixed by reordering to apply `.trim()` before `.regex()`.
+
+#### Issue #174: Expand worker backend test coverage
+
+**Status**: Completed (PR #184)
+
+**Tests Added**:
+
+1. **Worker Entity Tests** (26 tests)
+   - UserEntity: entityName, indexName, initialState, seedData structure
+   - ChatBoardEntity: entityName, indexName, initialState, seedData, messages mapping
+   - NewsArticleEntity: entityName, indexName, initialState, seedData, unique IDs, non-empty titles
+   - Entity Relationships: distinct names, valid seed data, message mapping
+
+**Note**: Tests are structured to avoid Cloudflare Workers runtime dependencies by testing entity definitions via mock data.
 
 #### Issue #10: Add component-level tests using React Testing Library
 
