@@ -4,6 +4,7 @@
 
 ### Frontend Structure
 
+```
 src/
 ├── assets/           # Static assets (images, logos)
 ├── components/      # React components
@@ -64,17 +65,18 @@ src/
 │   ├── PageLoader.tsx
 │   ├── PlaceholderImage.tsx
 │   ├── RouteErrorBoundary.tsx
+│   ├── ShareButtons.tsx
 │   ├── ThemeToggle.tsx
 │   └── app-sidebar.tsx
 ├── hooks/          # Custom hooks
 │   ├── api/        # API-related hooks
-│   │   ├── use-news.ts
-│   │   ├── use-news-article.ts
-│   │   ├── use-contact-form.ts
-│   │   ├── use-users.ts
-│   │   ├── use-chats.ts
+│   │   ├── index.ts
 │   │   ├── use-chat-messages.ts
-│   │   └── index.ts
+│   │   ├── use-chats.ts
+│   │   ├── use-contact-form.ts
+│   │   ├── use-news-article.ts
+│   │   ├── use-news.ts
+│   │   └── use-users.ts
 │   ├── use-theme.ts
 │   ├── use-mobile.tsx
 │   ├── useErrorHandler.ts
@@ -88,13 +90,13 @@ src/
 │   ├── api-client.ts       # API client
 │   ├── api-validator.ts    # Runtime validation with Zod
 │   ├── api-validator.test.ts # Validator tests
-│   ├── errorReporter.ts    # Error reporting
-│   ├── feature-flags.ts    # Feature toggle configuration
-│   ├── messages.ts         # Centralized error messages
-│   ├── mock-data.ts        # Demo data
+│   ├── errorReporter.ts   # Error reporting
+│   ├── feature-flags.ts   # Feature toggle configuration
+│   ├── messages.ts        # Centralized error messages
+│   ├── mock-data.ts       # Demo data
 │   ├── utils.ts
 │   ├── validation-config.ts # Validation constants
-│   └── zod-schemas.ts      # Zod validation schemas
+│   └── zod-schemas.ts     # Zod validation schemas
 ├── pages/          # Page components
 │   ├── AboutPage.tsx
 │   ├── AcademicsPage.tsx
@@ -107,108 +109,30 @@ src/
 │   ├── NotFoundPage.tsx
 │   └── ServerErrorPage.tsx
 ├── repositories/   # Data access layer
-│   ├── interfaces/         # Repository contracts
-│   │   ├── news.repository.interface.ts
-│   │   ├── contact.repository.interface.ts
-│   │   ├── user.repository.interface.ts
-│   │   ├── chat.repository.interface.ts
-│   │   └── index.ts
-│   └── implementations/    # Repository implementations
-│       ├── news.repository.ts
-│       ├── contact.repository.ts
-│       ├── user.repository.ts
-│       ├── chat.repository.ts
-│       └── index.ts
-├── services/       # Business logic services
-│   ├── news.service.ts           # News operations
-│   ├── news.service.pure.test.ts # News service tests
-│   ├── news.service.api.test.ts  # API integration tests
-│   ├── contact.service.ts        # Contact operations
-│   ├── contact.service.validation.test.ts
-│   ├── contact.service.api.test.ts
-│   ├── user.service.ts           # User operations
-│   ├── chat.service.ts          # Chat operations
-│   ├── semantic-search.service.ts # AI semantic search
-│   └── index.ts
-├── test/           # Test utilities
-│   └── setup.ts
-├── App.css
-├── index.css
-├── main.tsx
-└── vite-env.d.ts
-src/
-├── assets/           # Static assets (images, logos)
-├── components/      # React components (UI + Layout)
-│   ├── layout/      # Layout components
-│   │   ├── Header.tsx, Footer.tsx, MainLayout.tsx, AppLayout.tsx
-│   │   ├── ErrorBoundary.tsx, ErrorFallback.tsx, RouteErrorBoundary.tsx
-│   │   ├── ThemeToggle.tsx, PageLoader.tsx, PlaceholderImage.tsx
-│   │   └── app-sidebar.tsx
-│   └── ui/          # ShadCN UI components (60+)
-├── hooks/          # Custom hooks
-│   ├── api/        # API-related hooks
-│   │   ├── use-news.ts
-│   │   ├── use-news-article.ts
-│   │   ├── use-contact-form.ts
-│   │   ├── use-users.ts
-│   │   ├── use-chats.ts
-│   │   ├── use-chat-messages.ts
-│   │   └── index.ts
-│   ├── ui/         # UI-related hooks
-│   │   ├── use-theme.ts
-│   │   └── use-mobile.tsx
-│   └── useErrorHandler.ts # Global error handling hook
-├── i18n/            # Internationalization
 │   ├── index.ts
-│   └── locales/
-│       ├── en.json
-│       └── id.json
-├── lib/            # Utilities
-│   ├── api-client.ts       # API client
-│   ├── api-validator.ts    # Runtime validation with Zod
-│   ├── api-validator.test.ts # Validator tests
-│   ├── error-reporter.ts   # Error reporting
-│   ├── feature-flags.ts    # Feature toggle configuration
-│   ├── messages.ts         # Centralized error messages
-│   ├── mock-data.ts        # Demo data
-│   ├── utils.ts
-│   ├── validation-config.ts # Validation constants
-│   └── zod-schemas.ts      # Zod validation schemas
-├── pages/          # Page components
-│   ├── AboutPage.tsx
-│   ├── AcademicsPage.tsx
-│   ├── AdmissionsPage.tsx
-│   ├── ContactPage.tsx
-│   ├── DemoPage.tsx
-│   ├── HomePage.tsx
-│   ├── NewsDetailPage.tsx
-│   ├── NewsPage.tsx
-│   ├── NotFoundPage.tsx
-│   └── ServerErrorPage.tsx
-├── repositories/   # Data access layer
 │   ├── interfaces/         # Repository contracts
-│   │   ├── news.repository.interface.ts
-│   │   ├── contact.repository.interface.ts
-│   │   ├── user.repository.interface.ts
+│   │   ├── index.ts
 │   │   ├── chat.repository.interface.ts
-│   │   └── index.ts
+│   │   ├── contact.repository.interface.ts
+│   │   ├── news.repository.interface.ts
+│   │   └── user.repository.interface.ts
 │   └── implementations/    # Repository implementations
-│       ├── news.repository.ts
-│       ├── contact.repository.ts
-│       ├── user.repository.ts
+│       ├── index.ts
 │       ├── chat.repository.ts
-│       └── index.ts
+│       ├── contact.repository.ts
+│       ├── news.repository.ts
+│       └── user.repository.ts
 ├── services/       # Business logic services
-│   ├── news.service.ts           # News operations
-│   ├── news.service.pure.test.ts # News service tests
-│   ├── news.service.api.test.ts  # API integration tests
-│   ├── contact.service.ts        # Contact operations
-│   ├── contact.service.validation.test.ts
+│   ├── chat.service.ts
+│   ├── contact.service.ts
 │   ├── contact.service.api.test.ts
-│   ├── user.service.ts           # User operations
-│   ├── chat.service.ts          # Chat operations
-│   ├── semantic-search.service.ts # AI semantic search
-│   └── index.ts
+│   ├── contact.service.validation.test.ts
+│   ├── index.ts
+│   ├── news.service.ts
+│   ├── news.service.api.test.ts
+│   ├── news.service.pure.test.ts
+│   ├── semantic-search.service.ts
+│   └── user.service.ts
 ├── test/           # Test utilities
 │   └── setup.ts
 ├── App.css
@@ -221,22 +145,25 @@ src/
 
 ```
 worker/
-├── index.ts        # Worker entry point (Hono app setup)
-├── user-routes.ts  # API route definitions (all routes in single file)
+├── auth.ts         # Authentication (JWT, password hashing)
 ├── core-utils.ts   # Durable Object utilities (Entity, Index base classes)
 ├── entities.ts     # Entity implementations (User, Chat, News)
-└── validators.ts  # Request validation schemas (Zod)
+├── index.ts        # Worker entry point (Hono app setup)
+├── user-routes.ts  # API route definitions (all routes in single file)
+└── validators.ts   # Request validation schemas (Zod)
 ```
 
 ### Shared Types
 
 ```
 shared/
-├── types.ts        # TypeScript types (API contracts)
-└── mock-data.ts    # Demo data for entities
+├── mock-data.ts    # Demo data for entities
+└── types.ts        # TypeScript types (API contracts)
 ```
 
 **Architecture Status**: All Phase 1-5 implemented (100%).
+
+---
 
 ## Remaining Issues (Post-Refactoring)
 
@@ -258,6 +185,8 @@ shared/
 - Services and hooks have test files but coverage needs expansion
 - Mocking strategies defined but not fully implemented
 
+---
+
 ## Target Architecture
 
 ### Layered Architecture (Clean Architecture Principles)
@@ -269,26 +198,28 @@ shared/
 └─────────────────────────────┬───────────────────────────────┘
                               │
 ┌─────────────────────────────▼───────────────────────────────┐
-│                     Application Layer                        │
+│                     Application Layer                          │
 │  (Services, Custom Hooks) - Business logic, orchestration   │
 └─────────────────────────────┬───────────────────────────────┘
                               │
 ┌─────────────────────────────▼───────────────────────────────┐
-│                      Data Layer                             │
+│                      Data Layer                               │
 │  (API Client, Repositories) - Data access, transformation    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Current Backend Structure (Flat - No Subdirectories)
 
 ```
 worker/
-├── index.ts        # Worker entry point
-├── user-routes.ts  # API route definitions (all routes in single file)
+├── auth.ts         # Authentication module
 ├── core-utils.ts   # Durable Object utilities
-├── entities.ts     # Entity implementations (User, Chat, News)
-└── validators.ts   # Request validation schemas (Zod)
+├── entities.ts    # Entity implementations (User, Chat, News)
+├── index.ts       # Worker entry point
+├── user-routes.ts # API route definitions (all routes in single file)
+└── validators.ts  # Request validation schemas (Zod)
 ```
+
+---
 
 ## Key Patterns Implemented
 
@@ -320,6 +251,8 @@ worker/
 
 - Each component/service has one clear purpose
 - Pages orchestrate, services handle logic, repositories handle data
+
+---
 
 ## Implementation Progress
 
@@ -357,6 +290,8 @@ worker/
    - Integrated in all repositories (User, Contact, Chat, News)
    - Tests added in src/lib/api-validator.test.ts
 
+---
+
 ## Data Flow
 
 ```
@@ -365,11 +300,15 @@ User Action → Component → Custom Hook → Service → Repository → API →
   UI Update   State Mgmt   Business Logic  Data Access  Network  Entity
 ```
 
+---
+
 ## Testing Strategy
 
 - **Unit Tests**: Services, repositories, utilities
 - **Component Tests**: Pages, components with mocked services
 - **Integration Tests**: API endpoints with test entities
+
+---
 
 ## Success Criteria
 
