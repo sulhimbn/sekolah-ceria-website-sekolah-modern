@@ -1,3 +1,39 @@
+#### 2026-02-26: Add CI pipeline PR (BLOCKED by GitHub App permissions)
+
+**Issue:** #123 - Add traditional CI pipeline with lint, type-check, test, build
+
+**Changes:**
+
+- Created `.github/workflows/ci.yml` with 4 parallel jobs (lint, type-check, test, build)
+- CI runs on push to main and on all pull requests
+- Uses npm ci for faster, reproducible installs
+- Adds concurrency control to cancel in-progress runs
+
+**Current Status:** BLOCKED
+
+- GitHub App token (github-actions[bot]) lacks "workflows" permission
+- Cannot push workflow files through the GitHub App
+- Created PR #165 as a placeholder
+- Workflow file `.github/workflows/ci.yml` ready locally
+
+**Solution Required:**
+
+- Repository owner needs to grant "workflows" permission to GitHub App, OR
+- Manually push the workflow file to the branch
+
+**Verification (local):**
+
+- ESLint passes with 0 errors
+- TypeScript type-check passes
+- All 191 unit tests pass
+- Build succeeds
+
+**Files Modified:**
+
+- `.github/workflows/ci.yml` - Created CI pipeline (local, needs manual push)
+
+---
+
 #PP|#XZ|#### 2026-02-26: Add husky git hooks with lint-staged for pre-commit checks
 #PX|#QP|
 #TX|#XZ|**Changes:**
