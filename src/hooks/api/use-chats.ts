@@ -4,6 +4,7 @@ import { chatService } from '@/services';
 import { errorReporter } from '@/lib/errorReporter';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import type { Chat } from '@shared/types';
+import { useApiResource } from './use-api-resource';
 
 interface UseChatsReturn {
   chats: Chat[];
@@ -28,28 +29,11 @@ export function useChats(): UseChatsReturn {
     isLoading,
     error,
     refetch,
-  } = useQuery({
+  } = useApiResource<Chat[]>({
     queryKey: CHATS_QUERY_KEY,
     queryFn: fetchChats,
-    staleTime: FEATURE_FLAGS.TANSTACK_QUERY_STALE_TIME,
-    gcTime: FEATURE_FLAGS.TANSTACK_QUERY_CACHE_TIME,
-    retry: 3,
-    refetchOnWindowFocus: false,
+    errorMessage: 'Gagal memuat data chat.',
   });
-
-  const handleError = useCallback((err: unknown) => {
-    const errorMessage =
-      err instanceof Error ? err.message : 'Gagal memuat data chat.';
-    errorReporter.report({
-      message: errorMessage,
-      stack: err instanceof Error ? err.stack : undefined,
-      url: typeof window !== 'undefined' ? window.location.href : '',
-      timestamp: new Date().toISOString(),
-      level: 'error',
-      category: 'network',
-    });
-    return errorMessage;
-  }, []);
 
   const createChatMutation = useMutation({
     mutationFn: async (title: string) => {
@@ -65,7 +49,16 @@ export function useChats(): UseChatsReturn {
       }
     },
     onError: err => {
-      handleError(err);
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal membuat chat.';
+      errorReporter.report({
+        message: errorMessage,
+        stack: err instanceof Error ? err.stack : undefined,
+        url: typeof window !== 'undefined' ? window.location.href : '',
+        timestamp: new Date().toISOString(),
+        level: 'error',
+        category: 'network',
+      });
     },
   });
 
@@ -79,7 +72,7 @@ export function useChats(): UseChatsReturn {
   return {
     chats,
     isLoading,
-    error: error ? handleError(error) : null,
+    error,
     refetch,
     createChat,
     isCreating: createChatMutation.isPending,

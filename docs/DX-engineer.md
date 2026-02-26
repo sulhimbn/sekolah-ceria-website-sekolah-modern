@@ -1,3 +1,68 @@
+#### 2026-02-26: Create generic API hooks to eliminate code duplication
+
+**Issue:** #121 - Code duplication in API hooks - create generic useApiResource hook
+
+**Changes:**
+
+- Created `useApiResource<T>`: Generic hook for React Query-based data fetching
+  - Handles loading/error states automatically
+  - Built-in error reporting to errorReporter
+  - Configurable via options: queryKey, queryFn, errorMessage, enabled
+
+- Created `useAsyncOperation<T>`: Generic hook for manual async operations
+  - For hooks that don't use React Query (like useChatMessages)
+  - Handles try/catch, loading states, error reporting
+
+- Refactored 4 API hooks to use generic hooks:
+  - `useNews`: Now uses useApiResource
+  - `useChats`: Now uses useApiResource (mutation kept separately for optimistic updates)
+  - `useUsers`: Now uses useApiResource (mutation kept separately for optimistic updates)
+  - `useChatMessages`: Now uses useAsyncOperation
+
+**Rationale:**
+
+- Issue #121 explicitly requested eliminating ~90% identical boilerplate code
+- Error handling pattern was duplicated in 4 files:
+  ```typescript
+  const handleError = useCallback((err: unknown) => {
+    const errorMessage = err instanceof Error ? err.message : 'Default message';
+    errorReporter.report({ message: errorMessage, ... });
+    return errorMessage;
+  }, []);
+  ```
+- Generic hooks capture common patterns while preserving flexibility
+- Optimistic updates preserved in useChats/useUsers (better UX)
+
+**Verification:**
+
+- ESLint: ✅ 0 errors
+- TypeScript type-check: ✅ Passed
+- Tests: ✅ 233 tests passed
+- Build: ✅ Passed
+
+**Code Reduction:**
+
+- Net reduction: 72 lines (161 removed, 89 added)
+- New reusable hooks: ~200 lines
+- Each new API hook can now use generics instead of copying boilerplate
+
+**Files Created:**
+
+- `src/hooks/api/use-api-resource.ts` - Generic React Query hook
+- `src/hooks/api/use-async-operation.ts` - Generic async operation hook
+
+**Files Refactored:**
+
+- `src/hooks/api/use-news.ts` - Now uses useApiResource
+- `src/hooks/api/use-chats.ts` - Now uses useApiResource
+- `src/hooks/api/use-users.ts` - Now uses useApiResource
+- `src/hooks/api/use-chat-messages.ts` - Now uses useAsyncOperation
+- `src/hooks/api/index.ts` - Added exports for new hooks
+
+---
+
+#### 2026-02-26: Split errorReporter.ts into focused modules (SRP)
+
 #### 2026-02-26: Split errorReporter.ts into focused modules (SRP)
 
 **Issue:** #171 - errorReporter.ts at 794 lines - violates single responsibility

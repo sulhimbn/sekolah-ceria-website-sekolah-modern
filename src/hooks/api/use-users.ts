@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userService } from '@/services';
 import { errorReporter } from '@/lib/errorReporter';
-import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import type { User } from '@shared/types';
+import { useApiResource } from './use-api-resource';
 
 interface UseUsersReturn {
   users: User[];
@@ -28,28 +28,11 @@ export function useUsers(): UseUsersReturn {
     isLoading,
     error,
     refetch,
-  } = useQuery({
+  } = useApiResource<User[]>({
     queryKey: USERS_QUERY_KEY,
     queryFn: fetchUsers,
-    staleTime: FEATURE_FLAGS.TANSTACK_QUERY_STALE_TIME,
-    gcTime: FEATURE_FLAGS.TANSTACK_QUERY_CACHE_TIME,
-    retry: 3,
-    refetchOnWindowFocus: false,
+    errorMessage: 'Gagal memuat data pengguna.',
   });
-
-  const handleError = useCallback((err: unknown) => {
-    const errorMessage =
-      err instanceof Error ? err.message : 'Gagal memuat data pengguna.';
-    errorReporter.report({
-      message: errorMessage,
-      stack: err instanceof Error ? err.stack : undefined,
-      url: typeof window !== 'undefined' ? window.location.href : '',
-      timestamp: new Date().toISOString(),
-      level: 'error',
-      category: 'network',
-    });
-    return errorMessage;
-  }, []);
 
   const createUserMutation = useMutation({
     mutationFn: async (name: string) => {
@@ -65,7 +48,16 @@ export function useUsers(): UseUsersReturn {
       }
     },
     onError: err => {
-      handleError(err);
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal membuat pengguna.';
+      errorReporter.report({
+        message: errorMessage,
+        stack: err instanceof Error ? err.stack : undefined,
+        url: typeof window !== 'undefined' ? window.location.href : '',
+        timestamp: new Date().toISOString(),
+        level: 'error',
+        category: 'network',
+      });
     },
   });
 
@@ -79,7 +71,7 @@ export function useUsers(): UseUsersReturn {
   return {
     users,
     isLoading,
-    error: error ? handleError(error) : null,
+    error,
     refetch,
     createUser,
     isCreating: createUserMutation.isPending,
