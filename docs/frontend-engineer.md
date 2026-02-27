@@ -110,21 +110,63 @@ src/
 When implementing API repositories, always use the actual values from the API response rather than hardcoding:
 
 **❌ Bad**:
+
 ```typescript
 const response = await api<T>('/api/endpoint', config);
 validateResponse(schema, { ...response, success: true }); // Hardcoded!
 ```
 
 **✅ Good**:
+
 ```typescript
-const response = await api<{ success: boolean; data: T }>('/api/endpoint', config);
+const response = await api<{ success: boolean; data: T }>(
+  '/api/endpoint',
+  config
+);
 validateResponse(schema, { ...response.data, success: response.success }); // Actual value
 ```
 
 ### Worker API Patterns
 
 The worker uses a consistent pattern for responses:
+
 - `ok(c, data)` returns `{ success: true, data: ... }`
 - `bad(c, error)` returns `{ success: false, error: ... }` with 400 status
 
 The frontend API client validates `success` at the HTTP layer and throws on failure, returning only `json.data`.
+
+### React.memo Implementation Pattern
+
+When adding React.memo to components using React.forwardRef, the syntax requires double closing parentheses:
+
+**Correct pattern for forwardRef components**:
+
+```typescript
+const Component = React.memo(
+  React.forwardRef<RefType, Props>(({ ...props }, ref) => {
+    // render
+  })
+);
+Component.displayName = 'Component';
+```
+
+**Correct pattern for simple function components**:
+
+```typescript
+const Component = React.memo(function Component({ ... }) {
+  // render
+})
+```
+
+### UI Components Memoization Status
+
+As of 2026-02-27, these UI components have React.memo:
+
+- button.tsx ✅
+- card.tsx ✅ (multiple exports)
+- avatar.tsx ✅
+- badge.tsx ✅
+- input.tsx ✅ (added in PR #238)
+- textarea.tsx ✅ (added in PR #238)
+- skeleton.tsx ✅ (added in PR #238)
+- separator.tsx ✅ (added in PR #238)
