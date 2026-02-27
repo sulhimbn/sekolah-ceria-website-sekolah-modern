@@ -66,9 +66,30 @@ export function useNewsSearch(): UseNewsSearchReturn {
     return FEATURE_FLAGS.FEATURE_SEMANTIC_SEARCH ? 'semantic' : 'keyword';
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Determine if we're searching based on query presence
+  const isSearching = useMemo(() => {
+    return searchQuery.trim().length > 0;
+  }, [searchQuery]);
+
   const searchResults = useMemo(() => {
-    return articles;
-  }, [articles]);
+    // If no search query, return all articles
+    if (!searchQuery.trim()) {
+      return articles;
+    }
+    // Use semantic search if enabled, otherwise fall back to keyword search
+    if (FEATURE_FLAGS.FEATURE_SEMANTIC_SEARCH) {
+      return newsService.searchArticles(searchQuery, articles);
+    }
+    // Keyword search fallback
+    return articles.filter(
+      article =>
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery, articles]);
 
   const handleError = useCallback((err: unknown) => {
     const errorMessage =
@@ -84,13 +105,8 @@ export function useNewsSearch(): UseNewsSearchReturn {
     return errorMessage;
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState<{ value: string }>({
-    value: '',
-  });
-  const [isSearching, setIsSearching] = useState(false);
-
   const handleSetSearchQuery = useCallback((query: string) => {
-    setSearchQuery({ value: query });
+    setSearchQuery(query);
   }, []);
 
   return {
@@ -98,7 +114,7 @@ export function useNewsSearch(): UseNewsSearchReturn {
     isLoading,
     error: error ? handleError(error) : null,
     refetch,
-    searchQuery: searchQuery.value,
+    searchQuery,
     setSearchQuery: handleSetSearchQuery,
     searchResults,
     isSearching,
