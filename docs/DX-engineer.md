@@ -1,3 +1,35 @@
+#WM|#### 2026-02-27: Resolve Bun/npm inconsistency across configs and docs
+#KM|
+#WH|**Issue:** #226 - Bun/npm inconsistency across configs and docs
+#RW|
+#MN|**Changes:**
+#SY|
+#HK|- Removed `package-lock.json` - project uses Bun as package manager (per README)
+#BT| - Both bun.lock and package-lock.json existed, causing confusion
+#SP|- Changed `npx eslint` to `eslint` in package.json lint scripts
+#TN| - npm scripts have node_modules/.bin in PATH, so npx is unnecessary
+#TP|
+#XY|**Rationale:**
+#ST| - README explicitly states "Package Manager: Bun"
+#NH| - Having both lock files creates confusion and potential inconsistencies
+#PB| - npx is npm-specific; direct binary calls work with any package manager
+#HJ|
+#VS|**Verification:**
+#RB|
+#MR|- ESLint: ✅ 0 errors
+#PP|- TypeScript type-check: ✅ Passed
+#TW|- Tests: ✅ 233 tests passed
+#BY|- Build: ✅ Passed
+#XN|
+#QM|**Files Changed:**
+#PB|
+#PB|- `package-lock.json` - Deleted
+#NX|- `package.json` - Removed npx prefix from lint scripts
+#HQ|
+#JH|**PR:** #236
+#QV|
+#JM|---
+
 #### 2026-02-26: Create generic API hooks to eliminate code duplication
 
 **Issue:** #121 - Code duplication in API hooks - create generic useApiResource hook
