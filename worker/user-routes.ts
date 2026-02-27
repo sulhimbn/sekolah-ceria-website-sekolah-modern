@@ -58,6 +58,13 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
       return bad(c, result.error.errors[0]?.message || 'Validasi gagal');
     }
     const { name, email, password } = result.data;
+
+    // SECURITY: Check for duplicate email before registration
+    const existingUser = await UserEntity.findByEmail(c.env, email);
+    if (existingUser) {
+      return bad(c, 'Email sudah terdaftar');
+    }
+
     const userId = crypto.randomUUID();
     const hashedPassword = await hashPassword(password);
     await UserEntity.create(c.env, {
@@ -107,7 +114,10 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, page);
   });
 
-  app.post('/api/users', async c => {
+  // USERS - Admin only (require admin role)
+  app.post('/api/users', authMiddleware, async c => {
+    requireRole(c, 'admin');
+
     const body = await c.req.json();
     const result = createUserSchema.safeParse(body);
 
@@ -132,7 +142,10 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, page);
   });
 
-  app.post('/api/chats', async c => {
+  // CHATS - Require authentication
+  app.post('/api/chats', authMiddleware, async c => {
+    requireAuth(c);
+
     const body = await c.req.json();
     const result = createChatSchema.safeParse(body);
 
@@ -156,7 +169,10 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, await chat.listMessages());
   });
 
-  app.post('/api/chats/:chatId/messages', async c => {
+  // MESSAGES - Require authentication and validate userId
+  app.post('/api/chats/:chatId/messages', authMiddleware, async c => {
+    const authUser = requireAuth(c);
+
     const chatId = c.req.param('chatId');
     const body = await c.req.json();
     const result = sendMessageSchema.safeParse(body);
@@ -166,6 +182,12 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     }
 
     const { userId, text } = result.data;
+
+    // SECURITY: Validate userId matches authenticated user
+    if (userId !== authUser.sub) {
+      return bad(c, 'Anda hanya dapat mengirim pesan ke chat Anda sendiri');
+    }
+
     const chat = new ChatBoardEntity(c.env, chatId);
     if (!(await chat.exists())) return notFound(c, 'chat not found');
     return ok(c, await chat.sendMessage(userId, text));
