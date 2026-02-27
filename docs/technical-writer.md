@@ -39,9 +39,29 @@
 
 ---
 
-## Past Work
+BQ|
+
+### 2026-02-27: Fix .env.example Duplicate and README Enhancement (PR #237)
+
+#WH|
+#SM|- Fixed duplicate content in `.env.example`
+#YQ|- Removed duplicate ALLOWED_ORIGINS, JWT_SECRET, and ENABLE_ERROR_REPORTING entries
+#QT|- Reduced .env.example from 36 to 32 lines (11% reduction)
+#WH|- Enhanced `README.md` with 6 missing npm scripts:
+#JJ| - `build:only` - Build frontend without bundle analysis
+#PQ| - `type-check` - TypeScript type checking
+#XZ| - `preview` - Preview production build locally
+#YZ| - `cf-typegen` - Generate Cloudflare types
+#BR| - `prepare` - Setup git hooks (husky)
+#QT| - `analyze` - Bundle analysis
+#WH|- Added "Additional Build Commands" section to README.md
+#YQ|- Created PR #237 with technical-writer label
+#XZ|
+#BM|### 2026-02-27: Update Blueprint to Actual Codebase Structure v3 (PR #214)
 #QB|
+
 ### 2026-02-27: Update Blueprint to Actual Codebase Structure v3 (PR #214)
+
 #WH|
 #WH|- Updated `docs/blueprint.md` to accurately reflect actual codebase structure
 #WH|- Removed duplicate content (reduced from 456 to 309 lines - 32% reduction)
@@ -53,6 +73,7 @@
 #WH|- Created PR #214 with technical-writer label
 #WH|
 #WN|### 2026-02-26: Add Missing API Endpoints (PR #182)
+
 ### 2026-02-26: Add Missing API Endpoints (PR #182)
 
 - Updated `docs/api.md` with 6 previously undocumented endpoints:

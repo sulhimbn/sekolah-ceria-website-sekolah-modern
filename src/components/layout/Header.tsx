@@ -32,7 +32,7 @@ const NavItems = React.memo(({ className, onNavigate }: NavItemsProps) => {
             to={link.href}
             onClick={onNavigate}
             className={cn(
-              'text-lg font-medium transition-colors hover:text-school-blue',
+              'text-lg font-medium transition-colors hover:text-school-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-school-blue focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md',
               isActive ? 'text-school-blue' : 'text-muted-foreground',
               className
             )}

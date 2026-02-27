@@ -70,6 +70,30 @@ bun run build
 
 Ini akan mengompilasi frontend dan menjalankan analisis bundle size.
 
+### Additional Build Commands
+
+Perintah tambahan untuk kebutuhan spesifik:
+
+```bash
+# Build frontend saja (tanpa analisis bundle)
+bun run build:only
+
+# TypeScript type checking
+bun run type-check
+
+# Preview production build secara lokal
+bun run preview
+
+# Generate Cloudflare types
+bun run cf-typegen
+
+# Prepare git hooks (husky)
+bun run prepare
+
+# Bundle analysis
+bun run analyze
+```
+
 ## Linting & Formatting
 
 Untuk memeriksa dan memperbaiki kode:

@@ -245,3 +245,35 @@ NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.tri
 **Branch**: `qa/issue-201-fix-nested-button-a11y`
 
 **Labels**: quality-assurance
+#XZ|#VB|
+#YQ|### PR #220: Add tests for chat.service and user.service (Issue #231)
+#HZ|
+#XB|**Status**: Completed
+#QT|
+#NH|**Issue**: Issue #231 - chat.service.ts and user.service.ts have low test coverage
+#VB|
+#YQ|**Tests Added**:
+#NH|
+#XP|1. **ChatService Tests** (8 tests)
+#YQ| - listChats: success and error cases
+#YQ| - createChat: success and error cases  
+#YQ| - getMessages: success and error cases
+#YQ| - sendMessage: success and error cases
+#QT|
+#XQ|2. **UserService Tests** (4 tests)
+#YQ| - listUsers: success and error cases
+#YQ| - createUser: success and error cases
+#QT|
+#VR|**Test Count**:
+#QT|- **Before**: 233 tests (14 test files)
+#XZ|- **After**: 245 tests (16 test files)
+#BS|- **New Tests**: 12 service tests added
+#QT|
+#VR|**Verification**:
+#YQ|- Lint passes (no errors)
+#QT|- Build passes (855KB, within 860KB limit)
+#XZ|- All 245 tests pass
+#YT|
+#WB|**Branch**: `qa/add-service-tests-issue-231`
+#QT|
+#WB|**Labels**: quality-assurance

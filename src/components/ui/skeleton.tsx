@@ -1,6 +1,8 @@
+import * as React from 'react';
+
 import { cn } from '@/lib/utils';
 
-function Skeleton({
+const Skeleton = React.memo(function Skeleton({
   className,
   variant = 'default',
   ...props
@@ -25,6 +27,6 @@ function Skeleton({
       {...props}
     />
   );
-}
+});
 
 export { Skeleton };
