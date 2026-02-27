@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port ${PORT:-3000}",
-    "build": "vite build && node scripts/report-bundle-size.js",
+    "build": "vite build && node scripts/report-bundle-size.js && node scripts/check-bundle-regression.js",
+    "build:only": "vite build",
+    "build:check": "node scripts/check-bundle-regression.js",
+    "build:update-baseline": "vite build && node scripts/check-bundle-regression.js --update",
     "build:only": "vite build",
     "lint": "eslint --cache -f json --quiet .",
     "lint:fix": "eslint --cache --fix .",
