@@ -94,7 +94,7 @@ This ensures proper dark mode support and consistency with shadcn/ui design syst
 
 ### Past Improvements
 
-- **Hero Floating Animation** (2026-02-27): Added subtle floating animation to Hero section placeholder image using existing `floating` CSS class. This provides gentle continuous bobbing motion after the initial entrance animation, making the hero section more dynamic and engaging. Uses existing animation utilities defined in index.css - no new dependencies added.
+- **DemoPage Skip Link Fix** (2026-02-27): Fixed accessibility issue where DemoPage had its own `<main>` element without `id="main-content"`, causing the SkipLink component to not work properly. Added `id="main-content"` and `role="main"` to DemoPage's main element to ensure keyboard/screen reader users can skip navigation and focus main content.
 
 - **Footer ErrorBoundary Protection** (2026-02-27): Wrapped Footer component with ErrorBoundary in MainLayout to provide isolated error handling. If the Footer fails to render (e.g., newsletter form errors), only the footer shows an error state while the header and main content remain functional. Fixes issue #228.
 
