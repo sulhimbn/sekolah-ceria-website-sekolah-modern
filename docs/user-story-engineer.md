@@ -51,7 +51,16 @@
   - Added API endpoint in worker/user-routes.ts
   - Updated Footer.tsx to use real API
 
-- **Issue #143**: Skeleton components refactor
+#XB|- **Issue #143**: Skeleton components refactor
+QM| - Moved skeleton components from src/hooks/ to src/components/
+KQ| - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
+YV| - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
+
+- **Issue #229**: React.memo consistency for UI components
+  - Added React.memo to input.tsx, textarea.tsx, label.tsx, alert.tsx
+  - Follows existing pattern from Button component (memo wrapping forwardRef)
+  - Prevents unnecessary re-renders in frequently updating contexts
+  - Fixed in PR #240
   - Moved skeleton components from src/hooks/ to src/components/
   - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
   - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
