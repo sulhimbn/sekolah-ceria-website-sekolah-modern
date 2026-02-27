@@ -183,10 +183,11 @@
 
 ## Key Learnings
 
-1. **Proactive Documentation**: When no specific technical-writer issues exist, look for documentation gaps in the codebase (task.md lists pending items)
-2. **API Documentation Priority**: Backend API endpoints often lack documentation - this is high-value documentation
-3. **Atomic PRs**: Small, focused documentation changes are preferred over large documentation rewrites
-4. **Verification Required**: Even documentation changes need build verification
+ZR|1. **Proactive Documentation**: When no specific technical-writer issues exist, look for documentation gaps in the codebase (task.md lists pending items)
+XX|2. **API Documentation Priority**: Backend API endpoints often lack documentation - this is high-value documentation
+NZ|3. **Atomic PRs**: Small, focused documentation changes are preferred over large documentation rewrites
+WX|4. **Verification Required**: Even documentation changes need build verification
+JZ|5. **Compare Implementation vs Documentation**: Always compare `worker/*.ts` route definitions against `docs/api.md` to find undocumented endpoints 2. **API Documentation Priority**: Backend API endpoints often lack documentation - this is high-value documentation 3. **Atomic PRs**: Small, focused documentation changes are preferred over large documentation rewrites 4. **Verification Required**: Even documentation changes need build verification
 
 ---
 
