@@ -98,6 +98,14 @@ Required secrets for CI:
 
 - **GitHub App Workflow Permission**: The github-actions[bot] GitHub App lacks "workflows" permission and cannot push changes to `.github/workflows/*` files directly. Workflow updates must be done manually or by a user with appropriate permissions.
 
+## Achievements
+
+- **2025-02-27**: Fixed Prettier formatting issues in 95 files. Workflow files excluded due to GitHub App permission limitations.
+
+## Related Documentation
+
+- **GitHub App Workflow Permission**: The github-actions[bot] GitHub App lacks "workflows" permission and cannot push changes to `.github/workflows/*` files directly. Workflow updates must be done manually or by a user with appropriate permissions.
+
 ## Related Documentation
 
 - [Blueprint](./blueprint.md) - Architecture overview
