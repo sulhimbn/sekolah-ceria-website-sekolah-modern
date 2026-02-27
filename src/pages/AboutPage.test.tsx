@@ -46,7 +46,12 @@ describe('AboutPage', () => {
   it('should render without crashing', () => {
     expect(() =>
       render(
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <AboutPage />
         </BrowserRouter>
       )
@@ -55,7 +60,12 @@ describe('AboutPage', () => {
 
   it('should display about page title', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AboutPage />
       </BrowserRouter>
     );

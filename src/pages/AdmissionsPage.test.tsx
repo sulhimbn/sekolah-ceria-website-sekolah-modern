@@ -37,12 +37,16 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
 describe('AdmissionsPage', () => {
   it('should render without crashing', () => {
     expect(() =>
       render(
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <AdmissionsPage />
         </BrowserRouter>
       )
@@ -51,7 +55,12 @@ describe('AdmissionsPage', () => {
 
   it('should display admissions page title', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AdmissionsPage />
       </BrowserRouter>
     );

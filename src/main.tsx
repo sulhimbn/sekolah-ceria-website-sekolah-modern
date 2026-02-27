@@ -32,97 +32,106 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <HomePage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/about',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AboutPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/academics',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AcademicsPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/admissions',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AdmissionsPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/news',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <NewsPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/news/:articleId',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <NewsDetailPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: '/contact',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <ContactPage />
+        </Suspense>
+      ),
+      errorElement: <RouteErrorBoundary />,
+    },
+    // Custom error pages
+    {
+      path: '/404',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <NotFoundPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: '/500',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <ServerErrorPage />
+        </Suspense>
+      ),
+    },
+    // Catch-all for 404
+    {
+      path: '*',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <NotFoundPage />
+        </Suspense>
+      ),
+    },
+  ],
   {
-    path: '/',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <HomePage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/about',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AboutPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/academics',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AcademicsPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/admissions',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <AdmissionsPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/news',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NewsPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/news/:articleId',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NewsDetailPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: '/contact',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <ContactPage />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-  // Custom error pages
-  {
-    path: '/404',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/500',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <ServerErrorPage />
-      </Suspense>
-    ),
-  },
-  // Catch-all for 404
-  {
-    path: '*',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
-  },
-]);
+    // React Router v7 future flags - opt-in early to avoid warnings
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    },
+  }
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
