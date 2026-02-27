@@ -30,12 +30,18 @@ export interface ClientErrorReport {
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 // Clean up expired entries every minute
+// Note: In production, consider using Cloudflare Rate Limiting (paid) or Durable Objects
 setInterval(() => {
   const now = Date.now();
+  const keysToDelete: string[] = [];
   for (const [key, value] of rateLimitStore.entries()) {
     if (value.resetTime < now) {
-      rateLimitStore.delete(key);
+      keysToDelete.push(key);
     }
+  }
+  // Delete in reverse to handle Map iteration safely
+  for (let i = keysToDelete.length - 1; i >= 0; i--) {
+    rateLimitStore.delete(keysToDelete[i]);
   }
 }, 60000);
 
@@ -48,31 +54,35 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
     const now = Date.now();
     const key = `${ip}:${c.req.path}`;
 
-    const current = rateLimitStore.get(key);
+    // Compute new state atomically to avoid race conditions
+    const existing = rateLimitStore.get(key);
+    let newState: { count: number; resetTime: number } | null;
 
-    if (current) {
-      if (current.resetTime < now) {
+    if (existing) {
+      if (existing.resetTime < now) {
         // Window expired, reset
-        rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
-      } else if (current.count >= maxRequests) {
-        // Rate limit exceeded
+        newState = { count: 1, resetTime: now + windowMs };
+      } else if (existing.count >= maxRequests) {
+        // Rate limit exceeded - return early
         return c.json(
           {
             success: false,
             error: 'Terlalu banyak permintaan. Silakan coba lagi nanti.',
-            retryAfter: Math.ceil((current.resetTime - now) / 1000),
+            retryAfter: Math.ceil((existing.resetTime - now) / 1000),
           },
           429
         );
       } else {
         // Increment counter
-        current.count++;
-        rateLimitStore.set(key, current);
+        newState = { count: existing.count + 1, resetTime: existing.resetTime };
       }
     } else {
       // First request in window
-      rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
+      newState = { count: 1, resetTime: now + windowMs };
     }
+
+    // Set the new state atomically (single write)
+    rateLimitStore.set(key, newState);
 
     await next();
   };
@@ -81,6 +91,11 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
 // Rate limiter instances for different endpoints
 // 60 requests per minute for write operations (stricter)
 // 120 requests per minute for read operations (more lenient)
+//
+// NOTE: For production with multiple worker instances, consider:
+// - Cloudflare Rate Limiting (requires Workers Paid plan)
+// - Durable Objects for distributed rate limiting
+// - KV store (has latency implications)
 const strictRateLimiter = createRateLimiter(60, 60000);
 const lenientRateLimiter = createRateLimiter(120, 60000);
 
