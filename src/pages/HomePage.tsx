@@ -50,6 +50,31 @@ const HomePage: React.FC = () => {
     };
     fetchNews();
   }, []);
+  const handleRetry = () => {
+    const fetchNews = async () => {
+      try {
+        setIsLoading(true);
+        const articles = await newsService.listArticles();
+        setLatestNews(newsService.getRecentArticles(articles, 3));
+        setError(null);
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Gagal memuat berita.';
+        setError(errorMessage);
+        errorReporter.report({
+          message: errorMessage,
+          stack: err instanceof Error ? err.stack : undefined,
+          url: window.location.href,
+          timestamp: new Date().toISOString(),
+          level: 'error',
+          category: 'network',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchNews();
+  };
 
   const testimonials = [
     {
@@ -84,6 +109,13 @@ const HomePage: React.FC = () => {
             Gagal Memuat Berita
           </h3>
           <p className="text-red-600">{error}</p>
+          <Button
+            variant="outline"
+            onClick={handleRetry}
+            className="mt-4 border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800"
+          >
+            Coba Lagi
+          </Button>
         </div>
       );
     }
