@@ -178,3 +178,42 @@ As of 2026-02-27, these UI components have React.memo:
 - textarea.tsx ✅ (added in PR #238)
 - skeleton.tsx ✅ (added in PR #238)
 - separator.tsx ✅ (added in PR #238)
+
+### UI Components Memoization Status
+
+As of 2026-02-27, these UI components have React.memo:
+
+- button.tsx ✅
+- card.tsx ✅ (multiple exports)
+- avatar.tsx ✅
+- badge.tsx ✅
+- input.tsx ✅ (added in PR #238)
+- textarea.tsx ✅ (added in PR #238)
+- skeleton.tsx ✅ (added in PR #238)
+- separator.tsx ✅ (added in PR #238)
+
+### ErrorBoundary Usage
+
+Wrap components with ErrorBoundary to prevent render errors from crashing the entire page:
+
+```typescript
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+
+// Wrap the component's return JSX
+return (
+  <ErrorBoundary>
+    <YourComponent />
+  </ErrorBoundary>
+);
+```
+
+**When to use ErrorBoundary:**
+
+- Layout components (Header, Footer, Sidebar) - to prevent full page crashes
+- Components with external API calls (newsletter forms, data fetching)
+- Components that might throw runtime errors
+
+**Available ErrorBoundary components:**
+
+- `ErrorBoundary.tsx` - Class component with ErrorFallback
+- `RouteErrorBoundary.tsx` - For route-level error handling
