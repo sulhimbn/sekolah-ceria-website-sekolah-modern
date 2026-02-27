@@ -164,16 +164,16 @@ app.use('/api/*', strictRateLimiter);
 
 ```bash
 # Lint check
-npm run lint
+bun run lint
 
 # Type check
-npm run type-check
+bun run type-check
 
 # Build
-npm run build
+bun run build
 
 # Run tests
-npm run test
+bun run test
 ```
 
 ## Security Scanning Results
@@ -245,14 +245,14 @@ All three security issues have been verified as FIXED:
 
 ```bash
 # Lint check
-npm run lint
+bun run lint
 
 # Type check
-npm run type-check
+bun run type-check
 
 # Build
-npm run build
+bun run build
 
 # Run tests
-npm run test:run
+bun run test:run
 ```
