@@ -1,3 +1,23 @@
+## Session Summary
+
+### 2026-02-27
+
+**Completed Tasks:**
+
+1. **Closed Issue #221** (Duplicate route bug)
+   - Verified fix was already applied in PR #234
+   - Only one `/api/contact` route exists at worker/user-routes.ts:215
+   - Closed issue with verification comment
+
+2. **Resolved Issue #230** (In-memory rate limiting reliability issues)
+   - Root cause: Race conditions in get/set operations (non-atomic)
+   - Fix: Compute new state atomically before single write
+   - Fix: Safe cleanup interval (collect keys first, delete in reverse)
+   - Added production recommendations for distributed rate limiting
+   - Files changed: `worker/index.ts`
+   - Created PR #245
+
+### 2026-02-25
 # Backend Engineer Agent - Long-term Memory
 
 ## Session Summary
@@ -99,6 +119,12 @@ This avoids Vite/Rollup circular chunk warnings caused by:
 2. `services/index.ts` re-exporting from individual service files
 
 ## Open Issues (Backend Engineer)
+
+- #230: In-memory rate limiting has reliability issues - **RESOLVED (PR #245)**
+- #221: Duplicate route bug in user-routes.ts - **RESOLVED (Closed)**
+- #30: Fix circular chunk dependency warnings in Vite build - **RESOLVED**
+- #9: Add runtime type validation for API responses using Zod - **RESOLVED**
+- #8: Standardize error handling across all services - **RESOLVED**
 
 - #30: Fix circular chunk dependency warnings in Vite build - **RESOLVED**
 - #9: Add runtime type validation for API responses using Zod - **RESOLVED**
