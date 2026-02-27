@@ -241,18 +241,72 @@ All three security issues have been verified as FIXED:
 
 ---
 
-## Verification Commands (2026-02-27)
+QY|### 2026-02-27: Authorization on Sensitive Endpoints (Issue #222)
+RX|
+XS|**File Changed**: worker/user-routes.ts
+BR|
+XS|**Description**: Added authorization checks to sensitive API endpoints to resolve issue #222.
+RX|
+XS|**Implementation Details**:
+RX|
+YX|- **POST /api/users**: Added `requireRole(c, 'admin')` middleware - only admins can create users
+XR|- **POST /api/chats**: Added `authMiddleware` + `requireAuth(c)` - requires authentication
+RX|- **POST /api/chats/:chatId/messages**: Added `authMiddleware` + userId validation - users can only post to their own chats
+XR|- **POST /api/auth/register**: Added duplicate email check using `UserEntity.findByEmail()`
+RX|
+XS|**Security Benefits**:
+RX|
+XR|- Prevents unauthorized user creation (requires admin role)
+XR|- Prevents unauthorized chat board creation (requires authentication)
+XR|- Prevents cross-user message posting (validates userId matches token)
+XR|- Prevents duplicate email registrations
+RX|
+XS|**Code Addition**:
+RX|
+XS|```typescript
+// POST /api/users - Admin only
+app.post('/api/users', requireRole(c, 'admin'), async c => { ... });
 
-```bash
-# Lint check
-npm run lint
+// POST /api/chats - Auth required
+app.post('/api/chats', authMiddleware, async c => {
+requireAuth(c);
+// ...
+});
 
-# Type check
-npm run type-check
+// POST /api/chats/:chatId/messages - Auth + userId validation
+app.post('/api/chats/:chatId/messages', authMiddleware, async c => {
+const authUser = requireAuth(c);
+// ...
+if (userId !== authUser.sub) {
+return bad(c, 'Anda hanya dapat mengirim pesan ke chat Anda sendiri');
+}
+});
 
-# Build
-npm run build
+// Registration - Duplicate email check
+const existingUser = await UserEntity.findByEmail(c.env, email);
+if (existingUser) {
+return bad(c, 'Email sudah terdaftar');
+}
 
-# Run tests
-npm run test:run
-```
+````
+RX|
+XS|**Verification**:
+RX|
+XS|- Issue #222: RESOLVED
+RX|
+XS|## Verification Commands (2026-02-27)
+XS|
+XS|```bash
+XS|# Lint check
+XS|npm run lint
+XS|
+XS|# Type check
+XS|npm run type-check
+XS|
+XS|# Build
+XS|npm run build
+XS|
+XS|# Run tests
+XS|npm run test:run
+XS|```
+````
