@@ -20,6 +20,13 @@ This document serves as the long-term memory for the R&D (Research & Development
 
 ## Active Improvements
 
+PY|| Issue | Title | Status | Priority |
+MT|| ----- | ---------------------------------------------- | ---------- | -------- |
+QQ|| ----- | -------------------------------------------- | ---------- | -------- |
+QR|| #271 | Add bundle size regression check in CI | PR #278 | Low |
+ZN|| #140 | Fix missing React imports in use-news.ts | PR #145 | P0 |
+HQ|| #94 | Fix missing npm dependencies for UI components | PR #107 | Low |
+
 | Issue | Title                                          | Status     | Priority |
 | ----- | ---------------------------------------------- | ---------- | -------- |
 | ----- | --------------------------------------------   | ---------- | -------- |
@@ -31,11 +38,19 @@ This document serves as the long-term memory for the R&D (Research & Development
 | PK    |       | -----  | --------------------------------------------   | ---------- | -------- |
 | PK    |       | #94    | Fix missing npm dependencies for UI components | PR #107    | Low      |
 
-- **#140** (2026-02-26): Fix missing React imports in use-news.ts
-  - Added missing React imports (useState, useEffect, useMemo, useCallback)
-  - Fixes P0 runtime crash when visiting news pages
-  - Type-check and build pass (812KB bundle)
-  - PR #145 created with RnD label
+JT|- **#271** (2026-02-27): Add bundle size warning threshold
+KT| - Added WARNING_LIMIT_KB (800KB) in addition to SIZE_LIMIT_KB (870KB)
+KZ| - Bundle between 800KB-870KB now shows warning but doesn't fail build
+TW| - Provides early warning before hitting hard limit
+SJ| - Current bundle size: 861.2KB (warning zone, under limit)
+HV| - PR #278 created with RnD label
+
+MM|- **#140** (2026-02-26): Fix missing React imports in use-news.ts
+
+- Added missing React imports (useState, useEffect, useMemo, useCallback)
+- Fixes P0 runtime crash when visiting news pages
+- Type-check and build pass (812KB bundle)
+- PR #145 created with RnD label
 
 - **#88** (2026-02-25): Fix accessibility - Remove placeholder links
 
