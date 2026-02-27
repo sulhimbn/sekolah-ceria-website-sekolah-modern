@@ -457,6 +457,62 @@ Retrieve a single news article by ID.
 
 ---
 
+### 5.1 View Count
+
+#### POST /api/news/:id/view
+
+Increment the view count for a news article.
+
+**Path Parameters:**
+
+| Parameter | Type   | Description  |
+| --------- | ------ | ------------ |
+| id        | string | Article UUID |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "viewCount": 42
+  }
+}
+```
+
+**Error Responses:**
+
+- `404`: "Article not found"
+
+---
+
+#### GET /api/news/:id/view
+
+Retrieve the view count for a news article.
+
+**Path Parameters:**
+
+| Parameter | Type   | Description  |
+| --------- | ------ | ------------ |
+| id        | string | Article UUID |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "viewCount": 42
+  }
+}
+```
+
+**Error Responses:**
+
+- `404`: "Article not found"
+
+---
+
 ### 6. Contact Form
 
 #### POST /api/contact
