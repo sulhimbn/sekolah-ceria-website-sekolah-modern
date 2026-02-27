@@ -64,6 +64,13 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
         newState = { count: 1, resetTime: now + windowMs };
       } else if (existing.count >= maxRequests) {
         // Rate limit exceeded - return early
+        // Add rate limit headers before responding
+        c.header('X-RateLimit-Limit', String(maxRequests));
+        c.header('X-RateLimit-Remaining', '0');
+        c.header(
+          'Retry-After',
+          String(Math.ceil((existing.resetTime - now) / 1000))
+        );
         return c.json(
           {
             success: false,
@@ -82,20 +89,26 @@ function createRateLimiter(maxRequests: number, windowMs: number) {
     }
 
     // Set the new state atomically (single write)
-    rateLimitStore.set(key, newState);
+    rateLimitStore.set(key, newState!);
+
+    // Add rate limit headers for successful requests
+    c.header('X-RateLimit-Limit', String(maxRequests));
+    c.header('X-RateLimit-Remaining', String(newState!.count));
 
     await next();
   };
 }
 
 // Rate limiter instances for different endpoints
-// 60 requests per minute for write operations (stricter)
+// 5 requests per minute for auth endpoints (stricter - prevents brute force)
+// 60 requests per minute for general API endpoints
 // 120 requests per minute for read operations (more lenient)
 //
 // NOTE: For production with multiple worker instances, consider:
 // - Cloudflare Rate Limiting (requires Workers Paid plan)
 // - Durable Objects for distributed rate limiting
 // - KV store (has latency implications)
+const authRateLimiter = createRateLimiter(5, 60000);
 const strictRateLimiter = createRateLimiter(60, 60000);
 const lenientRateLimiter = createRateLimiter(120, 60000);
 
@@ -125,7 +138,11 @@ app.use(
   })
 );
 
-// Apply rate limiting to API endpoints
+// Apply stricter rate limiting to auth endpoints (login/register)
+app.use('/api/auth/login', authRateLimiter);
+app.use('/api/auth/register', authRateLimiter);
+
+// Apply general rate limiting to other API endpoints
 app.use('/api/*', strictRateLimiter);
 
 app.use('*', async (c, next) => {
