@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Chat } from '@shared/types';
 
 interface DemoChatSelectorProps {

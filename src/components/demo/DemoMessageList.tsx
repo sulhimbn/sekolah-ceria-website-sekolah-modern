@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import type { User, ChatMessage } from '@shared/types';
 
 interface DemoMessageListProps {
