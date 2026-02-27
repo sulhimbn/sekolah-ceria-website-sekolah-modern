@@ -127,13 +127,13 @@ The repository can benefit from AI agents in:
 **Challenges Encountered:**
 
 - [What went wrong]
-#BV|- [How it was resolved]
-WP|
-RN|**Knowledge Gained:**
-BM|
-ZB|- Python scripts more reliable for YAML modifications than edit tool
-MR|- GitHub Actions bot lacks permission to push workflow files
-NQ|- Build/lint/test/type-check all pass successfully
+  #BV|- [How it was resolved]
+  WP|
+  RN|**Knowledge Gained:**
+  BM|
+  ZB|- Python scripts more reliable for YAML modifications than edit tool
+  MR|- GitHub Actions bot lacks permission to push workflow files
+  NQ|- Build/lint/test/type-check all pass successfully
 
 XV|---
 

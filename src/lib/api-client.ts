@@ -1,5 +1,5 @@
-import { ApiResponse } from "../../shared/types"
-import { MESSAGES } from './messages'
+import { ApiResponse } from '../../shared/types';
+import { MESSAGES } from './messages';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 const DEFAULT_TIMEOUT = 30000;
@@ -35,7 +35,8 @@ class ApiRequestError extends Error implements ApiError {
     this.name = 'ApiRequestError';
     this.status = options.status;
     this.code = options.code;
-    this.isRetryable = options.isRetryable ?? this.calculateRetryable(options.status);
+    this.isRetryable =
+      options.isRetryable ?? this.calculateRetryable(options.status);
   }
 
   private calculateRetryable(status?: number): boolean {
@@ -64,7 +65,7 @@ function calculateRetryDelay(attempt: number, baseDelay: number): number {
 
 /**
  * Enhanced API client with timeout, retries, deduplication, and better error handling
- * 
+ *
  * Features:
  * - Request timeout handling
  * - Automatic retries with exponential backoff
@@ -73,7 +74,7 @@ function calculateRetryDelay(attempt: number, baseDelay: number): number {
  * - Request/response interceptors support
  */
 export async function api<T>(
-  path: string, 
+  path: string,
   config: ApiClientConfig = {}
 ): Promise<T> {
   const {
@@ -128,7 +129,12 @@ async function executeRequestWithRetries<T>(
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const result = await executeRequest<T>(url, fetchConfig, controller, timeoutId);
+      const result = await executeRequest<T>(
+        url,
+        fetchConfig,
+        controller,
+        timeoutId
+      );
       return result;
     } catch (error) {
       lastError = error as ApiRequestError;
@@ -142,10 +148,10 @@ async function executeRequestWithRetries<T>(
       }
 
       const delay = calculateRetryDelay(attempt, baseDelay);
-      
+
       console.warn(
         `[API] Request failed (attempt ${attempt + 1}/${maxRetries + 1}). ` +
-        `Retrying in ${Math.round(delay)}ms...`,
+          `Retrying in ${Math.round(delay)}ms...`,
         { url, error: lastError.message, status: lastError.status }
       );
 
@@ -166,9 +172,9 @@ async function executeRequest<T>(
 ): Promise<T> {
   try {
     const res = await fetch(url, {
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        ...fetchConfig.headers 
+        ...fetchConfig.headers,
       },
       ...fetchConfig,
       signal: controller.signal,
@@ -178,44 +184,43 @@ async function executeRequest<T>(
 
     let json: ApiResponse<T>;
     try {
-      json = await res.json() as ApiResponse<T>;
+      json = (await res.json()) as ApiResponse<T>;
     } catch (parseError) {
-      throw new ApiRequestError(
-        MESSAGES.API.REQUEST_FAILED,
-        { status: res.status, code: 'PARSE_ERROR' }
-      );
+      throw new ApiRequestError(MESSAGES.API.REQUEST_FAILED, {
+        status: res.status,
+        code: 'PARSE_ERROR',
+      });
     }
 
     if (!res.ok || !json.success || json.data === undefined) {
       const errorMessage = json.error || MESSAGES.API.REQUEST_FAILED;
-      throw new ApiRequestError(
-        errorMessage,
-        { 
-          status: res.status, 
-          code: json.error ? 'API_ERROR' : 'REQUEST_FAILED',
-          isRetryable: res.status >= 500 || res.status === 429
-        }
-      );
+      throw new ApiRequestError(errorMessage, {
+        status: res.status,
+        code: json.error ? 'API_ERROR' : 'REQUEST_FAILED',
+        isRetryable: res.status >= 500 || res.status === 429,
+      });
     }
 
     return json.data;
-
   } catch (error) {
     clearTimeout(timeoutId);
 
     if (error instanceof Error) {
       if (error.name === 'AbortError') {
-        throw new ApiRequestError(
-          'Request timeout - please try again',
-          { code: 'TIMEOUT', isRetryable: true }
-        );
+        throw new ApiRequestError('Request timeout - please try again', {
+          code: 'TIMEOUT',
+          isRetryable: true,
+        });
       }
 
       if (error instanceof ApiRequestError) {
         throw error;
       }
 
-      if (error.message.includes('fetch') || error.message.includes('network')) {
+      if (
+        error.message.includes('fetch') ||
+        error.message.includes('network')
+      ) {
         throw new ApiRequestError(
           'Network error - please check your connection',
           { code: 'NETWORK_ERROR', isRetryable: true }
@@ -234,14 +239,23 @@ export const apiClient = {
   get: <T>(path: string, config?: Omit<ApiClientConfig, 'method' | 'body'>) =>
     api<T>(path, { ...config, method: 'GET' }),
 
-  post: <T>(path: string, body: unknown, config?: Omit<ApiClientConfig, 'method' | 'body'>) =>
-    api<T>(path, { ...config, method: 'POST', body: JSON.stringify(body) }),
+  post: <T>(
+    path: string,
+    body: unknown,
+    config?: Omit<ApiClientConfig, 'method' | 'body'>
+  ) => api<T>(path, { ...config, method: 'POST', body: JSON.stringify(body) }),
 
-  put: <T>(path: string, body: unknown, config?: Omit<ApiClientConfig, 'method' | 'body'>) =>
-    api<T>(path, { ...config, method: 'PUT', body: JSON.stringify(body) }),
+  put: <T>(
+    path: string,
+    body: unknown,
+    config?: Omit<ApiClientConfig, 'method' | 'body'>
+  ) => api<T>(path, { ...config, method: 'PUT', body: JSON.stringify(body) }),
 
-  patch: <T>(path: string, body: unknown, config?: Omit<ApiClientConfig, 'method' | 'body'>) =>
-    api<T>(path, { ...config, method: 'PATCH', body: JSON.stringify(body) }),
+  patch: <T>(
+    path: string,
+    body: unknown,
+    config?: Omit<ApiClientConfig, 'method' | 'body'>
+  ) => api<T>(path, { ...config, method: 'PATCH', body: JSON.stringify(body) }),
 
   delete: <T>(path: string, config?: Omit<ApiClientConfig, 'method'>) =>
     api<T>(path, { ...config, method: 'DELETE' }),

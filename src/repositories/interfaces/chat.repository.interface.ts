@@ -41,5 +41,9 @@ export interface IChatRepository {
    * @returns Promise resolving to created message
    * @throws Error if sending fails
    */
-  sendMessage(chatId: string, userId: string, text: string): Promise<ChatMessage>;
+  sendMessage(
+    chatId: string,
+    userId: string,
+    text: string
+  ): Promise<ChatMessage>;
 }

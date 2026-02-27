@@ -93,7 +93,9 @@ test.describe('Contact Form Flow', () => {
 
   test('should display contact information', async ({ page }) => {
     // Check contact info is displayed
-    await expect(page.getByText(/info@sekolahceria.sch.id/i).first()).toBeVisible();
+    await expect(
+      page.getByText(/info@sekolahceria.sch.id/i).first()
+    ).toBeVisible();
     await expect(page.getByText(/\(021\) 123-4567/i).first()).toBeVisible();
     await expect(page.getByText(/Jl\. Pendidikan/i).first()).toBeVisible();
 

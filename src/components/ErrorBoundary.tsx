@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
-import { errorReporter } from "@/lib/errorReporter";
-import { ErrorFallback } from "./ErrorFallback";
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { errorReporter } from '@/lib/errorReporter';
+import { ErrorFallback } from './ErrorFallback';
 
 interface Props {
   children: ReactNode;
@@ -35,7 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
     // Report error to backend
     errorReporter.report({
       message: error.message,
-      stack: error.stack || "",
+      stack: error.stack || '',
       componentStack: errorInfo.componentStack,
       errorBoundary: true,
       errorBoundaryProps: {
@@ -43,7 +43,7 @@ export class ErrorBoundary extends Component<Props, State> {
       },
       url: window.location.href,
       timestamp: new Date().toISOString(),
-      level: "error",
+      level: 'error',
     });
   }
 
@@ -54,7 +54,7 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   private goHome = () => {
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
   public render() {

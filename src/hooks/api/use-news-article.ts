@@ -29,7 +29,8 @@ export function useNewsArticle(id: string): UseNewsArticleReturn {
         const data = await newsService.getArticle(id);
         setArticle(data);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Gagal memuat artikel.';
+        const errorMessage =
+          err instanceof Error ? err.message : 'Gagal memuat artikel.';
         setError(errorMessage);
         errorReporter.report({
           message: errorMessage,

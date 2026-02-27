@@ -15,13 +15,23 @@ import type { NewsArticle } from '@shared/types';
  */
 export class NewsApiRepository implements INewsRepository {
   async fetchArticles(): Promise<NewsListResponse> {
-    const response = await api<{ items: NewsArticle[]; next?: string }>('/api/news');
-    return validateResponse(schemas.newsListResponse, response, 'NewsListResponse');
+    const response = await api<{ items: NewsArticle[]; next?: string }>(
+      '/api/news'
+    );
+    return validateResponse(
+      schemas.newsListResponse,
+      response,
+      'NewsListResponse'
+    );
   }
 
   async fetchArticle(id: string): Promise<NewsArticleDetail> {
     const response = await api<NewsArticle>(`/api/news/${id}`);
-    return validateResponse(schemas.newsArticleDetail, response, 'NewsArticleDetail') as NewsArticleDetail;
+    return validateResponse(
+      schemas.newsArticleDetail,
+      response,
+      'NewsArticleDetail'
+    ) as NewsArticleDetail;
   }
 }
 

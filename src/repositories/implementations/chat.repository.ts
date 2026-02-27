@@ -15,7 +15,11 @@ import type { Chat, ChatMessage } from '@shared/types';
 export class ChatApiRepository implements IChatRepository {
   async fetchChats(): Promise<ChatListResponse> {
     const response = await api<ChatListResponse>('/api/chats');
-    return validateResponse(schemas.chatListResponse, response, 'ChatListResponse');
+    return validateResponse(
+      schemas.chatListResponse,
+      response,
+      'ChatListResponse'
+    );
   }
 
   async createChat(title: string): Promise<Chat> {
@@ -31,7 +35,11 @@ export class ChatApiRepository implements IChatRepository {
     return validateResponse(schemas.chatMessageList, response, 'ChatMessage[]');
   }
 
-  async sendMessage(chatId: string, userId: string, text: string): Promise<ChatMessage> {
+  async sendMessage(
+    chatId: string,
+    userId: string,
+    text: string
+  ): Promise<ChatMessage> {
     const response = await api<ChatMessage>(`/api/chats/${chatId}/messages`, {
       method: 'POST',
       body: JSON.stringify({ userId, text: text.trim() }),

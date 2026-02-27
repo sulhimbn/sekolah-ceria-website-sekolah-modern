@@ -9,10 +9,10 @@ export type { ChatListResponse } from './chat.service';
 
 /**
  * Centralized API error handler (HARDEN-004)
- * 
+ *
  * Wraps API calls with consistent error handling to eliminate
  * duplication across services.
- * 
+ *
  * @param apiCall - The API call function to execute
  * @param errorMessage - The error message to throw on failure
  * @returns The result of the API call
@@ -31,7 +31,7 @@ export async function withErrorHandling<T>(
 
 /**
  * Enhanced API call wrapper with conditional error handling (HARDEN-004)
- * 
+ *
  * @param apiCall - The API call function to execute
  * @param options - Error handling options
  * @returns The result of the API call
