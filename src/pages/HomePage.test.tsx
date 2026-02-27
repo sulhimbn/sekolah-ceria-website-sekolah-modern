@@ -26,10 +26,9 @@ vi.mock('framer-motion', () => ({
   },
 }));
 
-// Mock services
 vi.mock('@/services/news.service', () => ({
   newsService: {
-    listArticles: vi.fn().mockResolvedValue([]),
+    listArticles: vi.fn().mockReturnValue([]),
     getRecentArticles: vi.fn().mockReturnValue([]),
   },
 }));
@@ -59,33 +58,23 @@ afterEach(() => {
 });
 
 describe('HomePage', () => {
-  it('should render without crashing', () => {
-    expect(() =>
-      render(
-        <BrowserRouter
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-          }}
-        >
-          <HomePage />
-        </BrowserRouter>
-      )
-    ).not.toThrow();
+  it('should render without crashing', async () => {
+    await waitFor(() => {
+      expect(() =>
+        render(
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
+            <HomePage />
+          </BrowserRouter>
+        )
+      ).not.toThrow();
+    });
   });
 
-  it('should display main layout', async () => {
-    render(
-      <BrowserRouter
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
-        <HomePage />
-      </BrowserRouter>
-    );
-  });
   it('should display main layout', async () => {
     render(
       <BrowserRouter
