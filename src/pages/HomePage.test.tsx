@@ -62,7 +62,12 @@ describe('HomePage', () => {
   it('should render without crashing', () => {
     expect(() =>
       render(
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <HomePage />
         </BrowserRouter>
       )
@@ -71,7 +76,24 @@ describe('HomePage', () => {
 
   it('should display main layout', async () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <HomePage />
+      </BrowserRouter>
+    );
+  });
+  it('should display main layout', async () => {
+    render(
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <HomePage />
       </BrowserRouter>
     );

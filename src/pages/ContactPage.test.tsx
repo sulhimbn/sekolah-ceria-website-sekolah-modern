@@ -65,7 +65,12 @@ describe('ContactPage', () => {
   it('should render without crashing', () => {
     expect(() =>
       render(
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <ContactPage />
         </BrowserRouter>
       )
@@ -74,7 +79,24 @@ describe('ContactPage', () => {
 
   it('should display main layout', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <ContactPage />
+      </BrowserRouter>
+    );
+  });
+  it('should display main layout', () => {
+    render(
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <ContactPage />
       </BrowserRouter>
     );

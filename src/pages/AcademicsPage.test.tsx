@@ -48,7 +48,12 @@ describe('AcademicsPage', () => {
   it('should render without crashing', () => {
     expect(() =>
       render(
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <AcademicsPage />
         </BrowserRouter>
       )
@@ -57,7 +62,12 @@ describe('AcademicsPage', () => {
 
   it('should display academics page title', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AcademicsPage />
       </BrowserRouter>
     );
