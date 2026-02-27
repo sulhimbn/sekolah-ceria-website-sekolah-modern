@@ -319,3 +319,60 @@ NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.tri
 **Labels**: quality-assurance
 
 **Linked Issues**: Fixes #223
+XP|**Linked Issues**: Fixes #223
+
+## PR #XXX: Fix act() warnings in HomePage tests (Issue #270)
+
+RQ|**Status**: In Progress
+
+XZ|**Issue**: Issue #270 - React act() warnings in HomePage tests
+
+HZ|**Problem**:
+
+PZ|
+
+MW|- Test output showed warnings: `Warning: An update to HomePage inside a test was not wrapped in act(...)`
+
+ZQ|- HomePage component has async useEffect that fetches news data
+
+ZJ|- Tests didn't properly wait for async state updates
+
+TT|**Solution**:
+
+PQ|
+
+WT|- Removed duplicate test "should display main layout" (existed twice with same name)
+
+MY|- Changed mock from `mockResolvedValue` to `mockReturnValue` for synchronous return
+
+KK|- Wrapped both tests in `waitFor` to properly wait for async state updates
+
+YT|**Files Changed**:
+
+SZ|
+
+YQ|- `src/pages/HomePage.test.tsx`
+
+YX|**Test Count**:
+
+NX|
+
+VW|- **Before**: 312 tests (29 test files)
+
+BS|- **After**: 311 tests (29 test files)
+
+SS|- **Note**: Removed 1 duplicate test
+
+KK|**Verification**:
+
+YQ|
+
+VY|- Lint passes (no errors)
+
+WQ|- Type check passes (no errors)
+
+ZB|- All 311 tests pass
+
+VY|- No act() warnings in HomePage tests
+
+YQ|**Labels**: quality-assurance
