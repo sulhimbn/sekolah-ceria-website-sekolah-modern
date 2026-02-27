@@ -13,30 +13,38 @@ Sekolah Ceria is a React/Vite frontend with TypeScript, Tailwind CSS, and shadcn
 - **Routing**: React Router DOM
 - **Animation**: Framer Motion
 - **Testing**: Vitest + React Testing Library + Playwright
-- **Package Manager**: npm (project uses npm, not bun despite README)
+- **Package Manager**: Bun (with npm compatibility)
 
 ## Common Commands
 
 ```bash
 # Development
-npm run dev
+# Development
+bun dev
 
 # Build
-npm run build
+# Build
+bun run build
 
 # Lint (use --no-cache after installing new dependencies)
-npm run lint
+# Lint (use --no-cache after installing new dependencies)
+bun run lint
+bun run lint -- --no-cache
 npm run lint -- --no-cache
 
 # Type check
-npm run type-check
+# Type check
+bun run type-check
 
 # Test
-npm run test
+# Test
+bun run test
+bun run test:run
 npm run test:run
 
 # E2E Test
-npm run test:e2e
+# E2E Test
+bun run test:e2e
 ```
 
 ## UI Components
@@ -55,7 +63,7 @@ When adding new shadcn/ui components, ensure all peer dependencies are installed
 - `input-otp` - for OTP input component
 - `react-resizable-panels` - for resizable panel component
 
-**ESLint Cache Issue**: After installing new dependencies, always run `npm run lint -- --no-cache` or clear `.eslintcache` to ensure ESLint picks up the new packages.
+**ESLint Cache Issue**: After installing new dependencies, always run `bun run lint -- --no-cache` or clear `.eslintcache` to ensure ESLint picks up the new packages.
 
 #### ESLint Resolution
 
@@ -63,7 +71,7 @@ The project uses `eslint-import-resolver-typescript` for import resolution. If E
 
 1. Clear ESLint cache: `rm -f .eslintcache`
 2. Run with `--no-cache` flag
-3. Verify TypeScript can resolve the imports (`npm run type-check`)
+3. Verify TypeScript can resolve the imports (`bun run type-check`)
 
 ## Project Structure
 
@@ -110,20 +118,26 @@ src/
 When implementing API repositories, always use the actual values from the API response rather than hardcoding:
 
 **❌ Bad**:
+
 ```typescript
 const response = await api<T>('/api/endpoint', config);
 validateResponse(schema, { ...response, success: true }); // Hardcoded!
 ```
 
 **✅ Good**:
+
 ```typescript
-const response = await api<{ success: boolean; data: T }>('/api/endpoint', config);
+const response = await api<{ success: boolean; data: T }>(
+  '/api/endpoint',
+  config
+);
 validateResponse(schema, { ...response.data, success: response.success }); // Actual value
 ```
 
 ### Worker API Patterns
 
 The worker uses a consistent pattern for responses:
+
 - `ok(c, data)` returns `{ success: true, data: ... }`
 - `bad(c, error)` returns `{ success: false, error: ... }` with 400 status
 
