@@ -189,6 +189,39 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
     return ok(c, await article.getState());
   });
 
+  // Increment view count for an article
+  app.post('/api/news/:id/view', async c => {
+    const { id } = c.req.param();
+    const article = new NewsArticleEntity(c.env, id);
+    if (!(await article.exists())) {
+      return notFound(c, 'Article not found');
+    }
+    const newCount = await article.incrementViewCount();
+    return ok(c, { viewCount: newCount });
+  });
+
+  // Get view count for an article
+  app.get('/api/news/:id/view', async c => {
+    const { id } = c.req.param();
+    const article = new NewsArticleEntity(c.env, id);
+    if (!(await article.exists())) {
+      return notFound(c, 'Article not found');
+    }
+    const count = await article.getViewCount();
+    return ok(c, { viewCount: count });
+  });
+
+  // CONTACT FORM
+  app.post('/api/contact', async c => {
+    // CONTACT FORM
+    const { id } = c.req.param();
+    const article = new NewsArticleEntity(c.env, id);
+    if (!(await article.exists())) {
+      return notFound(c, 'Article not found');
+    }
+    return ok(c, await article.getState());
+  });
+
   // CONTACT FORM
   app.post('/api/contact', async c => {
     const body = await c.req.json();

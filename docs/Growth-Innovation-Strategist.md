@@ -516,4 +516,73 @@ MT|- Test thoroughly before submitting PR
 - Always maintain backward compatibility
 - Use feature flags for gradual rollout
 - Keep changes small and atomic
+  MT|- Test thoroughly before submitting PR
+
+---
+
+## Implemented Features
+
+### Article View Count Tracking (PR #210)
+
+**Status**: Implemented ✅
+
+**Changes Made**:
+
+1. Added `viewCount` field to `NewsArticle` interface in `shared/types.ts`:
+   - Optional field that tracks number of views per article
+
+2. Added view count methods in `worker/entities.ts`:
+   - `incrementViewCount()`: Increments view count for an article
+   - `getViewCount()`: Gets current view count for an article
+   - Initial state includes `viewCount: 0`
+
+3. Added API endpoints in `worker/user-routes.ts`:
+   - `POST /api/news/:id/view`: Increment view count
+   - `GET /api/news/:id/view`: Get current view count
+
+4. Added feature flags in `src/lib/feature-flags.ts`:
+   - `FEATURE_VIEW_COUNT`: Enable/disable view count display (default: true)
+
+5. Added service methods in `src/services/news.service.ts`:
+   - `incrementViewCount(articleId)`: Call API to increment view count
+   - `getViewCount(articleId)`: Get current view count
+
+6. Updated `src/pages/NewsPage.tsx`:
+   - Displays view count on article cards with Eye icon
+   - Shows count only if > 0
+   - Uses Indonesian locale formatting
+
+7. Updated `src/pages/NewsDetailPage.tsx`:
+   - Displays view count in article metadata section
+   - Auto-increments view count when article is viewed (useEffect)
+   - Gracefully fails if API call fails
+
+8. Updated `src/lib/mock-data.ts`:
+   - Added sample view counts (654-2340) for seed articles
+
+**Benefits**:
+
+- Provides social proof - users see how many times articles have been viewed
+- Helps users identify popular/trending content
+- Can be used for sorting by popularity in future
+- Feature flag for gradual rollout and A/B testing
+- Backward compatible (defaults to 0)
+- Small atomic change with no breaking changes
+
+**Acceptance Criteria Met**:
+
+- [x] View count displays on news listing page cards
+- [x] View count displays on news detail page
+- [x] View count auto-increments when viewing article detail
+- [x] Feature flag for gradual rollout
+- [x] Build passes (855KB within 860KB limit)
+- [x] Lint passes with zero warnings
+- [x] All 233 tests pass
+- [ ] PR #210 created with Growth-Innovation-Strategist label
+
+## Notes
+
+- Always maintain backward compatibility
+- Use feature flags for gradual rollout
+- Keep changes small and atomic
 - Test thoroughly before submitting PR

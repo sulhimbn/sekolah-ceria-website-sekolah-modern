@@ -30,6 +30,7 @@ export interface NewsArticle {
   author: string;
   excerpt: string;
   imageUrl?: string;
+  viewCount?: number;
 }
 // Tipe untuk payload formulir kontak
 export interface ContactFormPayload {

@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NewsCardSkeleton } from '@/components/NewsCardSkeleton';
-import { ArrowRight, AlertCircle, Inbox, Clock } from 'lucide-react';
+import { ArrowRight, AlertCircle, Inbox, Clock, Eye } from 'lucide-react';
 import { useNews } from '@/hooks/api';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { calculateReadingTime } from '@/lib/utils';
@@ -72,6 +72,15 @@ const NewsPage: React.FC = () => {
                   {calculateReadingTime(article.excerpt)}
                 </span>
               )}
+              {FEATURE_FLAGS.FEATURE_VIEW_COUNT &&
+                article.viewCount !== undefined &&
+                article.viewCount > 0 && (
+                  <span className="ml-2">
+                    {' '}
+                    • <Eye className="inline h-3 w-3 mr-1" />
+                    {article.viewCount.toLocaleString('id-ID')}
+                  </span>
+                )}
             </p>
             <h3 className="text-xl font-semibold font-display mb-2 flex-grow">
               {article.title}
