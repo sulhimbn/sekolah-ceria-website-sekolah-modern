@@ -204,3 +204,38 @@ return (
 
 - `ErrorBoundary.tsx` - Class component with ErrorFallback
 - `RouteErrorBoundary.tsx` - For route-level error handling
+
+### DemoPage Component Split (2026-02-27)
+
+Split monolithic DemoPage.tsx (206 lines) into focused components following single responsibility principle:
+
+**New structure:**
+
+```
+src/components/demo/
+├── DemoPage.tsx         # Container (142 lines)
+├── UserManager.tsx      # User CRUD (69 lines)
+├── ChatManager.tsx      # Chat CRUD (69 lines)
+├── MessageList.tsx      # Message display (47 lines)
+├── MessageComposer.tsx  # Message input (49 lines)
+└── index.ts            # Barrel exports
+```
+
+**Key patterns used:**
+
+1. **Props interface for each component** - Clear API contracts
+2. **useCallback for handlers** - Prevent unnecessary re-renders
+3. **useMemo for expensive computations** - usersById map in MessageList
+4. **Backwards compatibility** - Original pages/DemoPage.tsx re-exports from new location
+
+```typescript
+// Original src/pages/DemoPage.tsx now just re-exports
+export { DemoPage } from '@/components/demo';
+```
+
+**Verification:**
+
+- Lint passes ✅
+- Build succeeds ✅
+- All 271 tests pass ✅
+- PR #259
