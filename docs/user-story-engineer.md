@@ -51,22 +51,32 @@
   - Added API endpoint in worker/user-routes.ts
   - Updated Footer.tsx to use real API
 
-#XB|- **Issue #143**: Skeleton components refactor
-QM| - Moved skeleton components from src/hooks/ to src/components/
-KQ| - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
-YV| - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
+- **Issue #143**: Skeleton components refactor
+  - Moved skeleton components from src/hooks/ to src/components/
+  - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
+  - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
 
 - **Issue #229**: React.memo consistency for UI components
   - Added React.memo to input.tsx, textarea.tsx, label.tsx, alert.tsx
   - Follows existing pattern from Button component (memo wrapping forwardRef)
   - Prevents unnecessary re-renders in frequently updating contexts
   - Fixed in PR #240
-  - Moved skeleton components from src/hooks/ to src/components/
-  - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
-  - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
 
 - **Issue #226**: Bun/npm inconsistency in docs
   - Fixed docs/frontend-engineer.md which had duplicate headings and mixed npm/bun commands
   - Removed duplicate "Related Documentation" section
   - All commands now consistently use bun
   - Fixed in PR #250
+
+- **Issue #227**: DemoPage.tsx refactor
+  - Split DemoPage.tsx (206 lines) into smaller components
+  - Created demo components: DemoUserSelector, DemoChatSelector, DemoMessageList, DemoMessageComposer, DemoQuickCreate
+  - DemoPage reduced to 178 lines (~14% reduction)
+  - All components use React.memo for performance
+  - Fixed in PR #263
+
+- **Issue #225 (NOT VALID)**: Duplicate error handling files
+  - Issue claimed errorReporter.ts and error-reporter.ts were duplicates
+  - Investigation showed errorReporter.ts doesn't exist
+  - All imports properly use @/lib/error-reporting barrel file
+  - No action needed - files are properly modularized
