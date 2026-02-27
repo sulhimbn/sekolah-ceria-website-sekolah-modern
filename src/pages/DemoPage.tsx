@@ -98,7 +98,11 @@ export function DemoPage() {
 
   return (
     <AppLayout>
-      <main className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 overflow-hidden relative">
+      <main
+        id="main-content"
+        role="main"
+        className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 overflow-hidden relative"
+      >
         <ThemeToggle />
 
         <div className="absolute inset-0 bg-gradient-rainbow opacity-10 dark:opacity-20" />
