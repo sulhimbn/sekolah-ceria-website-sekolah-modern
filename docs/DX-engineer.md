@@ -272,9 +272,9 @@
 
 # VB|- Cleared ESLint cache (`rm .eslintcache`)
 
-# NV|- `npm run lint` now passes with 0 errors
+- `bun run lint` now passes with 0 errors
 
-# YQ|- `npm run build:only` succeeds
+- `bun run build:only` succeeds
 
 # XW|
 
@@ -361,7 +361,7 @@
 **Rationale:**
 
 - Critical issues #61 and #62 reported missing dependencies
-- Without dependencies installed, `npm run lint`, `npm run test:run`, and `npm run build` all failed
+- Without dependencies installed, `bun run lint`, `bun run test:run`, and `bun run build` all failed
 - Installing dependencies enables all dev commands to work properly
 
 **Files Modified:**

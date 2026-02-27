@@ -47,9 +47,9 @@ This document serves as the long-time memory for the quality-assurance specialis
 
 ### Test Execution
 
-- All tests pass: `npm run test:run`
-- Lint check passes: `npm run lint`
-- Build passes: `npm run build`
+- All tests pass: `bun run test:run`
+- Lint check passes: `bun run lint`
+- Build passes: `bun run build`
 
 ### QA Work Completed
 

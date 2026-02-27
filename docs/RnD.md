@@ -74,7 +74,7 @@ ZK|  - PR #107 created with RnD label
 
 ## Workflow
 
-1. Always run `npm run type-check` before creating PR
+1. Always run `bun run type-check` before creating PR
 2. Check if build passes (if it fails, verify it's a pre-existing issue)
 3. Use proper git workflow: branch -> commit -> PR
 4. Label PRs with "RnD"
