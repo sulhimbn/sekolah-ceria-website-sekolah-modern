@@ -88,8 +88,9 @@ export type RegisterInput = z.infer<typeof registerSchema>;
 
 // Newsletter subscription validation
 export const newsletterSchema = z.object({
-  email: z.string()
-    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format email tidak valid.")
+  email: z
+    .string()
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Format email tidak valid.')
     .trim(),
 });
 

@@ -15,7 +15,11 @@ import type { User } from '@shared/types';
 export class UserApiRepository implements IUserRepository {
   async fetchUsers(): Promise<UserListResponse> {
     const response = await api<UserListResponse>('/api/users');
-    return validateResponse(schemas.userListResponse, response, 'UserListResponse');
+    return validateResponse(
+      schemas.userListResponse,
+      response,
+      'UserListResponse'
+    );
   }
 
   async createUser(name: string): Promise<User> {

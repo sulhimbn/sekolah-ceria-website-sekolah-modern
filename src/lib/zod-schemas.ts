@@ -1,16 +1,16 @@
 /**
  * Zod schemas for runtime API response validation
- * 
+ *
  * These schemas provide runtime type validation for API responses,
  * ensuring that the data structure matches the expected shape even
  * if the backend schema changes unexpectedly.
- * 
+ *
  * Usage:
  *   import { validateResponse, schemas } from '@/lib/zod-schemas';
- *   
+ *
  *   // Validate a single item
  *   const user = validateResponse(schemas.user, rawData);
- *   
+ *
  *   // Validate a list response
  *   const users = validateResponse(schemas.userListResponse, rawData);
  */
@@ -107,7 +107,9 @@ export type ChatListResponseSchema = z.infer<typeof chatListResponseSchema>;
  */
 export const chatMessageListResponseSchema = z.array(chatMessageSchema);
 
-export type ChatMessageListResponseSchema = z.infer<typeof chatMessageListResponseSchema>;
+export type ChatMessageListResponseSchema = z.infer<
+  typeof chatMessageListResponseSchema
+>;
 
 /**
  * News list response schema
@@ -123,7 +125,7 @@ export type NewsListResponseSchema = z.infer<typeof newsListResponseSchema>;
  * Contact form response schema
  */
 export const contactResponseSchema = z.object({
-  message: z.string(),  // Allow empty strings - service handles fallback
+  message: z.string(), // Allow empty strings - service handles fallback
   success: z.boolean(),
 });
 

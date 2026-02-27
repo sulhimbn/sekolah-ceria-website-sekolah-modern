@@ -22,10 +22,8 @@
     "noFallthroughCasesInSwitch": false,
     "noUncheckedSideEffectImports": true,
     "paths": {
-        "@shared/*": [
-            "./shared/*"
-        ]
-    },
+      "@shared/*": ["./shared/*"]
+    }
   },
   "include": ["vite.config.ts"]
 }

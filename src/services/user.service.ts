@@ -11,23 +11,17 @@ export class UserService {
   }
 
   async listUsers(): Promise<User[]> {
-    return withErrorHandling(
-      async () => {
-        const response = await this.repository.fetchUsers();
-        return response.items;
-      },
-      'Gagal memuat data pengguna. Silakan coba lagi nanti.'
-    );
+    return withErrorHandling(async () => {
+      const response = await this.repository.fetchUsers();
+      return response.items;
+    }, 'Gagal memuat data pengguna. Silakan coba lagi nanti.');
   }
 
   async createUser(name: string): Promise<User> {
-    return withErrorHandling(
-      async () => {
-        const response = await this.repository.createUser(name);
-        return response;
-      },
-      'Gagal membuat pengguna. Silakan coba lagi nanti.'
-    );
+    return withErrorHandling(async () => {
+      const response = await this.repository.createUser(name);
+      return response;
+    }, 'Gagal membuat pengguna. Silakan coba lagi nanti.');
   }
 }
 

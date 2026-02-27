@@ -20,7 +20,8 @@ export function useContactForm(): UseContactFormReturn {
       setError(null);
       await contactService.submitContactForm(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal mengirim pesan.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal mengirim pesan.';
       setError(errorMessage);
       errorReporter.report({
         message: errorMessage,

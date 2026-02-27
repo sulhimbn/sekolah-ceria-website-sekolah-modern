@@ -5,133 +5,133 @@
 ### Frontend Structure
 
 src/
-├── assets/           # Static assets (images, logos)
-├── components/      # React components
-│   ├── layout/      # Layout components (Header, Footer, MainLayout, AppLayout)
-│   ├── ui/          # ShadCN UI components
-│   │   ├── accordion.tsx
-│   │   ├── alert-dialog.tsx
-│   │   ├── alert.tsx
-│   │   ├── aspect-ratio.tsx
-│   │   ├── avatar.tsx
-│   │   ├── badge.tsx
-│   │   ├── breadcrumb.tsx
-│   │   ├── button.tsx
-│   │   ├── button.test.tsx
-│   │   ├── calendar.tsx
-│   │   ├── card.tsx
-│   │   ├── card.test.tsx
-│   │   ├── carousel.tsx
-│   │   ├── chart.tsx
-│   │   ├── checkbox.tsx
-│   │   ├── collapsible.tsx
-│   │   ├── command.tsx
-│   │   ├── context-menu.tsx
-│   │   ├── dialog.tsx
-│   │   ├── drawer.tsx
-│   │   ├── dropdown-menu.tsx
-│   │   ├── form.tsx
-│   │   ├── hover-card.tsx
-│   │   ├── input-otp.tsx
-│   │   ├── input.tsx
-│   │   ├── input.test.tsx
-│   │   ├── label.tsx
-│   │   ├── menubar.tsx
-│   │   ├── navigation-menu.tsx
-│   │   ├── pagination.tsx
-│   │   ├── popover.tsx
-│   │   ├── progress.tsx
-│   │   ├── radio-group.tsx
-│   │   ├── resizable.tsx
-│   │   ├── scroll-area.tsx
-│   │   ├── select.tsx
-│   │   ├── separator.tsx
-│   │   ├── sheet.tsx
-│   │   ├── sidebar.tsx
-│   │   ├── skeleton.tsx
-│   │   ├── slider.tsx
-│   │   ├── sonner.tsx
-│   │   ├── switch.tsx
-│   │   ├── table.tsx
-│   │   ├── tabs.tsx
-│   │   ├── textarea.tsx
-│   │   ├── toggle-group.tsx
-│   │   ├── toggle.tsx
-│   │   └── tooltip.tsx
-│   ├── ErrorBoundary.tsx
-│   ├── ErrorBoundary.test.tsx
-│   ├── ErrorFallback.tsx
-│   ├── PageLoader.tsx
-│   ├── PlaceholderImage.tsx
-│   ├── RouteErrorBoundary.tsx
-│   ├── ThemeToggle.tsx
-│   └── app-sidebar.tsx
-├── hooks/          # Custom hooks
-│   ├── api/        # API-related hooks
-│   │   ├── use-news.ts
-│   │   ├── use-news-article.ts
-│   │   ├── use-contact-form.ts
-│   │   ├── use-users.ts
-│   │   ├── use-chats.ts
-│   │   ├── use-chat-messages.ts
-│   │   └── index.ts
-│   ├── use-theme.ts
-│   ├── use-mobile.tsx
-│   ├── useErrorHandler.ts
-│   └── useSkeletonLoader.tsx
-├── i18n/            # Internationalization
-│   ├── index.ts
-│   └── locales/
-│       ├── en.json
-│       └── id.json
-├── lib/            # Utilities
-│   ├── api-client.ts       # API client
-│   ├── api-validator.ts    # Runtime validation with Zod
-│   ├── api-validator.test.ts # Validator tests
-│   ├── errorReporter.ts    # Error reporting
-│   ├── feature-flags.ts    # Feature toggle configuration
-│   ├── messages.ts         # Centralized error messages
-│   ├── mock-data.ts        # Demo data
-│   ├── utils.ts
-│   ├── validation-config.ts # Validation constants
-│   └── zod-schemas.ts      # Zod validation schemas
-├── pages/          # Page components
-│   ├── AboutPage.tsx
-│   ├── AcademicsPage.tsx
-│   ├── AdmissionsPage.tsx
-│   ├── ContactPage.tsx
-│   ├── DemoPage.tsx
-│   ├── HomePage.tsx
-│   ├── NewsDetailPage.tsx
-│   ├── NewsPage.tsx
-│   ├── NotFoundPage.tsx
-│   └── ServerErrorPage.tsx
-├── repositories/   # Data access layer
-│   ├── interfaces/         # Repository contracts
-│   │   ├── news.repository.interface.ts
-│   │   ├── contact.repository.interface.ts
-│   │   ├── user.repository.interface.ts
-│   │   ├── chat.repository.interface.ts
-│   │   └── index.ts
-│   └── implementations/    # Repository implementations
-│       ├── news.repository.ts
-│       ├── contact.repository.ts
-│       ├── user.repository.ts
-│       ├── chat.repository.ts
-│       └── index.ts
-├── services/       # Business logic services
-│   ├── news.service.ts           # News operations
-│   ├── news.service.pure.test.ts # News service tests
-│   ├── news.service.api.test.ts  # API integration tests
-│   ├── contact.service.ts        # Contact operations
-│   ├── contact.service.validation.test.ts
-│   ├── contact.service.api.test.ts
-│   ├── user.service.ts           # User operations
-│   ├── chat.service.ts          # Chat operations
-│   ├── semantic-search.service.ts # AI semantic search
-│   └── index.ts
-├── test/           # Test utilities
-│   └── setup.ts
+├── assets/ # Static assets (images, logos)
+├── components/ # React components
+│ ├── layout/ # Layout components (Header, Footer, MainLayout, AppLayout)
+│ ├── ui/ # ShadCN UI components
+│ │ ├── accordion.tsx
+│ │ ├── alert-dialog.tsx
+│ │ ├── alert.tsx
+│ │ ├── aspect-ratio.tsx
+│ │ ├── avatar.tsx
+│ │ ├── badge.tsx
+│ │ ├── breadcrumb.tsx
+│ │ ├── button.tsx
+│ │ ├── button.test.tsx
+│ │ ├── calendar.tsx
+│ │ ├── card.tsx
+│ │ ├── card.test.tsx
+│ │ ├── carousel.tsx
+│ │ ├── chart.tsx
+│ │ ├── checkbox.tsx
+│ │ ├── collapsible.tsx
+│ │ ├── command.tsx
+│ │ ├── context-menu.tsx
+│ │ ├── dialog.tsx
+│ │ ├── drawer.tsx
+│ │ ├── dropdown-menu.tsx
+│ │ ├── form.tsx
+│ │ ├── hover-card.tsx
+│ │ ├── input-otp.tsx
+│ │ ├── input.tsx
+│ │ ├── input.test.tsx
+│ │ ├── label.tsx
+│ │ ├── menubar.tsx
+│ │ ├── navigation-menu.tsx
+│ │ ├── pagination.tsx
+│ │ ├── popover.tsx
+│ │ ├── progress.tsx
+│ │ ├── radio-group.tsx
+│ │ ├── resizable.tsx
+│ │ ├── scroll-area.tsx
+│ │ ├── select.tsx
+│ │ ├── separator.tsx
+│ │ ├── sheet.tsx
+│ │ ├── sidebar.tsx
+│ │ ├── skeleton.tsx
+│ │ ├── slider.tsx
+│ │ ├── sonner.tsx
+│ │ ├── switch.tsx
+│ │ ├── table.tsx
+│ │ ├── tabs.tsx
+│ │ ├── textarea.tsx
+│ │ ├── toggle-group.tsx
+│ │ ├── toggle.tsx
+│ │ └── tooltip.tsx
+│ ├── ErrorBoundary.tsx
+│ ├── ErrorBoundary.test.tsx
+│ ├── ErrorFallback.tsx
+│ ├── PageLoader.tsx
+│ ├── PlaceholderImage.tsx
+│ ├── RouteErrorBoundary.tsx
+│ ├── ThemeToggle.tsx
+│ └── app-sidebar.tsx
+├── hooks/ # Custom hooks
+│ ├── api/ # API-related hooks
+│ │ ├── use-news.ts
+│ │ ├── use-news-article.ts
+│ │ ├── use-contact-form.ts
+│ │ ├── use-users.ts
+│ │ ├── use-chats.ts
+│ │ ├── use-chat-messages.ts
+│ │ └── index.ts
+│ ├── use-theme.ts
+│ ├── use-mobile.tsx
+│ ├── useErrorHandler.ts
+│ └── useSkeletonLoader.tsx
+├── i18n/ # Internationalization
+│ ├── index.ts
+│ └── locales/
+│ ├── en.json
+│ └── id.json
+├── lib/ # Utilities
+│ ├── api-client.ts # API client
+│ ├── api-validator.ts # Runtime validation with Zod
+│ ├── api-validator.test.ts # Validator tests
+│ ├── errorReporter.ts # Error reporting
+│ ├── feature-flags.ts # Feature toggle configuration
+│ ├── messages.ts # Centralized error messages
+│ ├── mock-data.ts # Demo data
+│ ├── utils.ts
+│ ├── validation-config.ts # Validation constants
+│ └── zod-schemas.ts # Zod validation schemas
+├── pages/ # Page components
+│ ├── AboutPage.tsx
+│ ├── AcademicsPage.tsx
+│ ├── AdmissionsPage.tsx
+│ ├── ContactPage.tsx
+│ ├── DemoPage.tsx
+│ ├── HomePage.tsx
+│ ├── NewsDetailPage.tsx
+│ ├── NewsPage.tsx
+│ ├── NotFoundPage.tsx
+│ └── ServerErrorPage.tsx
+├── repositories/ # Data access layer
+│ ├── interfaces/ # Repository contracts
+│ │ ├── news.repository.interface.ts
+│ │ ├── contact.repository.interface.ts
+│ │ ├── user.repository.interface.ts
+│ │ ├── chat.repository.interface.ts
+│ │ └── index.ts
+│ └── implementations/ # Repository implementations
+│ ├── news.repository.ts
+│ ├── contact.repository.ts
+│ ├── user.repository.ts
+│ ├── chat.repository.ts
+│ └── index.ts
+├── services/ # Business logic services
+│ ├── news.service.ts # News operations
+│ ├── news.service.pure.test.ts # News service tests
+│ ├── news.service.api.test.ts # API integration tests
+│ ├── contact.service.ts # Contact operations
+│ ├── contact.service.validation.test.ts
+│ ├── contact.service.api.test.ts
+│ ├── user.service.ts # User operations
+│ ├── chat.service.ts # Chat operations
+│ ├── semantic-search.service.ts # AI semantic search
+│ └── index.ts
+├── test/ # Test utilities
+│ └── setup.ts
 ├── App.css
 ├── index.css
 ├── main.tsx
@@ -139,7 +139,7 @@ src/
 #MH|
 #YQ|### Backend Structure
 #HT|
-#NK|```
+#NK|`
 #WV|worker/
 #WK|├── index.ts        # Worker entry point (Hono app setup)
 #WT|├── user-routes.ts  # API route definitions
@@ -149,15 +149,15 @@ src/
 #WH|├── validators.ts  # Request validation schemas (Zod)
 #BT|├── entities.test.ts # Entity tests
 #QT|└── validators.test.ts # Validator tests
-#QN|```
+#QN|`
 #QP|
 #BR|### Shared Types
 #WV|
-#XT|```
+#XT|`
 #SJ|shared/
 #NP|├── types.ts        # TypeScript types (API contracts)
 #MW|└── mock-data.ts    # Demo data for entities
-#SR|```
+#SR|`
 #NQ|
 #BP|**Architecture Status**: All Phase 1-5 implemented (100%).
 #XP|
@@ -185,7 +185,7 @@ src/
 #XB|
 #HS|### Layered Architecture (Clean Architecture Principles)
 #BP|
-#KS|```
+#KS|`
 #BV|┌─────────────────────────────────────────────────────────────┐
 #QP|│                      Presentation Layer                       │
 #BP|│  (Pages, Components) - Only handles UI, user interactions     │
@@ -200,7 +200,7 @@ src/
 #XB|│                      Data Layer                             │
 #PK|│  (API Client, Repositories) - Data access, transformation    │
 #QX|└─────────────────────────────────────────────────────────────┘
-#SX|```
+#SX|`
 #MP|
 #VV|## Key Patterns Implemented
 #YH|
@@ -236,46 +236,46 @@ src/
 #KB|## Implementation Progress
 #RS|
 #RH|1. **Phase 1: Service Layer** ✅ (Complete - 100%)
-#PX|   - NewsService: article listing, search, filtering, recent articles
-#TW|   - ContactService: form validation, submission
-#PZ|   - UserService: user listing, creation
-#XN|   - ChatService: chat management, message handling
+#PX| - NewsService: article listing, search, filtering, recent articles
+#TW| - ContactService: form validation, submission
+#PZ| - UserService: user listing, creation
+#XN| - ChatService: chat management, message handling
 #TT|
 #QK|2. **Phase 2: Custom Hooks** ✅ (Complete - 100%)
-#MQ|   - useNews: data fetching with loading/error states
-#TW|   - useNewsArticle: single article fetching
-#YV|   - useContactForm: form submission
-#RN|   - useUsers: user CRUD operations
-#SB|   - useChats: chat listing
-#KP|   - useChatMessages: message fetching
-#RY|   - useErrorHandler: global error handling hook
-#VM|   - All hooks use consistent error handling via errorReporter
+#MQ| - useNews: data fetching with loading/error states
+#TW| - useNewsArticle: single article fetching
+#YV| - useContactForm: form submission
+#RN| - useUsers: user CRUD operations
+#SB| - useChats: chat listing
+#KP| - useChatMessages: message fetching
+#RY| - useErrorHandler: global error handling hook
+#VM| - All hooks use consistent error handling via errorReporter
 #PS|
 #MB|3. **Phase 3: Repository Pattern** ✅ (Complete - 100%)
-#BM|   - INewsRepository, IContactRepository, IUserRepository, IChatRepository
-#KN|   - All services now depend on repository interfaces
-#JZ|   - Dependency injection via factory functions
-#HK|   - Easy mocking for tests enabled
+#BM| - INewsRepository, IContactRepository, IUserRepository, IChatRepository
+#KN| - All services now depend on repository interfaces
+#JZ| - Dependency injection via factory functions
+#HK| - Easy mocking for tests enabled
 #KP|
 #RR|4. **Phase 4: Error Handling** ✅ (Complete - 100%)
-#VJ|   - MESSAGES constant in lib/messages.ts (centralized)
-#HN|   - VALIDATION_CONFIG constant in lib/validation-config.ts
-#VY|   - Services use centralized error messages
+#VJ| - MESSAGES constant in lib/messages.ts (centralized)
+#HN| - VALIDATION_CONFIG constant in lib/validation-config.ts
+#VY| - Services use centralized error messages
 #NX|
 #MZ|5. **Phase 5: Type Safety** ✅ (Complete - 100% - Issue #64)
-#RH|   - Zod runtime validation implemented
-#RY|   - Schemas defined in src/lib/zod-schemas.ts
-#ZP|   - Validation layer in src/lib/api-validator.ts
-#BJ|   - Integrated in all repositories (User, Contact, Chat, News)
-#NK|   - Tests added in src/lib/api-validator.test.ts
+#RH| - Zod runtime validation implemented
+#RY| - Schemas defined in src/lib/zod-schemas.ts
+#ZP| - Validation layer in src/lib/api-validator.ts
+#BJ| - Integrated in all repositories (User, Contact, Chat, News)
+#NK| - Tests added in src/lib/api-validator.test.ts
 #QR|
 #RP|## Data Flow
 #BR|
-#ST|```
+#ST|`
 #WK|User Action → Component → Custom Hook → Service → Repository → API → Backend
 #NZ|     ↓             ↓              ↓          ↓           ↓          ↓
 #NX|  UI Update   State Mgmt   Business Logic  Data Access  Network  Entity
-#SP|```
+#SP|`
 #JB|
 #VY|## Testing Strategy
 #YB|

@@ -5,16 +5,28 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sekolah Ceria - Sekolah Modern dengan Pendidikan Berkualitas</title>
-    <meta name="description" content="Sekolah Ceria adalah sekolah modern dengan pendekatan pendidikan holistik. Daftar sekarang untuk bergabung dengan komunitas pembelajaran yang ceria." />
+    <meta
+      name="description"
+      content="Sekolah Ceria adalah sekolah modern dengan pendekatan pendidikan holistik. Daftar sekarang untuk bergabung dengan komunitas pembelajaran yang ceria."
+    />
     <meta property="og:title" content="Sekolah Ceria - Sekolah Modern" />
-    <meta property="og:description" content="Membentuk generasi cerdas, kreatif, dan berakhlak mulia." />
+    <meta
+      property="og:description"
+      content="Membentuk generasi cerdas, kreatif, dan berakhlak mulia."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sekolahceria.com" />
     <meta property="og:site_name" content="Sekolah Ceria" />
-    <meta property="og:image" content="https://sekolahceria.com/pwa-512x512.png" />
+    <meta
+      property="og:image"
+      content="https://sekolahceria.com/pwa-512x512.png"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sekolah Ceria - Sekolah Modern" />
-    <meta name="twitter:description" content="Membentuk generasi cerdas, kreatif, dan berakhlak mulia." />
+    <meta
+      name="twitter:description"
+      content="Membentuk generasi cerdas, kreatif, dan berakhlak mulia."
+    />
     <meta name="theme-color" content="#4A90E2" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -87,21 +99,29 @@
   <body>
     <div id="root"></div>
     <script>
-        window.addEventListener('error', (event) => {
-          const isOurAppError = event.filename && event.filename.startsWith(window.location.origin);
+      window.addEventListener(
+        'error',
+        event => {
+          const isOurAppError =
+            event.filename && event.filename.startsWith(window.location.origin);
           if (isOurAppError) {
-            navigator.sendBeacon('/api/client-errors', JSON.stringify({
-              message: event.message,
-              url: window.location.href,
-              userAgent: navigator.userAgent,
-              source: event.filename,
-              lineno: event.lineno,
-              colno: event.colno,
-              stack: event.error ? event.error.stack : null,
-              timestamp: new Date().toISOString()
-            }));
+            navigator.sendBeacon(
+              '/api/client-errors',
+              JSON.stringify({
+                message: event.message,
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                source: event.filename,
+                lineno: event.lineno,
+                colno: event.colno,
+                stack: event.error ? event.error.stack : null,
+                timestamp: new Date().toISOString(),
+              })
+            );
           }
-        }, true);
+        },
+        true
+      );
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
