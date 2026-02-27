@@ -18,26 +18,32 @@ interface NavItemsProps {
   onNavigate?: () => void;
 }
 
-const NavItems = React.memo(({ className, onNavigate }: NavItemsProps) => (
-  <>
-    {navLinks.map(link => (
-      <NavLink
-        key={link.href}
-        to={link.href}
-        onClick={onNavigate}
-        className={({ isActive }) =>
-          cn(
-            'text-lg font-medium transition-colors hover:text-school-blue',
-            isActive ? 'text-school-blue' : 'text-muted-foreground',
-            className
-          )
-        }
-      >
-        {link.label}
-      </NavLink>
-    ))}
-  </>
-));
+const NavItems = React.memo(({ className, onNavigate }: NavItemsProps) => {
+  // Use window.location for active state - works in both real app and tests
+  const pathname =
+    typeof window !== 'undefined' ? window.location.pathname : '/';
+  return (
+    <>
+      {navLinks.map(link => {
+        const isActive = pathname === link.href;
+        return (
+          <NavLink
+            key={link.href}
+            to={link.href}
+            onClick={onNavigate}
+            className={cn(
+              'text-lg font-medium transition-colors hover:text-school-blue',
+              isActive ? 'text-school-blue' : 'text-muted-foreground',
+              className
+            )}
+          >
+            {link.label}
+          </NavLink>
+        );
+      })}
+    </>
+  );
+});
 
 NavItems.displayName = 'NavItems';
 
