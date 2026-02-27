@@ -5,7 +5,14 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { NewsDetailSkeleton } from '@/components/NewsDetailSkeleton';
 import { RelatedArticles } from '@/components/RelatedArticles';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, Calendar, User, ArrowLeft, Clock } from 'lucide-react';
+import {
+  AlertCircle,
+  Calendar,
+  User,
+  ArrowLeft,
+  Clock,
+  Eye,
+} from 'lucide-react';
 import { useNewsArticle, useNews } from '@/hooks/api';
 import { newsService } from '@/services/news.service';
 import type { NewsArticle } from '@shared/types';
@@ -18,6 +25,25 @@ const NewsDetailPage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
   const { article, isLoading, error } = useNewsArticle(articleId || '');
   const { articles: allArticles } = useNews();
+  const [viewCount, setViewCount] = React.useState<number>(
+    article?.viewCount || 0
+  );
+
+  // Increment view count when article is loaded
+  React.useEffect(() => {
+    if (articleId && FEATURE_FLAGS.FEATURE_VIEW_COUNT) {
+      newsService
+        .incrementViewCount(articleId)
+        .then(count => {
+          if (count > 0) {
+            setViewCount(count);
+          }
+        })
+        .catch(() => {
+          // Silently fail - view count is non-critical
+        });
+    }
+  }, [articleId]);
 
   // Get related articles if feature is enabled and we have the article
   const relatedArticles = React.useMemo(() => {
@@ -83,6 +109,12 @@ const NewsDetailPage: React.FC = () => {
               <div className="flex items-center">
                 <Clock className="h-5 w-5 mr-2" />
                 <span>{calculateReadingTime(article.excerpt)}</span>
+              </div>
+            )}
+            {FEATURE_FLAGS.FEATURE_VIEW_COUNT && (
+              <div className="flex items-center">
+                <Eye className="h-5 w-5 mr-2" />
+                <span>{viewCount.toLocaleString('id-ID')} dilihat</span>
               </div>
             )}
             <div className="ml-auto">

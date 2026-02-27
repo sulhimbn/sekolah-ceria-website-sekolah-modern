@@ -26,6 +26,8 @@ export interface FeatureFlags {
   FEATURE_RELATED_ARTICLES: boolean;
   /** Maximum number of related articles to display */
   RELATED_ARTICLES_COUNT: number;
+  /** Show view count on article cards and detail pages */
+  FEATURE_VIEW_COUNT: boolean;
 }
 
 export const FEATURE_FLAGS: FeatureFlags = {
@@ -38,6 +40,7 @@ export const FEATURE_FLAGS: FeatureFlags = {
   FEATURE_READING_TIME: true,
   FEATURE_RELATED_ARTICLES: true,
   RELATED_ARTICLES_COUNT: 3,
+  FEATURE_VIEW_COUNT: true,
 };
 
 /**

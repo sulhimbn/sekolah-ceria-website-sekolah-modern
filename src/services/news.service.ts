@@ -202,6 +202,41 @@ export class NewsService {
     // Fallback: return recent articles (excluding current)
     return otherArticles.slice(0, FEATURE_FLAGS.RELATED_ARTICLES_COUNT);
   }
+
+  /**
+   * Increment view count for an article
+   * Called when user views an article detail page
+   */
+  async incrementViewCount(articleId: string): Promise<number> {
+    return withErrorHandling(async () => {
+      const response = await fetch(`/api/news/${articleId}/view`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to increment view count');
+      }
+      const data = await response.json();
+      return data.data?.viewCount ?? 0;
+    }, 0);
+  }
+
+  /**
+   * Get view count for an article
+   */
+  async getViewCount(articleId: string): Promise<number> {
+    return withErrorHandling(async () => {
+      const response = await fetch(`/api/news/${articleId}/view`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to get view count');
+      }
+      const data = await response.json();
+      return data.data?.viewCount ?? 0;
+    }, 0);
+  }
 }
 
 export const newsService = new NewsService();

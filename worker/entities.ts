@@ -74,6 +74,21 @@ export class NewsArticleEntity extends IndexedEntity<NewsArticle> {
     date: '',
     author: '',
     excerpt: '',
+    viewCount: 0,
   };
   static seedData = MOCK_NEWS_ARTICLES;
+
+  /** Increment the view count for this article */
+  async incrementViewCount(): Promise<number> {
+    const state = await this.getState();
+    const newCount = (state.viewCount || 0) + 1;
+    await this.mutate(s => ({ ...s, viewCount: newCount }));
+    return newCount;
+  }
+
+  /** Get current view count */
+  async getViewCount(): Promise<number> {
+    const state = await this.getState();
+    return state.viewCount || 0;
+  }
 }
