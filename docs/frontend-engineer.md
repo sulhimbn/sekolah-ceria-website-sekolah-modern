@@ -19,30 +19,22 @@ Sekolah Ceria is a React/Vite frontend with TypeScript, Tailwind CSS, and shadcn
 
 ```bash
 # Development
-# Development
 bun dev
 
-# Build
 # Build
 bun run build
 
 # Lint (use --no-cache after installing new dependencies)
-# Lint (use --no-cache after installing new dependencies)
 bun run lint
 bun run lint -- --no-cache
-npm run lint -- --no-cache
 
-# Type check
 # Type check
 bun run type-check
 
 # Test
-# Test
 bun run test
 bun run test:run
-npm run test:run
 
-# E2E Test
 # E2E Test
 bun run test:e2e
 ```
@@ -91,7 +83,7 @@ src/
 ## Best Practices
 
 1. **Always run lint and build before committing**
-2. **Clear ESLint cache** after installing new npm dependencies
+2. **Clear ESLint cache** after installing new dependencies
 3. **Verify build passes** - check bundle size is within budget (800KB)
 4. **Use TypeScript** - the project uses strict typing where possible
 5. **Follow shadcn/ui patterns** for component structure
@@ -100,11 +92,6 @@ src/
 
 - `frontend-engineer` - Frontend-specific tasks
 - `ui-ux-engineer` - Design and UX improvements
-
-## Related Documentation
-
-- [Blueprint](./blueprint.md) - Architecture overview
-- [UI/UX Engineer](./ui-ux-engineer.md) - Design system documentation
 
 ## Related Documentation
 
