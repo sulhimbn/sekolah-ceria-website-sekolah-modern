@@ -41,6 +41,17 @@
 
 42#QB|
 
+#WH|### 2026-02-27: Add Missing View Count API Endpoints (PR #275)
+#PZ|
+#WH|- Proactive scan found 2 undocumented API endpoints in `worker/user-routes.ts`
+#WH|- Added Section 5.1 "View Count" to `docs/api.md`:
+#WH| - POST /api/news/:id/view - Increment view count for article
+#WH| - GET /api/news/:id/view - Get view count for article
+#XZ|- Added 56 lines to api.md (753 → 809)
+#XZ|- Verified: Build passes, Lint passes, Zero warnings
+#XZ|- Created PR #275 with technical-writer label
+#XZ|
+
 ### 2026-02-27: Consolidate Phase1 Reports & Fix Blueprint (PR #261)
 
 - Consolidated duplicate phase1 diagnostic reports
