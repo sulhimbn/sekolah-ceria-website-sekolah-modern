@@ -96,9 +96,6 @@ This ensures proper dark mode support and consistency with shadcn/ui design syst
 
 - **DemoPage Skip Link Fix** (2026-02-27): Fixed accessibility issue where DemoPage had its own `<main>` element without `id="main-content"`, causing the SkipLink component to not work properly. Added `id="main-content"` and `role="main"` to DemoPage's main element to ensure keyboard/screen reader users can skip navigation and focus main content.
 
-- **Footer ErrorBoundary Protection** (2026-02-27): Wrapped Footer component with ErrorBoundary in MainLayout to provide isolated error handling. If the Footer fails to render (e.g., newsletter form errors), only the footer shows an error state while the header and main content remain functional. Fixes issue #228.
-
-- **Footer ErrorBoundary Protection** (2026-02-27): Wrapped Footer component with ErrorBoundary in MainLayout to provide isolated error handling. If the Footer fails to render (e.g., newsletter form errors), only the footer shows an error state while the header and main content remain functional. Fixes issue #228.
 
 - **Semantic Color Tokens**: Replaced hardcoded Tailwind gray classes with semantic tokens (`text-foreground`, `text-muted-foreground`, `bg-muted`, `border-input`) across 13 files. This ensures proper dark mode support and consistency with shadcn/ui design system.
 
