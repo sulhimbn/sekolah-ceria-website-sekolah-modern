@@ -213,3 +213,35 @@ NJ|**Bug Fix**: Discovered and fixed validation bug in validators.ts where `.tri
 
 - `Warning: Invalid value for prop 'className' on <a> tag` - FIXED
 - `Warning: validateDOMNesting(...): <button> cannot appear as a descendant of <button>` - FIXED
+
+### PR #215: Fix nested button accessibility issue (Issue #201)
+
+**Status**: Open
+
+**Issue**: Accessibility warning - button nested inside button in Header
+
+**Problem**:
+
+- `<SheetTrigger asChild>` was wrapping a `<span>` element
+- The SheetTrigger renders as a `<button>` element by default
+- Using `<span>` with button-like styling creates nested button accessibility violation
+
+**Solution**:
+
+- Replaced `<span>` with proper `<button>` element inside SheetTrigger
+- Added explicit `type="button"` to prevent unintended form submission
+- Added `aria-label="Open menu"` for screen reader accessibility
+
+**Files Changed**:
+
+- `src/components/layout/Header.tsx`
+
+**Verification**:
+
+- Lint passes (no errors)
+- Build passes (854KB, within 860KB limit)
+- All 233 tests pass
+
+**Branch**: `qa/issue-201-fix-nested-button-a11y`
+
+**Labels**: quality-assurance
