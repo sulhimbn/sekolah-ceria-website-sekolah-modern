@@ -40,7 +40,19 @@
 ---
 
 ## Past Work
-
+#QB|
+### 2026-02-27: Update Blueprint to Actual Codebase Structure v3 (PR #214)
+#WH|
+#WH|- Updated `docs/blueprint.md` to accurately reflect actual codebase structure
+#WH|- Removed duplicate content (reduced from 456 to 309 lines - 32% reduction)
+#WH|- Added missing components: RelatedArticles.tsx, NewsCardSkeleton.tsx, NewsDetailSkeleton.tsx, ShareButtons.tsx
+#WH|- Added missing hooks: use-api-resource.ts, use-async-operation.ts, api-hooks.test.tsx
+#WH|- Added missing lib files: errorLogger.ts, error-types.ts, error-deduplication.ts
+#WH|- Fixed errorReporter.ts reference to error-reporter.ts
+#WH|- Linked to Issue #63
+#WH|- Created PR #214 with technical-writer label
+#WH|
+#WN|### 2026-02-26: Add Missing API Endpoints (PR #182)
 ### 2026-02-26: Add Missing API Endpoints (PR #182)
 
 - Updated `docs/api.md` with 6 previously undocumented endpoints:
