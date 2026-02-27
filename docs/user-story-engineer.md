@@ -80,3 +80,10 @@
   - Investigation showed errorReporter.ts doesn't exist
   - All imports properly use @/lib/error-reporting barrel file
   - No action needed - files are properly modularized
+
+- **Issue #256**: Accessibility improvements - skip link and page landmarks
+  - SkipLink component implemented in src/components/SkipLink.tsx
+  - MainLayout.tsx updated with role="main" and id="main-content"
+  - SkipLink provides hidden link visible on focus for keyboard navigation
+  - Added comprehensive tests in src/components/SkipLink.test.tsx
+  - Fixed in PR #277
