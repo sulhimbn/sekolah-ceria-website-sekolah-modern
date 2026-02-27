@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { contactService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import type { ContactFormPayload } from '@shared/types';
 
 interface UseContactFormReturn {
@@ -20,7 +20,8 @@ export function useContactForm(): UseContactFormReturn {
       setError(null);
       await contactService.submitContactForm(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Gagal mengirim pesan.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Gagal mengirim pesan.';
       setError(errorMessage);
       errorReporter.report({
         message: errorMessage,

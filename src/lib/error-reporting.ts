@@ -1,7 +1,7 @@
 // ============================================================================
 // Error Reporter - Barrel file
 // This file re-exports all error reporting modules for backward compatibility
-// The original errorReporter.ts (794 lines) has been split into focused modules:
+// The original errorReporter.ts (794 lines) has been split into the current error-reporting.ts barrel file:
 // - error-types.ts: All interfaces and shared utilities
 // - error-deduplication.ts: GlobalErrorDeduplication class
 // - error-logger.ts: Console interceptors
@@ -60,7 +60,7 @@ export {
 } from './error-reporter';
 
 // Create and export singleton instance for backward compatibility
-// This ensures all existing imports like `import { errorReporter } from "@/lib/errorReporter"` still work
+// This ensures all existing imports like `import { errorReporter } from "@/lib/error-reporting"` still work
 import { ErrorReporter } from './error-reporter';
 
 export const errorReporter = new ErrorReporter();

@@ -4,7 +4,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { useEffect } from 'react';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 
 export function RouteErrorBoundary() {
   const error = useRouteError();
