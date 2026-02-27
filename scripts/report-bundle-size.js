@@ -8,6 +8,7 @@ import path from 'node:path';
 
 const DIST_DIR = 'dist/client';
 const SIZE_LIMIT_KB = 870;
+const WARNING_LIMIT_KB = 800;
 
 function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
@@ -71,16 +72,33 @@ function main() {
   console.log(`${formatBytes(totalSize).padStart(10)}  TOTAL`);
 
   const totalKB = totalSize / 1024;
+
+  // Warning threshold check
+  if (totalKB > WARNING_LIMIT_KB && totalKB <= SIZE_LIMIT_KB) {
+    console.log(
+      `\n⚠️  WARNING: Bundle size (${totalKB.toFixed(1)}KB) exceeds warning threshold (${WARNING_LIMIT_KB}KB)`
+    );
+    console.log(
+      `   Approaching limit (${(SIZE_LIMIT_KB - totalKB).toFixed(1)}KB remaining)`
+    );
+  }
+
   console.log(
-    `\n⚠️  Bundle size: ${totalKB.toFixed(1)}KB (limit: ${SIZE_LIMIT_KB}KB)`
+    `\n📊 Bundle size: ${totalKB.toFixed(1)}KB (warning: ${WARNING_LIMIT_KB}KB, limit: ${SIZE_LIMIT_KB}KB)`
   );
 
   if (totalKB > SIZE_LIMIT_KB) {
-    console.log(`   Exceeded by ${(totalKB - SIZE_LIMIT_KB).toFixed(1)}KB`);
+    console.log(
+      `   🚨 EXCEEDED limit by ${(totalKB - SIZE_LIMIT_KB).toFixed(1)}KB`
+    );
     process.exit(1);
+  } else if (totalKB > WARNING_LIMIT_KB) {
+    console.log(
+      `   ✅ Within budget but ${(totalKB - WARNING_LIMIT_KB).toFixed(1)}KB over warning threshold`
+    );
   } else {
     console.log(
-      `   ✅ Within budget (${(SIZE_LIMIT_KB - totalKB).toFixed(1)}KB under)`
+      `   ✅ Well within budget (${(SIZE_LIMIT_KB - totalKB).toFixed(1)}KB under limit)`
     );
   }
 }
