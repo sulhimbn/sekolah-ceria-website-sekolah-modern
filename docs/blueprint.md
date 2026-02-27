@@ -84,6 +84,7 @@ src/
 │   │   ├── api-hooks.test.tsx
 │   │   └── index.ts
 │   ├── use-theme.ts
+│   ├── use-mobile.tsx
 │   └── useErrorHandler.ts
 ├── i18n/            # Internationalization
 │   ├── index.ts
@@ -95,6 +96,7 @@ src/
 │   ├── api-validator.ts    # Runtime validation with Zod
 │   ├── api-validator.test.ts # Validator tests
 │   ├── error-reporter.ts  # Error reporting
+│   ├── error-reporting.ts # Client-side error capture
 │   ├── error-logger.ts     # Error logging utilities
 │   ├── error-types.ts     # Error type definitions
 │   ├── error-deduplication.ts # Error deduplication
