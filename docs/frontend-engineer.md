@@ -27,6 +27,11 @@ bun run build
 # Lint (use --no-cache after installing new dependencies)
 bun run lint
 bun run lint -- --no-cache
+WY|bun run lint -- --no-cache
+WV|
+=======
+bun run lint -- --no-cache
+>>>>>>> ddff468 (fix: standardize all docs to use bun commands instead of npm)
 
 # Type check
 bun run type-check
@@ -34,6 +39,11 @@ bun run type-check
 # Test
 bun run test
 bun run test:run
+PM|bun run test:run
+TJ|
+=======
+bun run test:run
+>>>>>>> ddff468 (fix: standardize all docs to use bun commands instead of npm)
 
 # E2E Test
 bun run test:e2e
@@ -152,19 +162,6 @@ const Component = React.memo(function Component({ ... }) {
   // render
 })
 ```
-
-### UI Components Memoization Status
-
-As of 2026-02-27, these UI components have React.memo:
-
-- button.tsx ✅
-- card.tsx ✅ (multiple exports)
-- avatar.tsx ✅
-- badge.tsx ✅
-- input.tsx ✅ (added in PR #238)
-- textarea.tsx ✅ (added in PR #238)
-- skeleton.tsx ✅ (added in PR #238)
-- separator.tsx ✅ (added in PR #238)
 
 ### UI Components Memoization Status
 

@@ -8,10 +8,10 @@ This document describes the proposed traditional CI pipeline to complement the e
 
 The project has AI agent orchestration workflows but lacks a traditional CI pipeline that runs:
 
-- `npm run lint`
-- `npm run type-check`
-- `npm run build`
-- `npm run test`
+- `bun run lint`
+- `bun run type-check`
+- `bun run build`
+- `bun run test`
 
 ## Solution
 
@@ -53,19 +53,19 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install
 
       - name: Lint
-        run: npm run lint
+        run: bun run lint
 
       - name: Type Check
-        run: npm run type-check
+        run: bun run type-check
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Test
-        run: npm run test:run
+        run: bun run test:run
 ```
 
 ### Option 2: Add CI Job to main.yml
