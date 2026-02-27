@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { newsService, type NewsArticleDetail } from '@/services/news.service';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import { useApiResource } from './use-api-resource';
 

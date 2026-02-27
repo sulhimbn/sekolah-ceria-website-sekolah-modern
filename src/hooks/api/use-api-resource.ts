@@ -13,7 +13,7 @@ import {
   type UseQueryResult,
   type UseMutationResult,
 } from '@tanstack/react-query';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 
 /**

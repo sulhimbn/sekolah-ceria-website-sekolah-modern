@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { chatService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import type { Chat } from '@shared/types';
 import { useApiResource } from './use-api-resource';

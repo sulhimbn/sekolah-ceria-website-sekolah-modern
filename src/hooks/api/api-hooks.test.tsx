@@ -35,7 +35,7 @@ vi.mock('@/services', () => ({
   },
 }));
 
-vi.mock('@/lib/errorReporter', () => ({
+vi.mock('@/lib/error-reporting', () => ({
   errorReporter: {
     report: vi.fn(),
   },

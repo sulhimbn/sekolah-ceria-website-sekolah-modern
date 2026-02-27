@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NewsCardSkeleton } from '@/components/NewsCardSkeleton';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import { newsService } from '@/services/news.service';
 import type { NewsArticle } from '@shared/types';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
