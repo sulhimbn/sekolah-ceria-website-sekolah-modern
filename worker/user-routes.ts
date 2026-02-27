@@ -213,17 +213,6 @@ export function userRoutes(app: Hono<{ Bindings: Env }>) {
 
   // CONTACT FORM
   app.post('/api/contact', async c => {
-    // CONTACT FORM
-    const { id } = c.req.param();
-    const article = new NewsArticleEntity(c.env, id);
-    if (!(await article.exists())) {
-      return notFound(c, 'Article not found');
-    }
-    return ok(c, await article.getState());
-  });
-
-  // CONTACT FORM
-  app.post('/api/contact', async c => {
     const body = await c.req.json();
     const result = contactFormSchema.safeParse(body);
 
