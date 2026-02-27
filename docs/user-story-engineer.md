@@ -64,3 +64,9 @@ YV| - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
   - Moved skeleton components from src/hooks/ to src/components/
   - Removed duplicate skeleton code from HomePage, NewsPage, NewsDetailPage
   - Created reusable NewsCardSkeleton and NewsDetailSkeleton components
+
+- **Issue #226**: Bun/npm inconsistency in docs
+  - Fixed docs/frontend-engineer.md which had duplicate headings and mixed npm/bun commands
+  - Removed duplicate "Related Documentation" section
+  - All commands now consistently use bun
+  - Fixed in PR #250
