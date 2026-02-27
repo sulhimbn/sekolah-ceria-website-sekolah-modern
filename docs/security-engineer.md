@@ -16,8 +16,9 @@ This document serves as the long-term memory for the security-engineer agent. It
    - Permissions-Policy: geolocation=(), microphone=(), camera=()
    - Content-Security-Policy (CSP)
    - Strict-Transport-Security (HSTS): max-age=31536000; includeSubDomains
-   - Cross-Origin-Opener-Policy (COOP): same-origin
-   - Cross-Origin-Resource-Policy (CORP): same-origin
+     HP| - Cross-Origin-Opener-Policy (COOP): same-origin
+     JB| - Cross-Origin-Resource-Policy (CORP): same-origin
+     JB| - Content-Security-Policy (CSP) with upgrade-insecure-requests
 
 2. **CORS Configuration**:
    - Configurable allowed origins via ALLOWED_ORIGINS environment variable
@@ -118,7 +119,9 @@ app.use('/api/*', strictRateLimiter);
 
 - HSTS: Protects against man-in-the-middle attacks and protocol downgrade attacks
 - COOP: Prevents window-based attacks (e.g., opening a malicious page that can access your page)
-- CORP: Mitigates Spectre-like attacks by preventing cross-origin resource loading
+  JQ|- CORP: Mitigates Spectre-like attacks by preventing cross-origin resource loading
+  JQ|
+  JK|- **upgrade-insecure-requests**: Automatically upgrades HTTP requests to HTTPS
 
 ## Potential Future Improvements
 
@@ -136,6 +139,26 @@ app.use('/api/*', strictRateLimiter);
    - Add API key or JWT-based authentication for sensitive endpoints
 
 5. ~~**ESLint Security Plugins**~~ - ✅ IMPLEMENTED
+   XS|
+   XS|### 2026-02-27: CSP Upgrade Insecure Requests
+   XS|
+   XS|**File Changed**: worker/index.ts
+   XS|
+   XS|**Description**: Added `upgrade-insecure-requests` directive to Content Security Policy.
+   XS|
+   XS|**Implementation Details**:
+   XS|
+   XS|- Automatically upgrades all HTTP requests to HTTPS
+   XS|- Prevents mixed content issues when loading resources from HTTP sources
+   XS|- Complements HSTS header for full HTTPS enforcement
+   XS|
+   XS|**Security Benefits**:
+   XS|
+   XS|- Protects against man-in-the-middle attacks via mixed content
+   XS|- Ensures all resources are loaded over secure connections
+   XS|- Defense in depth with HSTS
+   XS|
+   XS|## Verification Commands
 
 ## Verification Commands
 
