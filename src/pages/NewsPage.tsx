@@ -10,9 +10,9 @@ import { useNews } from '@/hooks/api';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { calculateReadingTime } from '@/lib/utils';
 import { FEATURE_FLAGS } from '@/lib/feature-flags';
-
+import { Button } from '@/components/ui/button';
 const NewsPage: React.FC = () => {
-  const { articles, isLoading, error } = useNews();
+  const { articles, isLoading, error, refetch } = useNews();
 
   const renderContent = () => {
     if (isLoading) {
@@ -27,6 +27,13 @@ const NewsPage: React.FC = () => {
             Terjadi Kesalahan
           </h3>
           <p className="text-red-600">{error}</p>
+          <Button
+            variant="outline"
+            onClick={() => refetch()}
+            className="mt-4 border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800"
+          >
+            Coba Lagi
+          </Button>
         </div>
       );
     }
