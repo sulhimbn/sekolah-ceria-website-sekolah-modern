@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="aspect-video rounded-3xl p-1 shadow-lg">
+              <div className="aspect-video rounded-3xl p-1 shadow-lg floating">
                 <PlaceholderImage
                   variant="school"
                   className="w-full h-full rounded-2xl"

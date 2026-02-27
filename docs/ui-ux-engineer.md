@@ -94,6 +94,10 @@ This ensures proper dark mode support and consistency with shadcn/ui design syst
 
 ### Past Improvements
 
+- **Hero Floating Animation** (2026-02-27): Added subtle floating animation to Hero section placeholder image using existing `floating` CSS class. This provides gentle continuous bobbing motion after the initial entrance animation, making the hero section more dynamic and engaging. Uses existing animation utilities defined in index.css - no new dependencies added.
+
+- **Footer ErrorBoundary Protection** (2026-02-27): Wrapped Footer component with ErrorBoundary in MainLayout to provide isolated error handling. If the Footer fails to render (e.g., newsletter form errors), only the footer shows an error state while the header and main content remain functional. Fixes issue #228.
+
 - **Footer ErrorBoundary Protection** (2026-02-27): Wrapped Footer component with ErrorBoundary in MainLayout to provide isolated error handling. If the Footer fails to render (e.g., newsletter form errors), only the footer shows an error state while the header and main content remain functional. Fixes issue #228.
 
 - **Semantic Color Tokens**: Replaced hardcoded Tailwind gray classes with semantic tokens (`text-foreground`, `text-muted-foreground`, `bg-muted`, `border-input`) across 13 files. This ensures proper dark mode support and consistency with shadcn/ui design system.
