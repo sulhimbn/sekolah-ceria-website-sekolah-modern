@@ -128,7 +128,7 @@ The repository can benefit from AI agents in:
 
 **Challenges Encountered:**
 
-- Dependencies not pre-installed in environment (resolved with npm install)
+- Dependencies not pre-installed in environment (resolved with bun install)
 - Bun not available in environment (used npm instead per README)
 
 **Knowledge Gained:**

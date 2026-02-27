@@ -272,9 +272,9 @@
 
 # VB|- Cleared ESLint cache (`rm .eslintcache`)
 
-# NV|- `npm run lint` now passes with 0 errors
+# QZ|- `bun run lint` now passes with 0 errors
 
-# YQ|- `npm run build:only` succeeds
+# YQ|- `bun run build:only` succeeds
 
 # XW|
 
@@ -355,13 +355,13 @@
 
 **Changes:**
 
-- Ran `npm install` to install missing node_modules dependencies
+- Ran `bun install` to install missing node_modules dependencies
 - Committed `package-lock.json` with installed dependencies
 
 **Rationale:**
 
 - Critical issues #61 and #62 reported missing dependencies
-- Without dependencies installed, `npm run lint`, `npm run test:run`, and `npm run build` all failed
+- Without dependencies installed, `bun run lint`, `bun run test:run`, and `bun run build` all failed
 - Installing dependencies enables all dev commands to work properly
 
 **Files Modified:**
