@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 
 interface UseErrorHandlerOptions {
   /** Default error message when error is not an Error instance */

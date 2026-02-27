@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userService } from '@/services';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import type { User } from '@shared/types';
 import { useApiResource } from './use-api-resource';
 

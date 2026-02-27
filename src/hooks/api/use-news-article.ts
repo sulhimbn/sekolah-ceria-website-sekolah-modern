@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { newsService } from '@/services/news.service';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 import type { NewsArticle } from '@shared/types';
 
 interface UseNewsArticleReturn {
@@ -29,7 +29,8 @@ export function useNewsArticle(id: string): UseNewsArticleReturn {
         const data = await newsService.getArticle(id);
         setArticle(data);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Gagal memuat artikel.';
+        const errorMessage =
+          err instanceof Error ? err.message : 'Gagal memuat artikel.';
         setError(errorMessage);
         errorReporter.report({
           message: errorMessage,

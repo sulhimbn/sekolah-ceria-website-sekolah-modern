@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { errorReporter } from '@/lib/errorReporter';
+import { errorReporter } from '@/lib/error-reporting';
 
 export interface UseAsyncOperationOptions<TArgs extends unknown[], TResult> {
   operationFn: (...args: TArgs) => Promise<TResult>;
