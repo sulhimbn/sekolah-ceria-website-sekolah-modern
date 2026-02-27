@@ -195,9 +195,41 @@ All three security issues have been verified as FIXED:
 | Security headers         | ✅ PASS | All headers configured in worker/index.ts      |
 | JWT secret validation    | ✅ PASS | Throws error if not configured                 |
 | Input validation         | ✅ PASS | Zod schemas in place                           |
+| Authorization checks     | ✅ PASS | requireRole applied to all admin endpoints     |
+| i18n XSS                 | ✅ PASS | escapeValue: true in i18n config               |
+| Hardcoded secrets        | ✅ PASS | No secrets in source code                      |
+| Command injection        | ✅ PASS | No exec()/spawn() with user input              |
+| Path traversal           | ✅ PASS | No file operations with user input             |
+
+### Build & Test Verification
+
+| Check      | Status  | Output                             |
+| ---------- | ------- | ---------------------------------- |
+| Lint       | ✅ PASS | No errors (eslint-plugin-security) |
+| Type Check | ✅ PASS | No type errors                     |
+| Build      | ✅ PASS | 854.04KB (within 860KB limit)      |
+| Tests      | ✅ PASS | 233 tests passed                   |
 
 ### Known Limitations
 
 1. **CSP Relaxations**: The CSP includes `'unsafe-inline'` and `'unsafe-eval'` which may be needed for React development. Consider using nonces for production hardening.
 
 2. **Rate Limiting**: Current in-memory rate limiting is per-worker. For production, recommend Cloudflare Rate Limiting.
+
+---
+
+## Verification Commands (2026-02-27)
+
+```bash
+# Lint check
+npm run lint
+
+# Type check
+npm run type-check
+
+# Build
+npm run build
+
+# Run tests
+npm run test:run
+```
