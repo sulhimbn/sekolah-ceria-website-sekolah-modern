@@ -1,0 +1,6 @@
+{
+  "totalBytes": 882003,
+  "totalKB": 861.2,
+  "date": "2026-02-27",
+  "note": "Baseline created on first CI run. Update via 'bun run build:update-baseline'"
+}
