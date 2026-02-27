@@ -84,9 +84,7 @@ src/
 │   │   ├── api-hooks.test.tsx
 │   │   └── index.ts
 │   ├── use-theme.ts
-│   ├── use-mobile.tsx
-│   ├── useErrorHandler.ts
-│   └── useSkeletonLoader.tsx
+│   └── useErrorHandler.ts
 ├── i18n/            # Internationalization
 │   ├── index.ts
 │   └── locales/
@@ -97,7 +95,7 @@ src/
 │   ├── api-validator.ts    # Runtime validation with Zod
 │   ├── api-validator.test.ts # Validator tests
 │   ├── error-reporter.ts  # Error reporting
-│   ├── errorLogger.ts     # Error logging utilities
+│   ├── error-logger.ts     # Error logging utilities
 │   ├── error-types.ts     # Error type definitions
 │   ├── error-deduplication.ts # Error deduplication
 │   ├── feature-flags.ts    # Feature toggle configuration
